@@ -1,0 +1,50 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+sourceCompatibility = 1.8
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://repository.primefaces.org'
+    }
+}
+
+def springVersion = '4.1.0.RELEASE'
+def springSecurityVersion = '3.2.5.RELEASE'
+
+
+
+dependencies {
+
+    compile 'org.apache.logging.log4j:log4j-api:2.0.2'
+    compile 'org.apache.logging.log4j:log4j-core:2.0.2'
+
+    compile 'com.sun.faces:jsf-api:2.2.8'
+    compile 'com.sun.faces:jsf-impl:2.2.8'
+    compile 'javax.servlet:jstl:1.2'
+    compile 'org.primefaces:primefaces:5.1'
+    compile 'org.primefaces.themes:hot-sneaks:1.0.10'
+    compile 'org.hibernate:hibernate-core:4.3.5.Final'
+    compile 'c3p0:c3p0:0.9.1.2'
+
+    compile 'org.springframework:spring-beans:' + springVersion
+    compile 'org.springframework:spring-context:' + springVersion
+    compile 'org.springframework:spring-orm:' + springVersion
+    compile 'org.springframework:spring-core:' + springVersion
+    compile 'org.springframework:spring-test:' + springVersion
+    compile 'org.springframework:spring-web:' + springVersion
+
+    compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
+    compile 'org.springframework.security:spring-security-web:' + springSecurityVersion
+    compile 'org.springframework.security:spring-security-config:' + springSecurityVersion
+
+    testCompile 'org.assertj:assertj-core:1.2.0'
+    testCompile 'org.hsqldb:hsqldb:2.2.8'
+    testCompile 'junit:junit:4.11'
+
+    compile 'org.apache.derby:derby:10.10.1.1'
+    compile 'mysql:mysql-connector-java:5.1.33'
+}
