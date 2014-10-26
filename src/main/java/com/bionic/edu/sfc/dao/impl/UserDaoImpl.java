@@ -5,6 +5,7 @@ import com.bionic.edu.sfc.entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Ivan
@@ -21,8 +22,26 @@ public class UserDaoImpl extends ADao<User> implements IUserDao {
     @Override
     public User findByLogin(String login) {
         return (User) getSession()
-                .createQuery("FROM User WHERE login=:login")
+                .createQuery("FROM User WHERE login=:login " +
+                        "AND active = true")
                 .setParameter("login", login)
                 .uniqueResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> getAllSystemUsers() {
+        return (List<User>)getSession()
+                .createQuery("FROM User " +
+                        "WHERE userRole != 'ROLE_CUSTOMER' ")
+                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> getAll() {
+        return (List<User>)getSession().createQuery("FROM User" +
+                " WHERE active = true")
+                .list();
     }
 }

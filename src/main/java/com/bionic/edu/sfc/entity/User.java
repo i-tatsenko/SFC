@@ -23,6 +23,7 @@ public class User {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole userRole;
 
     @Column(length = 20,
@@ -63,6 +64,8 @@ public class User {
                 ", login='" + login + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", description='" + description + '\'' +
+                ", creationDate=" + creationDate +
+                ", active=" + active +
                 '}';
     }
 

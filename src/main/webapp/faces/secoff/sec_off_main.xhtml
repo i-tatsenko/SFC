@@ -6,7 +6,97 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view>
-    <h:outputLabel value="This is main for security officer"/>
-</f:view>
+<h:head>
+    <link type="text/css" rel="stylesheet"
+          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body>
+    <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
+        <ui:define name="content">
+            <h1>Users</h1>
+            <h:form id="pageForm">
+                <p:dataTable id="usersTable" var="user" value="#{usersBean.users}" selectionMode="single"
+                             editable="true"
+                             selection="#{usersBean.selectedUser}"
+                             rowKey="#{user.name}" style="width: 80%; left: 20px">
+
+                    <p:ajax event="rowEdit" listener="#{usersBean.onRowEdit}"/>
+                    <p:ajax event="rowEditCancel" listener="#{usersBean.onRowEditCancel}"/>
+
+                    <p:column headerText="Login">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{user.login}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{user.login}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Name">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{user.name}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{user.name}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Active" style="width: 50px">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{user.active}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{user.active}" style="width: 100%">
+                                    <f:selectItems value="#{usersBean.trueFalse}" var="bool" itemLabel="#{bool}"
+                                                   itemValue="#{bool}"/>
+                                </p:selectOneMenu> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="User role">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{user.userRole}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{user.userRole}" style="width: 100%">
+                                    <f:selectItems value="#{usersBean.userRoles}" var="role" itemLabel="#{role}"
+                                                   itemValue="#{role}"/>
+                                </p:selectOneMenu> </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Description">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{user.description}" style="font-size: 10px"/>
+                            </f:facet>
+                            <f:facet name="input"><p:inputTextarea value="#{user.description}" style="font-size: 10px"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <p:rowEditor/>
+                    </p:column>
+                </p:dataTable>
+
+                <p:panel header="Add new user" style="width: 30em; margin-top: 30px">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel value="Login" for="login"/>
+                        <p:inputText value="#{usersBean.newUser.login}" id="login" required="true"/>
+                        <p:outputLabel value="Password" for="password"/>
+                        <p:password value="#{usersBean.passForNewUser}" id="password" required="true"/>
+                        <p:outputLabel value="Name" for="name"/>
+                        <p:inputText value="#{usersBean.newUser.name}" id="name" required="true"/>
+                        <p:outputLabel value="Active" for="active"/>
+                        <p:inputSwitch value="#{usersBean.newUser.active}" id="active">
+                            <f:selectItems value="#{usersBean.trueFalse}"/>
+                        </p:inputSwitch>
+                        <p:outputLabel value="Role" for="role"/>
+                        <p:selectOneMenu value="#{usersBean.newUser.userRole}" id="role" rendered="true"
+                                         style="font-size: 14px">
+                            <f:selectItems value="#{usersBean.userRoles}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Description" for="desc"/>
+                        <p:inputTextarea value="${usersBean.newUser.description}" id="desc"/>
+                        <p:commandButton value="Add new user" actionListener="#{usersBean.createNewUser}"
+                                         update="pageForm"/>
+
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

@@ -12,18 +12,22 @@
 </head>
 <h:body>
     <ui:composition>
-        <h:panelGrid columns="1" style="position: absolute; left: 10%; width: 80%; background: #F38630; height: 10%; border-top-left-radius: 10px; border-top-right-radius: 10px">
+        <h:panelGrid columns="2" style="position: absolute; left: 10%; width: 80%; background: #F38630; height: 10%; border-top-left-radius: 10px; border-top-right-radius: 10px">
+            <h:form>
+            <p:tabMenu style="width: 60%; margin-left: 25%">
+                <p:menuitem value="Manage users" icon="ui-icon-star" outcome="/faces/secoff/sec_off_main.xhtml" rendered="#{loginBean.hasAccess('ROLE_SECURITY_OFFICER')}">
+                </p:menuitem>
+            </p:tabMenu>
+            </h:form>
 
-            <h:form rendered="#{loginBean.authenticated}" style="position:absolute; right: 0; top: 5px">
-                <h:panelGrid columns="2">
+            <h:form style="position:absolute; right: 0; top: 5px">
+                <h:panelGrid columns="2" rendered="#{loginBean.authenticated}">
                     <p:outputLabel value="Username: "/>
                     <p:outputLabel style="color: #A7DBD8; right: 10px" value="#{loginBean.username}"/>
                     <p:commandButton value="Logout" ajax="false" action="#{loginBean.doLogout}" style="position: absolute; right: 5px"/>
                 </h:panelGrid>
-            </h:form>
 
-            <h:form rendered="#{!loginBean.authenticated}" style="position:absolute; right: 0; top: 5px">
-                <h:panelGrid columns="1">
+                <h:panelGrid columns="1" rendered="#{!loginBean.authenticated}">
                     <p:commandButton value="Login" ajax="false" action="/faces/login" style="right: 0;"/>
                     <p:commandButton value="Register" ajax="false" action="/faces/register" styleClass="smallButton"/>
                 </h:panelGrid>

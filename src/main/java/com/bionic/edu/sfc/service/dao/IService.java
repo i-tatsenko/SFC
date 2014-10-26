@@ -9,7 +9,7 @@ import java.util.List;
  * Ivan
  * 2014.10
  */
-@Transactional(Transactional.TxType.MANDATORY)
+@Transactional(Transactional.TxType.REQUIRED)
 public interface IService<T> {
 
     public IDao<T> getDao();

@@ -3,8 +3,10 @@ package com.bionic.edu.sfc.web.beans;
 import com.bionic.edu.sfc.service.BLService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -14,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Created by docent on 21.10.14.
@@ -42,6 +45,12 @@ public class LoginBean {
     public boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+
+    public void showErrorIfAny() {
+        if (isLoginError()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "Bad credentials"));
+        }
     }
 
     public boolean isLoginError() {
@@ -77,5 +86,18 @@ public class LoginBean {
 
         FacesContext.getCurrentInstance().responseComplete();
         return null;
+    }
+
+    public boolean hasAccess(String userRole) {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        if (authorities == null) {
+            return false;
+        }
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals(userRole)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

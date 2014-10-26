@@ -17,11 +17,22 @@
         <p:panel header="Registration" styleClass="centerPanel">
             <h:panelGrid columns="2" cellpadding="5">
                 <p:outputLabel for="name" value="Name"/>
-                <p:inputText id="name" required="true" value="#{regBean.name}"/>
+                <f:validateRegex pattern="[a-zA-Z_0-9\s]{1,30}">
+                    <p:inputText id="name" required="true" value="#{regBean.name}"
+                                 validatorMessage="Name can contain only letters, numbers underscore and spaces"/>
+                </f:validateRegex>
+
                 <p:outputLabel for="login" value="Login"/>
-                <p:inputText id="login" required="true" value="#{regBean.login}"/>
+                <f:validateRegex pattern="[a-zA-Z_0-9]{1,30}">
+                    <p:inputText id="login" required="true" value="#{regBean.login}"
+                            validatorMessage="Login can contain only a-Z, 0-9, _"/>
+                </f:validateRegex>
+
                 <p:outputLabel for="password" value="Password"/>
-                <p:password id="password" required="true" value="#{regBean.password}"/>
+                <f:validateRegex pattern="[a-zA-Z_0-9]{1,30}">
+                    <p:password id="password" required="true" value="#{regBean.password}"
+                                validatorMessage="Password can contain only a-Z, 0-9, _"/>
+                </f:validateRegex>
                 <p:commandButton ajax="false" value="Register" actionListener="#{regBean.doRegister}"/>
             </h:panelGrid>
         </p:panel>

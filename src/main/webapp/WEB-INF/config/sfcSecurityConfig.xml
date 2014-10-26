@@ -16,7 +16,7 @@
         authentication-failure-url="/faces/login.xhtml?error=wrongpass"/>
     </security:http>
 
-    <bean id="myAuth" class="com.bionic.edu.sfc.util.MyAuthProvider"/>
+    <bean id="myAuth" class="com.bionic.edu.sfc.web.security.SFCAuthProvider"/>
 
     <security:authentication-manager>
         <security:authentication-provider ref="myAuth">

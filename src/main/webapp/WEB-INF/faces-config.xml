@@ -26,4 +26,14 @@
             <value>#{customerServiceImpl}</value>
         </managed-property>
     </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>usersBean</managed-bean-name>
+        <managed-bean-class>com.bionic.edu.sfc.web.beans.secoff.UsersBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>userService</property-name>
+            <value>#{userServiceImpl}</value>
+        </managed-property>
+    </managed-bean>
 </faces-config>

@@ -7,34 +7,37 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks" />
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
 </h:head>
-<body>
-<p:outputLabel rendered="#{loginBean.loginError}" value="Bad credentials"/>
-<h:form prependId="false" rendered="#{!loginBean.authenticated}" styleClass="centerPanel">
-    <p:growl id="growl" showDetail="true" sticky="true"/>
-    <p:panel header="Login" >        <h:panelGrid columns="2"  cellpadding="5">
-            <p:outputLabel for="j_username" value="Login:">
-            </p:outputLabel>
-            <p:inputText
-                    id="j_username"
-                    required="true">
-            </p:inputText>
-            <p:outputLabel for="j_password" value="Password:"/>
-            <p:password
-                    id="j_password"
-                    required="true">
-            </p:password>
-            <p:outputLabel for="_spring_security_remember_me"> <p:outputLabel
-                    value="Remember me"/> </p:outputLabel>
-            <p:inputSwitch
-                    id="_spring_security_remember_me"/>
 
-            <p:commandButton ajax="false"
-                    type="submit"
-                    value="Login"
-                    action="#{loginBean.doLogin}"/>
-        </h:panelGrid>
+<body>
+<h:form prependId="false" rendered="#{!loginBean.authenticated}" styleClass="centerPanel" style="border-style: none">
+    <p:outputLabel rendered="#{loginBean.loginError}" value="Bad credentials" style="color: darkred"/>
+    <p:growl id="growl" showDetail="true" sticky="true"/>
+    <p:panel header="Login"> <h:panelGrid id="loginGrid" columns="2" cellpadding="5">
+        <p:outputLabel for="j_username" value="Login:">
+        </p:outputLabel>
+        <p:inputText
+                id="j_username"
+                required="true">
+        </p:inputText>
+        <p:outputLabel for="j_password" value="Password:"/>
+        <p:password
+                id="j_password"
+                required="true">
+        </p:password>
+        <p:outputLabel for="_spring_security_remember_me"> <p:outputLabel
+                value="Remember me"/> </p:outputLabel>
+        <p:inputSwitch
+                id="_spring_security_remember_me"/>
+
+        <p:commandButton ajax="false"
+                         type="submit"
+                         value="Login"
+                         action="#{loginBean.doLogin}"/>
+    </h:panelGrid>
     </p:panel>
 </h:form>
 <h:form>

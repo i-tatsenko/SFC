@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 
 /**
  * Ivan
@@ -33,8 +34,10 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public void create(Customer customer, String password) {
-
+        customer.setCreationDate(new Date(System.currentTimeMillis()));
         customer.setPasswordHash(Util.getPasswordHash(password));
+        customer.setActive(true);
+        customer.setPrepaymentRate(1);
         customerDao.create(customer);
 
     }

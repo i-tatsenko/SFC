@@ -1,4 +1,4 @@
-package com.bionic.edu.sfc.util;
+package com.bionic.edu.sfc.web.security;
 
 import com.bionic.edu.sfc.entity.User;
 import com.bionic.edu.sfc.service.dao.IUserService;
@@ -10,17 +10,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.IllegalFormatCodePointException;
 
 /**
  * Created by docent on 22.10.14.
  */
 @Component
-public class MyAuthProvider implements AuthenticationProvider {
+public class SFCAuthProvider implements AuthenticationProvider {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

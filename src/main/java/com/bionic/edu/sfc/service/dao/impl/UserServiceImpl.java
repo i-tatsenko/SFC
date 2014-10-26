@@ -16,8 +16,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Ivan
@@ -42,6 +44,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Override
     public void create(User user, String password) {
         user.setPasswordHash(Util.getPasswordHash(password));
+        user.setCreationDate(new Date(System.currentTimeMillis()));
         userDao.create(user);
     }
 
@@ -59,6 +62,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         boolean authDataCorrect = Util.checkCredentials(password, user.getPasswordHash());
         return authDataCorrect ? user : null;
+    }
+
+    @Override
+    public List<User> getAllSystemUsers() {
+        return userDao.getAllSystemUsers();
     }
 
     @Override
