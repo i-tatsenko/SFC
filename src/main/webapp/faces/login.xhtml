@@ -11,16 +11,9 @@
 </h:head>
 <body>
 <p:outputLabel rendered="#{loginBean.loginError}" value="Bad credentials"/>
-<h:form prependId="false" rendered="#{!loginBean.authenticated}">
+<h:form prependId="false" rendered="#{!loginBean.authenticated}" styleClass="centerPanel">
     <p:growl id="growl" showDetail="true" sticky="true"/>
-    <p:panel header="Login" style="position:fixed;
-    top: 50%;
-    left: 50%;
-    width:30em;
-    margin-top: -9em;
-    margin-left: -15em;
-    border: 1px solid">
-        <h:panelGrid columns="2"  cellpadding="5">
+    <p:panel header="Login" >        <h:panelGrid columns="2"  cellpadding="5">
             <p:outputLabel for="j_username" value="Login:">
             </p:outputLabel>
             <p:inputText

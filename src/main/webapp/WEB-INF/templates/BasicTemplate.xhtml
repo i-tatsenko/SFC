@@ -7,17 +7,22 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks" />
+    <link type="text/css" rel="stylesheet"
+          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
+    <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
-<ui:insert name="header">
-    <ui:include src="header.xhtml"/>
-</ui:insert>
-<ui:insert name="content">
-    <ui:include src="content.xhtml"/>
-</ui:insert>
-<ui:insert name="footer">
-    <ui:include src="footer.xhtml"/>
-</ui:insert>
+    <ui:insert name="header">
+        <ui:include src="header.xhtml"/>
+    </ui:insert>
+
+    <div class="content">
+        <ui:insert name="content">
+            <ui:include src="content.xhtml"/>
+        </ui:insert>
+    </div>
+    <ui:insert name="footer">
+        <ui:include src="footer.xhtml"/>
+    </ui:insert>
 </h:body>
 </html>

@@ -7,12 +7,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks" />
+    <link type="text/css" rel="stylesheet"
+          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
+    <link type="text/css" rel="stylesheet" href="css/blueprint/screen.css" media="screen, projection"/>
+    <link type="text/css" rel="stylesheet" href="css/blueprint/print.css" media="print"/>
 </h:head>
 <h:body>
-    <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml" >
+    <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            <p:outputLabel value="This is main page"/>
+                <p:outputLabel value="This is main page"/>
         </ui:define>
     </ui:composition>
 </h:body>

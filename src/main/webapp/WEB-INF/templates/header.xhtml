@@ -12,17 +12,22 @@
 </head>
 <h:body>
     <ui:composition>
-        <p:panelGrid rendered="#{loginBean.authenticated}" minSize="300" style="width: 100%; border: none; min-height: 10vh">
-            <p:outputLabel value="You are logged in as #{loginBean.username}" style="position: absolute;right: 5%;height: 2em"/>
-            <h:form><p:commandButton value="Logout" ajax="false" action="#{loginBean.doLogout}" style="position: absolute;right: 5%;"/> </h:form>
-        </p:panelGrid>
+        <h:panelGrid columns="1" style="position: absolute; left: 10%; width: 80%; background: #F38630; height: 10%; border-top-left-radius: 10px; border-top-right-radius: 10px">
 
-        <h:panelGrid rendered="#{!loginBean.authenticated}" minSize="300" style="width: 100%; border: none; min-height: 10vh">
-            <p:link value="Login" href="/faces/login.xhtml" rendered="#{!loginBean.authenticated}"
-                    style="position: absolute;right: 5%;"/>
+            <h:form rendered="#{loginBean.authenticated}" style="position:absolute; right: 0; top: 5px">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Username: "/>
+                    <p:outputLabel style="color: #A7DBD8; right: 10px" value="#{loginBean.username}"/>
+                    <p:commandButton value="Logout" ajax="false" action="#{loginBean.doLogout}" style="position: absolute; right: 5px"/>
+                </h:panelGrid>
+            </h:form>
 
-            <p:link value="Register" href="/faces/register.xhtml" rendered="#{!loginBean.authenticated}"
-                    style="position: absolute;right: 5%;"/>
+            <h:form rendered="#{!loginBean.authenticated}" style="position:absolute; right: 0; top: 5px">
+                <h:panelGrid columns="1">
+                    <p:commandButton value="Login" ajax="false" action="/faces/login" style="right: 0;"/>
+                    <p:commandButton value="Register" ajax="false" action="/faces/register" styleClass="smallButton"/>
+                </h:panelGrid>
+            </h:form>
         </h:panelGrid>
     </ui:composition>
 </h:body>
