@@ -14,17 +14,21 @@
 <h:body>
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            <h:form id="mainForm" style="border-style: none">
+            <h:form>
+                <p:growl id="growl" showDetail="true"/>
+
                 <p:commandButton value="Add new fish" actionListener="#{newFishParcelBean.showNewFishForm}">
-                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update="mainForm"/>
+                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":mainForm"/>
                 </p:commandButton>
                 <p:commandButton value="Add new manufacturer" actionListener="#{newFishParcelBean.showNewManufForm}"
                                  style="margin-left: 10px">
-                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update="mainForm"/>
+                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":mainForm"/>
                 </p:commandButton>
+            </h:form>
 
+            <p/>
 
-                <p/>
+            <h:form id="mainForm" style="border-style: none">
                 <p:dataTable value="#{newFishParcelBean.fishParcels}" var="fishParcel" styleClass="dataTable">
                     <p:column headerText="Manufacturer">
                         <p:outputLabel value="#{fishParcel.manufacturer}"/>
@@ -36,17 +40,24 @@
                         <p:outputLabel value="#{fishParcel.fishShipSupply}"/>
                     </p:column>
                 </p:dataTable>
-                <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel value="Manufacturer"/>
-                    <p:selectOneMenu value="#{newFishParcelBean.newFishParcel.manufacturer}">
-                        <f:selectItems value="#{newFishParcelBean.manufacturers}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel value="Fish"/>
-                    <p:selectOneMenu value="#{newFishParcelBean.newFishParcel.fish}">
-                        <f:selectItems value="#{newFishParcelBean.fishes}"/>
-                    </p:selectOneMenu>
-                    <p:commandButton action="#{newFishParcelBean.createNewFishParcel}" update="mainForm" value="Create"/>
-                </h:panelGrid>
+            </h:form>
+            <h:form>
+                <p:panel header="New fish parcel" style="width: 30%; margin-top: 30px">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel value="Manufacturer"/>
+                        <p:selectOneMenu value="#{newFishParcelBean.newFishParcel.manufacturer}">
+                            <f:selectItems value="#{newFishParcelBean.manufacturers}" var="manuf"
+                                           itemValue="#{manuf}" itemLabel="#{manuf.name}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Fish"/>
+                        <p:selectOneMenu value="#{newFishParcelBean.newFishParcel.fish}">
+                            <f:selectItems value="#{newFishParcelBean.fishes}" var="f" itemValue="#{f}"
+                                           itemLabel="#{f.name}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton action="#{newFishParcelBean.createNewFishParcel}" update=":mainForm"
+                                         value="Create"/>
+                    </h:panelGrid>
+                </p:panel>
             </h:form>
         </ui:define>
     </ui:composition>

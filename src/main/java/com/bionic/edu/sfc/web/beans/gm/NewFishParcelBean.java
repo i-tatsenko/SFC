@@ -19,13 +19,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by docent on 28.10.14.
  */
-@ManagedBean (eager = false)
+@ManagedBean
 @ViewScoped
 public class NewFishParcelBean {
 
@@ -46,12 +47,20 @@ public class NewFishParcelBean {
     private IManufacturerService manufacturerService;
 
     private FishParcel newFishParcel = new FishParcel();
+    private List<Fish> fishes;
+    private List<Manufacturer> manufacturers;
+
+    private Fish fish;
+
+    private Manufacturer manufacturer;
 
     @PostConstruct
     public void init() {
         try {
             long fssId = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fss"));
             fishShipSupply = fishShipSupplyService.findById(fssId);
+            fishes = fishService.getAll();
+            manufacturers = manufacturerService.getAll();
             if (fishShipSupply == null) {
 //                invalidAccess();
             }
@@ -61,16 +70,16 @@ public class NewFishParcelBean {
         }
     }
 
-    public Collection<FishParcel> getFishParcels() {
+    public List<FishParcel> getFishParcels() {
         return fishParcelService.getAllForFishSupply(fishShipSupply);
     }
 
-    public Collection<Manufacturer> getManufacturers() {
-        return manufacturerService.getAll();
+    public List<Manufacturer> getManufacturers() {
+        return manufacturers;
     }
 
-    public Collection<Fish> getFishes() {
-        return fishService.getAll();
+    public List<Fish> getFishes() {
+        return fishes;
     }
 
     private void invalidAccess() {
@@ -81,12 +90,15 @@ public class NewFishParcelBean {
         }
     }
 
-    public void createNewFishParcel() {
+    public void createNewFishParcel(/*ActionEvent actionEvent*/) {
         try {
+            LOGGER.info("Creating new fish parcel");
             newFishParcel.setFishShipSupply(fishShipSupply);
             fishParcelService.create(newFishParcel);
             newFishParcel = new FishParcel();
+            LOGGER.info("New fish parcel has been created");
         } catch (Exception e) {
+            LOGGER.error("Can't create fish parcel", e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create fish parcel.", e.getMessage()));
         }
     }
@@ -150,5 +162,29 @@ public class NewFishParcelBean {
 
     public void setManufacturerService(IManufacturerService manufacturerService) {
         this.manufacturerService = manufacturerService;
+    }
+
+    public void setFishes(List<Fish> fishes) {
+        this.fishes = fishes;
+    }
+
+    public void setManufacturers(List<Manufacturer> manufacturers) {
+        this.manufacturers = manufacturers;
+    }
+
+    public Fish getFish() {
+        return fish;
+    }
+
+    public void setFish(Fish fish) {
+        this.fish = fish;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }
