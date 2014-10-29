@@ -3,8 +3,7 @@ package com.bionic.edu.sfc.entity.builder;
 import com.bionic.edu.sfc.entity.User;
 import com.bionic.edu.sfc.entity.UserRole;
 
-import java.sql.Date;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Ivan
@@ -16,7 +15,8 @@ public class UserBuilder {
     private String login;
     private String passwordHash;
     private String description;
-    private Date creationDate = new Date(Calendar.getInstance().getTimeInMillis());
+    private boolean active;
+    private Date creationDate = new Date();
 
     private UserBuilder(String login) {
         this.login = login;
@@ -56,6 +56,11 @@ public class UserBuilder {
         return this;
     }
 
+    public UserBuilder withActive(boolean active) {
+        this.active = active;
+        return this;
+    }
+
     public User build() {
         User user = new User();
         user.setName(name);
@@ -64,6 +69,7 @@ public class UserBuilder {
         user.setPasswordHash(passwordHash);
         user.setDescription(description);
         user.setCreationDate(creationDate);
+        user.setActive(active);
         return user;
     }
 }

@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
  * 2014.10
  */
 @Service
-@Transactional(Transactional.TxType.MANDATORY)
+@Transactional(Transactional.TxType.REQUIRED)
 public class ManufacturerServiceImpl implements IManufacturerService {
 
     @Autowired

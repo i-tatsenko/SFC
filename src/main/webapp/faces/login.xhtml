@@ -41,7 +41,7 @@
     </p:panel>
 </h:form>
 <h:form>
-    <h:commandButton action="#{loginBean.doLogout}" value="Logout" rendered="#{loginBean.authenticated}"/>
+    <p:commandButton ajax="false" action="#{loginBean.doLogout}" value="Logout" rendered="#{loginBean.authenticated}" styleClass="centerPanel"/>
 </h:form>
 </body>
 </html>

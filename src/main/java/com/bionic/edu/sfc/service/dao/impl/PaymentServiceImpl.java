@@ -16,7 +16,7 @@ import java.util.List;
  * 2014.10
  */
 @Service
-@Transactional(Transactional.TxType.MANDATORY)
+@Transactional(Transactional.TxType.REQUIRED)
 public class PaymentServiceImpl implements IPaymentService {
 
     @Autowired

@@ -1,7 +1,7 @@
 package com.bionic.edu.sfc.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -88,7 +88,7 @@ public class Bill {
         this.fishItems = fishItems;
     }
 
-    public Date getCreationDate() {
+    public java.util.Date getCreationDate() {
         return creationDate;
     }
 
@@ -96,7 +96,7 @@ public class Bill {
         this.creationDate = creationDate;
     }
 
-    public Date getCloseDate() {
+    public java.util.Date getCloseDate() {
         return closeDate;
     }
 

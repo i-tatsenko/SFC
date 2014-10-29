@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <link type="text/css" rel="stylesheet"
-          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
+          href="#{applicationBean.theme}"/>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
@@ -19,7 +19,7 @@
                 <p:dataTable id="usersTable" var="user" value="#{usersBean.users}" selectionMode="single"
                              editable="true"
                              selection="#{usersBean.selectedUser}"
-                             rowKey="#{user.name}" style="width: 80%; left: 20px">
+                             rowKey="#{user.name}" styleClass="dataTable">
 
                     <p:ajax event="rowEdit" listener="#{usersBean.onRowEdit}"/>
                     <p:ajax event="rowEditCancel" listener="#{usersBean.onRowEditCancel}"/>

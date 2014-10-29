@@ -3,7 +3,7 @@ package com.bionic.edu.sfc.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Ivan

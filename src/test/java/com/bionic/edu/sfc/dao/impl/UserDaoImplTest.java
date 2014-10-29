@@ -67,6 +67,7 @@ public class UserDaoImplTest {
     private User getUser() {
         return UserBuilder.anUser(String.valueOf(random.nextInt()))
                 .withPasswordHash("some hash")
+                .withActive(true)
                 .build();
     }
 }

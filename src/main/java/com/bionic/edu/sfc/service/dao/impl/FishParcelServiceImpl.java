@@ -3,6 +3,7 @@ package com.bionic.edu.sfc.service.dao.impl;
 import com.bionic.edu.sfc.dao.IDao;
 import com.bionic.edu.sfc.dao.IFishParcelDao;
 import com.bionic.edu.sfc.entity.FishParcel;
+import com.bionic.edu.sfc.entity.FishShipSupply;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
  * 2014.10
  */
 @Service
-@Transactional(Transactional.TxType.MANDATORY)
+@Transactional(Transactional.TxType.REQUIRED)
 public class FishParcelServiceImpl implements IFishParcelService {
 
     @Autowired
@@ -34,6 +35,11 @@ public class FishParcelServiceImpl implements IFishParcelService {
     @Override
     public List<FishParcel> getAllUnsaled() {
         return fishParcelDao.getAllUnsaled();
+    }
+
+    @Override
+    public List<FishParcel> getAllForFishSupply(FishShipSupply fishShipSupply) {
+        return fishParcelDao.getAllForFishSupply(fishShipSupply);
     }
 
 }

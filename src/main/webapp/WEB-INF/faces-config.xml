@@ -2,11 +2,15 @@
 <faces-config
         xmlns="http://java.sun.com/xml/ns/javaee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-        version="2.0">
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_2.xsd"
+        version="2.2">
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
     </application>
+
     <managed-bean>
         <managed-bean-name>loginBean</managed-bean-name>
         <managed-bean-class>com.bionic.edu.sfc.web.beans.LoginBean</managed-bean-class>
@@ -34,6 +38,76 @@
         <managed-property>
             <property-name>userService</property-name>
             <value>#{userServiceImpl}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>newFishBean</managed-bean-name>
+        <managed-bean-class>com.bionic.edu.sfc.web.beans.gm.NewFishBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>fishService</property-name>
+            <value>#{fishServiceImpl}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>newManufBean</managed-bean-name>
+        <managed-bean-class>com.bionic.edu.sfc.web.beans.gm.NewManufacturerBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>manufacturerService</property-name>
+            <value>#{manufacturerServiceImpl}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>newFishShipSupBean</managed-bean-name>
+        <managed-bean-class>com.bionic.edu.sfc.web.beans.gm.NewFishShipSupplyBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>manufacturerService</property-name>
+            <value>#{manufacturerServiceImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fishParcelService</property-name>
+            <value>#{fishParcelServiceImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fishService</property-name>
+            <value>#{fishServiceImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fishShipSupplyService</property-name>
+            <value>#{fishShipSupplyServiceImpl}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>applicationBean</managed-bean-name>
+        <managed-bean-class>com.bionic.edu.sfc.web.beans.ApplicationBean</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>newFishParcelBean</managed-bean-name>
+        <managed-bean-class>com.bionic.edu.sfc.web.beans.gm.NewFishParcelBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>fishShipSupplyService</property-name>
+            <value>#{fishShipSupplyServiceImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fishParcelService</property-name>
+            <value>#{fishParcelServiceImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fishService</property-name>
+            <value>#{fishServiceImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>manufacturerService</property-name>
+            <value>#{manufacturerServiceImpl}</value>
         </managed-property>
     </managed-bean>
 </faces-config>

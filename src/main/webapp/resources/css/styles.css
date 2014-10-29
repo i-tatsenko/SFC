@@ -11,5 +11,10 @@
 .content {
     position: absolute;
     left: 10%;
-    top: 12%
+    top: 15%
+}
+
+.dataTable {
+    width: 80%;
+    left: 20px
 }

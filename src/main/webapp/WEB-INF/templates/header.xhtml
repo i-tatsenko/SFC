@@ -12,19 +12,25 @@
 </head>
 <h:body>
     <ui:composition>
-        <h:panelGrid columns="2" style="position: absolute; left: 10%; width: 80%; background: #F38630; height: 10%; border-top-left-radius: 10px; border-top-right-radius: 10px">
+        <h:panelGrid columns="2"
+                     style="position: absolute; top: 2%;left: 10%; width: 80%; background: #F38630; height: 10%; border-top-left-radius: 10px; border-top-right-radius: 10px">
             <h:form>
-            <p:tabMenu style="width: 60%; margin-left: 25%">
-                <p:menuitem value="Manage users" icon="ui-icon-star" outcome="/faces/secoff/sec_off_main.xhtml" rendered="#{loginBean.hasAccess('ROLE_SECURITY_OFFICER')}">
-                </p:menuitem>
-            </p:tabMenu>
+                <p:tabMenu style="width: 60%; margin-left: 25%">
+                    <p:menuitem value="Manage users" icon="ui-icon-star" outcome="/faces/secoff/sec_off_main.xhtml"
+                                rendered="#{loginBean.hasAccess('ROLE_SECURITY_OFFICER')}"/>
+                    <p:menuitem value="New supply" outcome="/faces/gm/reg_new_ship_supply.xhtml"
+                                rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
+                    <p:menuitem value="Coldstore" outcome="/faces/gm/coldstore.xhtml"
+                                rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
+                </p:tabMenu>
             </h:form>
 
             <h:form style="position:absolute; right: 0; top: 5px">
                 <h:panelGrid columns="2" rendered="#{loginBean.authenticated}">
                     <p:outputLabel value="Username: "/>
                     <p:outputLabel style="color: #A7DBD8; right: 10px" value="#{loginBean.username}"/>
-                    <p:commandButton value="Logout" ajax="false" action="#{loginBean.doLogout}" style="position: absolute; right: 5px"/>
+                    <p:commandButton value="Logout" ajax="false" action="#{loginBean.doLogout}"
+                                     style="position: absolute; right: 5px"/>
                 </h:panelGrid>
 
                 <h:panelGrid columns="1" rendered="#{!loginBean.authenticated}">
@@ -33,6 +39,10 @@
                 </h:panelGrid>
             </h:form>
         </h:panelGrid>
+        <h:link outcome="/faces/index.xhtml">
+            <h:graphicImage library="images" name="logo_sfc.png"
+                            style="position: absolute; left: 15%; top:1%; height: 12%"/>
+        </h:link>
     </ui:composition>
 </h:body>
 </html>

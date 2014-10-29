@@ -30,6 +30,11 @@ public class Manufacturer {
 
     public Manufacturer() { }
 
+    public Manufacturer(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
