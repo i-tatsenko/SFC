@@ -5,6 +5,8 @@ import com.bionic.edu.sfc.entity.UserRole;
 import com.bionic.edu.sfc.service.dao.IUserService;
 import org.apache.logging.log4j.LogManager;
 import org.primefaces.event.RowEditEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,19 +14,21 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Named;
 import java.util.List;
 
 /**
  * Created by docent on 26.10.14.
  */
-@ManagedBean
-@RequestScoped
+@Named
+@Scope("request")
 public class UsersBean {
 
     private List<User> users;
 
     private User selectedUser;
 
+    @Autowired
     private IUserService userService;
 
     private User newUser = new User();

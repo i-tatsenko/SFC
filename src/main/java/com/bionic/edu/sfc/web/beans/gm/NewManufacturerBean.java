@@ -3,22 +3,26 @@ package com.bionic.edu.sfc.web.beans.gm;
 import com.bionic.edu.sfc.entity.Manufacturer;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 /**
  * Created by docent on 28.10.14.
  */
-@ManagedBean
-@RequestScoped
+@Named
+@Scope("request")
 public class NewManufacturerBean {
 
     private String name;
 
     private String description;
 
+    @Autowired
     private IManufacturerService manufacturerService;
 
     public void regNewManuf() {

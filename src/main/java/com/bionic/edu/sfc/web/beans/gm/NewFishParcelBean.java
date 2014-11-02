@@ -12,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -20,30 +22,31 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Named;
 import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by docent on 28.10.14.
  */
-@ManagedBean
-@ViewScoped
+@Named
+@Scope("view")
 public class NewFishParcelBean {
 
     private static final Logger LOGGER = LogManager.getLogger(NewFishParcelBean.class);
 
     private FishShipSupply fishShipSupply;
 
-    @ManagedProperty("fishShipSupplyService")
+    @Autowired
     private IFishShipSupplyService fishShipSupplyService;
 
-    @ManagedProperty("fishParcelService")
+    @Autowired
     private IFishParcelService fishParcelService;
 
-    @ManagedProperty("fishService")
+    @Autowired
     private IFishService fishService;
 
-    @ManagedProperty("manufacturerService")
+    @Autowired
     private IManufacturerService manufacturerService;
 
     private FishParcel newFishParcel = new FishParcel();

@@ -1,6 +1,8 @@
 package com.bionic.edu.sfc.web.beans;
 
 import com.bionic.edu.sfc.service.BLService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
@@ -21,10 +24,11 @@ import java.util.Collection;
 /**
  * Created by docent on 21.10.14.
  */
-@ManagedBean
-@SessionScoped
+@Named
+@Scope("session")
 public class LoginBean {
 
+    @Autowired
     private BLService blService;
 
     public BLService getBlService() {

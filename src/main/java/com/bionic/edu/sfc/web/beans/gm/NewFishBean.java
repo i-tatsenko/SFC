@@ -5,15 +5,16 @@ import com.bionic.edu.sfc.service.dao.IFishService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
 
 /**
  * Created by docent on 28.10.14.
  */
-@ManagedBean
-@RequestScoped
+@Named
+@Scope("request")
 public class NewFishBean {
 
     private static final Logger LOGGER = LogManager.getLogger(NewFishBean.class);
@@ -22,6 +23,7 @@ public class NewFishBean {
 
     private String description;
 
+    @Autowired
     private IFishService fishService;
 
     public void addNewFish() {

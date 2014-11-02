@@ -10,11 +10,14 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
@@ -24,17 +27,22 @@ import java.util.TreeSet;
 /**
  * Created by docent on 28.10.14.
  */
-@ManagedBean
+@Named
+@Scope("request")
 public class NewFishShipSupplyBean {
 
     private static final Logger LOGGER = LogManager.getLogger(NewFishShipSupplyBean.class);
 
+    @Autowired
     private IFishService fishService;
 
+    @Autowired
     private IManufacturerService manufacturerService;
 
+    @Autowired
     private IFishShipSupplyService fishShipSupplyService;
 
+    @Autowired
     private IFishParcelService fishParcelService;
 
     private FishShipSupply newFishShipSupply = new FishShipSupply();

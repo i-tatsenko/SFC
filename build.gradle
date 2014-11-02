@@ -24,6 +24,7 @@ dependencies {
 
     compile 'com.sun.faces:jsf-api:2.2.8'
     compile 'com.sun.faces:jsf-impl:2.2.8'
+    compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:jstl:1.2'
     compile 'org.primefaces:primefaces:5.1'
     compile 'org.primefaces.themes:hot-sneaks:1.0.10'

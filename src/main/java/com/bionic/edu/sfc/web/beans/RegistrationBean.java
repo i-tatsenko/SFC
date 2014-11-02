@@ -3,17 +3,21 @@ package com.bionic.edu.sfc.web.beans;
 import com.bionic.edu.sfc.entity.Customer;
 import com.bionic.edu.sfc.entity.UserRole;
 import com.bionic.edu.sfc.service.dao.ICustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
 
 /**
  * Created by docent on 23.10.14.
  */
-@ManagedBean(name = "regBean")
-@RequestScoped
+@Named("regBean")
+@Scope("request")
 public class RegistrationBean {
 
+    @Autowired
     private ICustomerService customerService;
 
     private String name;
