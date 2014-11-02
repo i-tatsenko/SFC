@@ -3,12 +3,18 @@ package com.bionic.edu.sfc.web.beans;
 import com.bionic.edu.sfc.entity.Customer;
 import com.bionic.edu.sfc.entity.UserRole;
 import com.bionic.edu.sfc.service.dao.ICustomerService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * Created by docent on 23.10.14.
@@ -17,6 +23,7 @@ import javax.inject.Named;
 @Scope("request")
 public class RegistrationBean {
 
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationBean.class);
     @Autowired
     private ICustomerService customerService;
 
@@ -25,6 +32,8 @@ public class RegistrationBean {
     private String login;
 
     private String password;
+
+    private String previousUrl;
 
     public String doRegister() {
         Customer customer = new Customer();
@@ -39,12 +48,19 @@ public class RegistrationBean {
         return "/faces/index.html";
     }
 
-    public ICustomerService getCustomerService() {
-        return customerService;
+    public void doCancel(ActionEvent event) throws IOException {
+        if (previousUrl != null) {
+            LOGGER.info("Redirecting to " + previousUrl);
+            FacesContext.getCurrentInstance().getExternalContext().redirect(previousUrl);
+            return;
+        }
+
+        FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
     }
 
-    public void setCustomerService(ICustomerService customerService) {
-        this.customerService = customerService;
+    public String goToRegistration() {
+        previousUrl = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURL().toString();
+        return "/faces/register";
     }
 
     public String getName() {
@@ -69,5 +85,13 @@ public class RegistrationBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPreviousUrl() {
+        return previousUrl;
+    }
+
+    public void setPreviousUrl(String previousUrl) {
+        this.previousUrl = previousUrl;
     }
 }

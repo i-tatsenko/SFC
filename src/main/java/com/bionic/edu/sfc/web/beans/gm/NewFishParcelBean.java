@@ -8,6 +8,7 @@ import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IFishService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
+import com.bionic.edu.sfc.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.context.RequestContext;
@@ -17,20 +18,19 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by docent on 28.10.14.
  */
 @Named
-@Scope("view")
+@Scope("request")
 public class NewFishParcelBean {
 
     private static final Logger LOGGER = LogManager.getLogger(NewFishParcelBean.class);
@@ -50,8 +50,8 @@ public class NewFishParcelBean {
     private IManufacturerService manufacturerService;
 
     private FishParcel newFishParcel = new FishParcel();
-    private List<Fish> fishes;
-    private List<Manufacturer> manufacturers;
+    private Set<Fish> fishes;
+    private Set<Manufacturer> manufacturers;
 
     private Fish fish;
 
@@ -60,10 +60,14 @@ public class NewFishParcelBean {
     @PostConstruct
     public void init() {
         try {
-            long fssId = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fss"));
+            String fss = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fss");
+            if (fss == null) {
+                return;
+            }
+            long fssId = Long.parseLong(fss);
             fishShipSupply = fishShipSupplyService.findById(fssId);
-            fishes = fishService.getAll();
-            manufacturers = manufacturerService.getAll();
+            fillFish();
+            fillManuf();
             if (fishShipSupply == null) {
 //                invalidAccess();
             }
@@ -73,15 +77,25 @@ public class NewFishParcelBean {
         }
     }
 
+    private void fillManuf() {
+        manufacturers = new TreeSet<>(Util.getManufComp());
+        manufacturers.addAll(manufacturerService.getAll("name"));
+    }
+
+    private void fillFish() {
+        fishes = new TreeSet<>(Util.getFishCompar());
+        fishes.addAll(fishService.getAll("name"));
+    }
+
     public List<FishParcel> getFishParcels() {
         return fishParcelService.getAllForFishSupply(fishShipSupply);
     }
 
-    public List<Manufacturer> getManufacturers() {
+    public Set<Manufacturer> getManufacturers() {
         return manufacturers;
     }
 
-    public List<Fish> getFishes() {
+    public Set<Fish> getFishes() {
         return fishes;
     }
 
@@ -93,7 +107,7 @@ public class NewFishParcelBean {
         }
     }
 
-    public void createNewFishParcel(/*ActionEvent actionEvent*/) {
+    public void createNewFishParcel() {
         try {
             LOGGER.info("Creating new fish parcel");
             newFishParcel.setFishShipSupply(fishShipSupply);
@@ -108,6 +122,9 @@ public class NewFishParcelBean {
 
     public void onFishCreated(SelectEvent event) {
         LOGGER.info("Item created: " + event.getObject());
+        fillFish();
+        fillManuf();
+
     }
 
     public void showNewFishForm() {
@@ -167,11 +184,11 @@ public class NewFishParcelBean {
         this.manufacturerService = manufacturerService;
     }
 
-    public void setFishes(List<Fish> fishes) {
+    public void setFishes(Set<Fish> fishes) {
         this.fishes = fishes;
     }
 
-    public void setManufacturers(List<Manufacturer> manufacturers) {
+    public void setManufacturers(Set<Manufacturer> manufacturers) {
         this.manufacturers = manufacturers;
     }
 

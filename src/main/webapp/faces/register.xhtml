@@ -8,8 +8,6 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <h:outputStylesheet library="css" name="styles.css"/>
-    <link type="text/css" rel="stylesheet"
-          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
 </h:head>
 <h:body>
     <h:form>
@@ -33,6 +31,10 @@
                     <p:password id="password" required="true" value="#{regBean.password}"
                                 validatorMessage="Password can contain only a-Z, 0-9, _"/>
                 </f:validateRegex>
+                <p:commandButton ajax="false"
+                                 immediate="true"
+                                 value="Cancel"
+                                 actionListener="#{regBean.doCancel}"/>
                 <p:commandButton ajax="false" value="Register" actionListener="#{regBean.doRegister}"/>
             </h:panelGrid>
         </p:panel>

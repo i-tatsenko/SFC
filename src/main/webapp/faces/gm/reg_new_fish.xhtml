@@ -4,9 +4,7 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <h:outputStylesheet library="css" name="styles.css"/>
-    <link type="text/css" rel="stylesheet"
-          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
-    <title>Add new fish</title>
+    <title>Fish</title>
     <style type="text/css">
         .ui-widget {
             font-size: 90%;
@@ -14,14 +12,28 @@
     </style>
 </h:head>
 <h:body>
+    <h:form id="mainForm" style="border-style: none">
+    <p:dataTable id="fishTable" paginator="true" value="#{newFishBean.allFish}" var="fish" rows="10"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} ">
+        <p:column headerText="Name">
+            <p:outputLabel value="#{fish.name}"/>
+        </p:column>
+        <p:column headerText="Description">
+            <p:outputLabel value="#{fish.description}"/>
+        </p:column>
+    </p:dataTable>
+        <p:panel header="Add new fish">
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel value="Fish name" for="name"/>
+                <p:inputText value="#{newFishBean.name}" id="name"/>
+                <p:outputLabel value="Description" for="desc"/>
+                <p:inputTextarea value="#{newFishBean.description}" id="desc"/>
+                <p:commandButton value="Create" actionListener="#{newFishBean.addNewFish}" update="mainForm"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
     <h:form style="border-style: none">
-        <h:panelGrid columns="2" cellpadding="5">
-            <p:outputLabel value="Fish name" for="name"/>
-            <p:inputText value="#{newFishBean.name}" id="name"/>
-            <p:outputLabel value="Description" for="desc"/>
-            <p:inputTextarea value="#{newFishBean.description}" id="desc"/>
-            <p:commandButton value="Create" actionListener="#{newFishBean.addNewFish}"/>
-        </h:panelGrid>
+        <p:commandButton value="Close" actionListener="#{newFishBean.closeDialog}" style="position: absolute; right: 50%; margin-top: 20px"/>
     </h:form>
 </h:body>
 </html>

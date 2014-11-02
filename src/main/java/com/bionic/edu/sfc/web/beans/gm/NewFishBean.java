@@ -8,7 +8,10 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.PostConstruct;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * Created by docent on 28.10.14.
@@ -26,22 +29,26 @@ public class NewFishBean {
     @Autowired
     private IFishService fishService;
 
+    private List<Fish> allFish;
+
+    @PostConstruct
+    public void init() {
+        allFish = fishService.getAll("name");
+    }
+
     public void addNewFish() {
         try {
             Fish newFish = new Fish(name, description);
+            name = null;
+            description = null;
             fishService.create(newFish);
-            RequestContext.getCurrentInstance().closeDialog(newFish);
         } catch (Exception e) {
             LOGGER.error("Some error while wanted to save new fish", e);
         }
     }
 
-    public IFishService getFishService() {
-        return fishService;
-    }
-
-    public void setFishService(IFishService fishService) {
-        this.fishService = fishService;
+    public void closeDialog(ActionEvent event) {
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public String getName() {
@@ -59,5 +66,13 @@ public class NewFishBean {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Fish> getAllFish() {
+        return allFish;
+    }
+
+    public void setAllFish(List<Fish> allFish) {
+        this.allFish = allFish;
     }
 }

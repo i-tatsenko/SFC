@@ -1,6 +1,8 @@
 package com.bionic.edu.sfc.web.beans;
 
 import com.bionic.edu.sfc.service.BLService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -9,10 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,16 +29,12 @@ import java.util.Collection;
 @Scope("session")
 public class LoginBean {
 
+    private static final Logger LOGGER = LogManager.getLogger(LoginBean.class);
+
     @Autowired
     private BLService blService;
 
-    public BLService getBlService() {
-        return blService;
-    }
-
-    public void setBlService(BLService blService) {
-        this.blService = blService;
-    }
+    private String previousUrl;
 
     public String getUsername() {
         if (!isAuthenticated()) {
@@ -92,6 +89,21 @@ public class LoginBean {
         return null;
     }
 
+    public void doCancel(ActionEvent actionEvent) throws IOException {
+        if (previousUrl != null) {
+            LOGGER.info("Redirecting to " + previousUrl);
+            FacesContext.getCurrentInstance().getExternalContext().redirect(previousUrl);
+            return;
+        }
+
+        FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+    }
+
+    public String goToLogin() {
+        previousUrl = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURL().toString();
+        return "/faces/login";
+    }
+
     public boolean hasAccess(String userRole) {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         if (authorities == null) {
@@ -103,5 +115,13 @@ public class LoginBean {
             }
         }
         return false;
+    }
+
+    public String getPreviousUrl() {
+        return previousUrl;
+    }
+
+    public void setPreviousUrl(String previousUrl) {
+        this.previousUrl = previousUrl;
     }
 }

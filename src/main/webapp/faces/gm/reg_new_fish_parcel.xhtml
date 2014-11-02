@@ -7,8 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <link type="text/css" rel="stylesheet"
-          href="#{applicationBean.theme}"/>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
@@ -16,19 +14,17 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true"/>
-
                 <p:commandButton value="Add new fish" actionListener="#{newFishParcelBean.showNewFishForm}">
-                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":mainForm"/>
+                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":newParcelForm"/>
                 </p:commandButton>
                 <p:commandButton value="Add new manufacturer" actionListener="#{newFishParcelBean.showNewManufForm}"
                                  style="margin-left: 10px">
-                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":mainForm"/>
+                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":newParcelForm"/>
                 </p:commandButton>
             </h:form>
+            <h2>Fish Ship Supply Code: #{newFishParcelBean.fishShipSupply.supplyCode}</h2>
 
-            <p/>
-
-            <h:form id="mainForm" style="border-style: none">
+            <h:form id="mainForm" style="border-style: none; margin-top: 40px">
                 <p:dataTable value="#{newFishParcelBean.fishParcels}" var="fishParcel" styleClass="dataTable">
                     <p:column headerText="Manufacturer">
                         <p:outputLabel value="#{fishParcel.manufacturer}"/>
@@ -36,28 +32,17 @@
                     <p:column headerText="Fish">
                         <p:outputLabel value="#{fishParcel.fish}"/>
                     </p:column>
-                    <p:column headerText="Fish ship supply">
-                        <p:outputLabel value="#{fishParcel.fishShipSupply}"/>
-                    </p:column>
                 </p:dataTable>
             </h:form>
-            <h:form>
-                <p:growl id="growl_fish_parcel" showDetail="true"/>
-
+            <h:form id="newParcelForm">
                 <p:panel header="New fish parcel" style="width: 30%; margin-top: 30px">
                     <h:panelGrid columns="2" cellpadding="5">
-                        <p:outputLabel value="Manufacturer"/>
-                        <p:selectOneMenu value="#{newFishParcelBean.newFishParcel.manufacturer}">
-                            <f:selectItems value="#{newFishParcelBean.manufacturers}" var="manuf"
-                                           itemValue="#{manuf}" itemLabel="#{manuf.name}"/>
+                        <p:outputLabel  value="Fish"/>
+                        <p:selectOneMenu id="fish" value="#{newFishParcelBean.newFishParcel.fish}">
+                            <f:selectItems value="#{newFishParcelBean.fishes}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Fish"/>
-                        <p:selectOneMenu value="#{newFishParcelBean.newFishParcel.fish}">
-                            <f:selectItems value="#{newFishParcelBean.fishes}" var="f" itemValue="#{f}"
-                                           itemLabel="#{f.name}"/>
-                        </p:selectOneMenu>
-                        <p:commandButton action="#{newFishParcelBean.createNewFishParcel}" update=":mainForm"
-                                         value="Create"/>
+
+                        <p:commandButton value="Create" actionListener="#{newFishParcelBean.createNewFishParcel}"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>

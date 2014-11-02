@@ -8,8 +8,6 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <h:outputStylesheet library="css" name="styles.css"/>
-    <link type="text/css" rel="stylesheet"
-          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
 </h:head>
 
 <body>
@@ -33,13 +31,20 @@
         <p:inputSwitch
                 id="_spring_security_remember_me"/>
 
+
+        <p:commandButton ajax="false"
+                         immediate="true"
+                         value="Cancel"
+                         actionListener="#{loginBean.doCancel}"/>
+
         <p:commandButton ajax="false"
                          type="submit"
                          value="Login"
-                         action="#{loginBean.doLogin}"/>
+                         action="#{loginBean.doLogin}" />
     </h:panelGrid>
     </p:panel>
 </h:form>
+
 <h:form>
     <p:commandButton ajax="false" action="#{loginBean.doLogout}" value="Logout" rendered="#{loginBean.authenticated}" styleClass="centerPanel"/>
 </h:form>

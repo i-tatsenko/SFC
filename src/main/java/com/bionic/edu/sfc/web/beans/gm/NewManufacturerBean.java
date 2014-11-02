@@ -2,19 +2,24 @@ package com.bionic.edu.sfc.web.beans.gm;
 
 import com.bionic.edu.sfc.entity.Manufacturer;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
+import com.bionic.edu.sfc.util.Util;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by docent on 28.10.14.
  */
-@Named
+@Named("newManufBean")
 @Scope("request")
 public class NewManufacturerBean {
 
@@ -25,10 +30,23 @@ public class NewManufacturerBean {
     @Autowired
     private IManufacturerService manufacturerService;
 
+    private Set<Manufacturer> manufacturers;
+
+    @PostConstruct
+    public void init() {
+        manufacturers = new TreeSet<>(Util.getManufComp());
+        manufacturers.addAll(manufacturerService.getAll("name"));
+    }
+
     public void regNewManuf() {
         Manufacturer newManuf = new Manufacturer(name, description);
+        name = null;
+        description = null;
         manufacturerService.create(newManuf);
-        RequestContext.getCurrentInstance().closeDialog(newManuf);
+    }
+
+    public void closeDialog() {
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public String getName() {
@@ -47,11 +65,11 @@ public class NewManufacturerBean {
         this.description = description;
     }
 
-    public IManufacturerService getManufacturerService() {
-        return manufacturerService;
+    public Set<Manufacturer> getManufacturers() {
+        return manufacturers;
     }
 
-    public void setManufacturerService(IManufacturerService manufacturerService) {
-        this.manufacturerService = manufacturerService;
+    public void setManufacturers(Set<Manufacturer> manufacturers) {
+        this.manufacturers = manufacturers;
     }
 }

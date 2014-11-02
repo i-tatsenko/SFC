@@ -51,9 +51,10 @@ public abstract class ADao<T> implements IDao<T>{
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<T> getAll() {
+    public List<T> getAll(String orderValueName) {
         return getSession()
-                .createQuery("FROM " + daoClass.getCanonicalName())
+                .createQuery("FROM " + daoClass.getCanonicalName() + " ORDER BY :orderName")
+                .setParameter("orderName", orderValueName)
                 .list();
     }
 }

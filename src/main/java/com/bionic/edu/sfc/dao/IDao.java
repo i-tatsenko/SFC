@@ -16,5 +16,5 @@ public interface IDao<T> {
 
     public T findById(long id);
 
-    public List<T> getAll();
+    public List<T> getAll(String orderValueName);
 }

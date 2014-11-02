@@ -60,7 +60,7 @@ public class UserDaoImplTest {
         userDao.create(user1);
         userDao.create(user2);
 
-        assertThat(userDao.getAll()).contains(user1, user2);
+        assertThat(userDao.getAll("name")).contains(user1, user2);
 
     }
 

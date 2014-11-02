@@ -8,14 +8,12 @@ import com.bionic.edu.sfc.service.dao.IManufacturerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.IOException;
@@ -27,7 +25,7 @@ import java.util.TreeSet;
 /**
  * Created by docent on 28.10.14.
  */
-@Named
+@Named("newFishShipSupBean")
 @Scope("request")
 public class NewFishShipSupplyBean {
 
@@ -78,7 +76,7 @@ public class NewFishShipSupplyBean {
 
     public Collection<FishShipSupply> getFishShipSupply() {
         TreeSet<FishShipSupply> result = new TreeSet<>(getFishShipSupplyComparator());
-        result.addAll(fishShipSupplyService.getAll());
+        result.addAll(fishShipSupplyService.getAll("name"));
         return result;
     }
 

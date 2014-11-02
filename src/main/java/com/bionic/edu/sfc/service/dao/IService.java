@@ -30,7 +30,7 @@ public interface IService<T> {
         return getDao().findById(id);
     }
 
-    default public List<T> getAll() {
-        return getDao().getAll();
+    default public List<T> getAll(String orderValueName) {
+        return getDao().getAll(orderValueName);
     }
 }

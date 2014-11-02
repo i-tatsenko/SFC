@@ -1,5 +1,5 @@
 .centerPanel {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 30em;
@@ -8,10 +8,22 @@
     border: 1px solid
 }
 
-.content {
-    position: absolute;
+.header {
+    position: relative;
+    top: 10px;
     left: 10%;
-    top: 15%
+
+}
+
+.content {
+    position: relative;
+    left: 10%;
+    top: 80px;
+}
+.footer {
+    position: relative;
+    left: 10%;
+    top: 100px;
 }
 
 .dataTable {

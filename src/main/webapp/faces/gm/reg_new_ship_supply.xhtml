@@ -7,8 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <link type="text/css" rel="stylesheet"
-          href="#{applicationBean.theme}"/>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
@@ -16,9 +14,6 @@
         <ui:define name="content">
             <h:form id="mainForm" style="border-style: none">
                 <p:growl id="growl" showDetail="true"/>
-                <p:commandButton value="Add new fish" actionListener="#{newFishParcelBean.showNewFishForm}">
-                    <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update="mainForm"/>
-                </p:commandButton>
                 <p:dataTable value="#{newFishShipSupBean.fishShipSupply}" var="fssp" rowKey="#{fssp.id}" selectionMode="single"
                         styleClass="dataTable" style="margin-top: 10px">
                     <p:ajax event="rowSelect" listener="#{newFishShipSupBean.onSuplpyChosen}"/>

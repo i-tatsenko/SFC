@@ -39,9 +39,11 @@ public class UserDaoImpl extends ADao<User> implements IUserDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> getAll() {
+    public List<User> getAll(String orderValueName) {
         return (List<User>)getSession().createQuery("FROM User" +
-                " WHERE active = true")
+                " WHERE active = true " +
+                "ORDER BY :order")
+                .setParameter("order", orderValueName)
                 .list();
     }
 }

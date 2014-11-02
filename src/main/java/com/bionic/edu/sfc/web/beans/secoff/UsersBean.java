@@ -52,10 +52,6 @@ public class UsersBean {
         return UserRole.values();
     }
 
-    public Boolean[] getTrueFalse() {
-        return new Boolean[]{true, false};
-    }
-
     public void onRowEdit(RowEditEvent event) {
         User editedUser = (User) event.getObject();
         LogManager.getLogger(UsersBean.class).info(editedUser);

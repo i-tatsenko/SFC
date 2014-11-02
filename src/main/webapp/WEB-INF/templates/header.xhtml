@@ -6,42 +6,42 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<head>
-    <link type="text/css" rel="stylesheet"
-          href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-hot-sneaks"/>
-</head>
+<h:head>
+    <h:outputStylesheet library="css" value="styles.css"/>
+</h:head>
 <h:body>
     <ui:composition>
         <h:panelGrid columns="2"
-                     style="position: absolute; top: 2%;left: 10%; width: 80%; background: #F38630; height: 10%; border-top-left-radius: 10px; border-top-right-radius: 10px">
+                     style="width: 80%;    background: #99B2B7;    height: 100px;    border-top-left-radius : 10px;    border-top-right-radius : 10px">
             <h:form>
-                <p:tabMenu style="width: 60%; margin-left: 25%">
+                <p:tabMenu style="left: 50px; width: 700px; margin-left: 25%">
                     <p:menuitem value="Manage users" icon="ui-icon-star" outcome="/faces/secoff/sec_off_main.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_SECURITY_OFFICER')}"/>
-                    <p:menuitem value="New supply" outcome="/faces/gm/reg_new_ship_supply.xhtml"
+                    <p:menuitem value="Fish supply" outcome="/faces/gm/reg_new_ship_supply.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
                     <p:menuitem value="Coldstore" outcome="/faces/gm/coldstore.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
                 </p:tabMenu>
             </h:form>
 
-            <h:form style="position:absolute; right: 0; top: 5px">
+            <h:form style="position: absolute; right: 21%; top: 5px">
                 <h:panelGrid columns="2" rendered="#{loginBean.authenticated}">
                     <p:outputLabel value="Username: "/>
-                    <p:outputLabel style="color: #A7DBD8; right: 10px" value="#{loginBean.username}"/>
+                    <p:outputLabel style="right: 0" value="#{loginBean.username}"/>
+                    <p:outputLabel value=" "/>
                     <p:commandButton value="Logout" ajax="false" action="#{loginBean.doLogout}"
-                                     style="position: absolute; right: 5px"/>
+                                     style="right: 5px"/>
                 </h:panelGrid>
 
                 <h:panelGrid columns="1" rendered="#{!loginBean.authenticated}">
-                    <p:commandButton value="Login" ajax="false" action="/faces/login" style="right: 0;"/>
-                    <p:commandButton value="Register" ajax="false" action="/faces/register" styleClass="smallButton"/>
+                    <p:commandButton value="Login" ajax="false" action="#{loginBean.goToLogin}" style="right: 0;"/>
+                    <p:commandButton value="Register" ajax="false" action="/faces/register" />
                 </h:panelGrid>
             </h:form>
         </h:panelGrid>
         <h:link outcome="/faces/index.xhtml">
             <h:graphicImage library="images" name="logo_sfc.png"
-                            style="position: absolute; left: 15%; top:1%; height: 12%"/>
+                            style="position: absolute; left: 5%; top:-10px; height: 120px"/>
         </h:link>
     </ui:composition>
 </h:body>
