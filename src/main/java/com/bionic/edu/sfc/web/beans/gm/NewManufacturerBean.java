@@ -8,11 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -34,7 +30,7 @@ public class NewManufacturerBean {
 
     @PostConstruct
     public void init() {
-        manufacturers = new TreeSet<>(Util.getManufComp());
+        manufacturers = new TreeSet<>(Util.getManufComparator());
         manufacturers.addAll(manufacturerService.getAll("name"));
     }
 

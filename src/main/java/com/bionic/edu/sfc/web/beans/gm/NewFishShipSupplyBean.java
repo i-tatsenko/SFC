@@ -44,10 +44,13 @@ public class NewFishShipSupplyBean {
     private IFishParcelService fishParcelService;
 
     private FishShipSupply newFishShipSupply = new FishShipSupply();
+    private TreeSet<FishShipSupply> fishShipSupplies;
 
     @PostConstruct
     public void init() {
         newFishShipSupply.setCreationDate(new Date());
+        fishShipSupplies = new TreeSet<>(getFishShipSupplyComparator());
+        fishShipSupplies.addAll(fishShipSupplyService.getAll("name"));
     }
 
     public void onSuplpyChosen(SelectEvent event) {
@@ -75,9 +78,7 @@ public class NewFishShipSupplyBean {
     }
 
     public Collection<FishShipSupply> getFishShipSupply() {
-        TreeSet<FishShipSupply> result = new TreeSet<>(getFishShipSupplyComparator());
-        result.addAll(fishShipSupplyService.getAll("name"));
-        return result;
+        return fishShipSupplies;
     }
 
     private Comparator<FishShipSupply> getFishShipSupplyComparator() {

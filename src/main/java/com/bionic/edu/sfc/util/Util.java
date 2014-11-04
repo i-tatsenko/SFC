@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.util;
 
 import com.bionic.edu.sfc.entity.Fish;
+import com.bionic.edu.sfc.entity.FishParcel;
 import com.bionic.edu.sfc.entity.Manufacturer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -23,11 +24,15 @@ public abstract class Util {
         return PASSWORD_ENCODER.matches(password, passwordHash);
     }
 
-    public static Comparator<Manufacturer> getManufComp() {
+    public static Comparator<Manufacturer> getManufComparator() {
         return (m1, m2) -> m1.getName().compareTo(m2.getName());
     }
 
-    public static Comparator<Fish> getFishCompar() {
+    public static Comparator<Fish> getFishComparator() {
         return (f1, f2) -> f1.getName().compareTo(f2.getName());
+    }
+
+    public static Comparator<FishParcel> getFishParcelComparator() {
+        return (fp1, fp2) -> fp1.getFishShipSupply().getSupplyCode().compareTo(fp2.getFishShipSupply().getSupplyCode());
     }
 }

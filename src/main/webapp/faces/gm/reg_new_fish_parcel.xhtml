@@ -22,27 +22,51 @@
                     <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":newParcelForm"/>
                 </p:commandButton>
             </h:form>
-            <h2>Fish Ship Supply Code: #{newFishParcelBean.fishShipSupply.supplyCode}</h2>
+#{newFishParcelBean.update()}
+            <h:form>
+            <h2>Fish Supply Code: <p:selectOneMenu value="#{newFishParcelBean.fishShipSupplyId}" valueChangeListener="#{newFishParcelBean.updateValue}">
+                <f:selectItems value="#{fishShipSupplyServiceImpl.getAll('id')}" var="fss" itemLabel="#{fss.supplyCode}"
+                               itemValue="#{fss.id}"
+                               />
+            </p:selectOneMenu></h2>
+            </h:form>
+
 
             <h:form id="mainForm" style="border-style: none; margin-top: 40px">
                 <p:dataTable value="#{newFishParcelBean.fishParcels}" var="fishParcel" styleClass="dataTable">
                     <p:column headerText="Manufacturer">
-                        <p:outputLabel value="#{fishParcel.manufacturer}"/>
+                        <p:outputLabel value="#{fishParcel.manufacturer.name}"/>
                     </p:column>
                     <p:column headerText="Fish">
-                        <p:outputLabel value="#{fishParcel.fish}"/>
+                        <p:outputLabel value="#{fishParcel.fish.name}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
             <h:form id="newParcelForm">
                 <p:panel header="New fish parcel" style="width: 30%; margin-top: 30px">
+                    <h:inputHidden value="#{newFishParcelBean.fishShipSupplyId}"/>
                     <h:panelGrid columns="2" cellpadding="5">
-                        <p:outputLabel  value="Fish"/>
-                        <p:selectOneMenu id="fish" value="#{newFishParcelBean.newFishParcel.fish}">
-                            <f:selectItems value="#{newFishParcelBean.fishes}"/>
+                        <p:outputLabel value="Fish" for="fish"/>
+                        <p:selectOneMenu id="fish" value="#{newFishParcelBean.nfpFishId}">
+                            <f:selectItems value="#{newFishParcelBean.fishes}" var="fish" itemLabel="#{fish.name}"
+                                           itemValue="#{fish.id}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value="Manufacturer" for="manuf"/>
+                        <p:selectOneMenu id="manuf" value="#{newFishParcelBean.nfpManufId}">
+                            <f:selectItems value="#{newFishParcelBean.manufacturers}" var="man" itemLabel="#{man.name}"
+                                           itemValue="#{man.id}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Weight" for="weight"/>
+                        <p:inputText value="#{newFishParcelBean.nfpWeight}" id="weight">
+                            <f:validateDoubleRange minimum="0"/>
+                        </p:inputText>
+                        <p:outputLabel value="Wholesale" for="wholeSale"/>
+                        <p:inputText value="#{newFishParcelBean.nfpWholeSale}" id="wholeSale">
+                            <f:validateDoubleRange minimum="0"/>
+                        </p:inputText>
 
-                        <p:commandButton value="Create" actionListener="#{newFishParcelBean.createNewFishParcel}"/>
+                        <p:commandButton value="Create" actionListener="#{newFishParcelBean.createNewFishParcel}"
+                                         ajax="false" update=":mainForm"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>

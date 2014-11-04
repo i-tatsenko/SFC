@@ -14,7 +14,7 @@
         <h:panelGrid columns="2"
                      style="width: 80%;    background: #99B2B7;    height: 100px;    border-top-left-radius : 10px;    border-top-right-radius : 10px">
             <h:form>
-                <p:tabMenu style="left: 50px; width: 700px; margin-left: 25%">
+                <p:tabMenu style="left: 50px; width: 700px; margin-left: 25%" activeIndex="-1">
                     <p:menuitem value="Manage users" icon="ui-icon-star" outcome="/faces/secoff/sec_off_main.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_SECURITY_OFFICER')}"/>
                     <p:menuitem value="Fish supply" outcome="/faces/gm/reg_new_ship_supply.xhtml"
