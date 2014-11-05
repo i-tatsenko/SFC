@@ -1,12 +1,14 @@
 package com.bionic.edu.sfc.dao;
 
+import com.bionic.edu.sfc.entity.Hideable;
+
 import java.util.List;
 
 /**
  * Ivan
  * 2014.09
  */
-public interface IDao<T> {
+public interface IDao<T extends Hideable> {
 
     public void create(T object);
 

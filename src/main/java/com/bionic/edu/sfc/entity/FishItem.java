@@ -8,11 +8,7 @@ import java.util.Date;
  * 2014.10
  */
 @Entity
-public class FishItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class FishItem extends Hideable {
 
     @Column(nullable = false)
     private String uuid;
@@ -61,7 +57,7 @@ public class FishItem {
     @Override
     public String toString() {
         return "FishItem{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", fishParcel=" + fishParcel +
                 ", price=" + price +
                 ", customer=" + customer +
@@ -79,14 +75,6 @@ public class FishItem {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public FishParcel getFishParcel() {

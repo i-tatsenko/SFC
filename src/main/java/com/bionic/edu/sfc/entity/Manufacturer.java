@@ -10,11 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(indexes = {@Index(columnList = "name")})
-public class Manufacturer {
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+public class Manufacturer extends Hideable {
 
     @Column(length = 100,
             unique = true,
@@ -53,19 +49,11 @@ public class Manufacturer {
     @Override
     public String toString() {
         return "Manufacturer{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 ", logo='" + logo + '\'' +
                 ", description='" + description + '\'' +
                 '}';
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

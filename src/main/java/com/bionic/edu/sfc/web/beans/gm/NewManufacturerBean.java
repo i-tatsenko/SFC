@@ -4,6 +4,7 @@ import com.bionic.edu.sfc.entity.Manufacturer;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
 import com.bionic.edu.sfc.util.Util;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
@@ -28,6 +29,8 @@ public class NewManufacturerBean {
 
     private Set<Manufacturer> manufacturers;
 
+    private Manufacturer selectedManufacturer;
+
     @PostConstruct
     public void init() {
         manufacturers = new TreeSet<>(Util.getManufComparator());
@@ -39,6 +42,16 @@ public class NewManufacturerBean {
         name = null;
         description = null;
         manufacturerService.create(newManuf);
+    }
+
+    public void updateManuf(RowEditEvent editEvent) {
+        Manufacturer manuf= (Manufacturer) editEvent.getObject();
+        manufacturerService.update(manuf);
+    }
+
+    public void deleteManuf(long id) {
+        Manufacturer manuf = manufacturerService.findById(id);
+        manufacturerService.delete(manuf);
     }
 
     public void closeDialog() {
@@ -67,5 +80,13 @@ public class NewManufacturerBean {
 
     public void setManufacturers(Set<Manufacturer> manufacturers) {
         this.manufacturers = manufacturers;
+    }
+
+    public Manufacturer getSelectedManufacturer() {
+        return selectedManufacturer;
+    }
+
+    public void setSelectedManufacturer(Manufacturer selectedManufacturer) {
+        this.selectedManufacturer = selectedManufacturer;
     }
 }

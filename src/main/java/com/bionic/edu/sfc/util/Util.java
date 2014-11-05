@@ -33,6 +33,6 @@ public abstract class Util {
     }
 
     public static Comparator<FishParcel> getFishParcelComparator() {
-        return (fp1, fp2) -> fp1.getFishShipSupply().getSupplyCode().compareTo(fp2.getFishShipSupply().getSupplyCode());
+        return (fp1, fp2) -> (int)(fp1.getId() - fp2.getId());
     }
 }

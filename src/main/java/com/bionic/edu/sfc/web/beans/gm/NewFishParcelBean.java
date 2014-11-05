@@ -88,13 +88,17 @@ public class NewFishParcelBean {
             fishShipSupplyId = Long.parseLong(fss);
         }
         fishShipSupply = fishShipSupplyService.findById(fishShipSupplyId);
+        if (fishShipSupply == null) {
+            invalidAccess();
+        }
         fillFish();
         fillManuf();
         fillFishParcells();
     }
 
-    public void updateValue(ValueChangeEvent event) {
-        fishShipSupplyId = ((Number)event.getSource()).longValue();
+    public void deleteFishParcel(long fishParcelId) {
+        FishParcel fishParcel = fishParcelService.findById(fishParcelId);
+        fishParcelService.delete(fishParcel);
     }
 
     private void fillManuf() {
@@ -143,7 +147,7 @@ public class NewFishParcelBean {
             newFishParcel.setWeight(nfpWeight);
             newFishParcel.setWholeSale(nfpWholeSale);
             fishParcelService.create(newFishParcel);
-
+            update();
 
             nfpWeight = 0;
             nfpWholeSale = 0;

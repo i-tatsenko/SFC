@@ -24,7 +24,7 @@ public class PaymentDaoImpl extends ADao<Payment> implements IPaymentDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Payment> getAllForCustomer(Customer customer) {
-        return (List<Payment>)getSession().createQuery("FROM Payment WHERE bill.customer=:customer")
+        return (List<Payment>)getSession().createQuery("FROM Payment WHERE bill.customer=:customer AND visible=true")
                 .setParameter("customer", customer)
                 .list();
     }

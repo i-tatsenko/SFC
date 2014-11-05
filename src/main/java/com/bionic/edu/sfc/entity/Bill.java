@@ -9,11 +9,7 @@ import java.util.Set;
  * 2014.10
  */
 @Entity
-public class Bill {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Bill extends Hideable {
 
     @ManyToOne
     private Customer customer;
@@ -42,18 +38,18 @@ public class Bill {
 
         Bill bill = (Bill) o;
 
-        return id.equals(bill.id);
+        return getId() == ((Bill) o).getId();
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return (int) (getId() ^ (getId() >>> 32));
     }
 
     @Override
     public String toString() {
         return "Bill{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", customer=" + customer +
                 ", fishItems=" + fishItems +
                 ", creationDate=" + creationDate +
@@ -62,14 +58,6 @@ public class Bill {
                 ", alreadyPaid=" + alreadyPaid +
                 ", isShipmentAllowed=" + isShipmentAllowed +
                 '}';
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Customer getCustomer() {

@@ -2,9 +2,12 @@ package com.bionic.edu.sfc.web.beans.gm;
 
 import com.bionic.edu.sfc.entity.Fish;
 import com.bionic.edu.sfc.service.dao.IFishService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
@@ -20,7 +23,7 @@ import java.util.List;
 @Scope("request")
 public class NewFishBean {
 
-    private static final Logger LOGGER = LogManager.getLogger(NewFishBean.class);
+    private static final Log LOGGER = LogFactory.getLog(NewFishBean.class);
 
     private String name;
 
@@ -30,6 +33,8 @@ public class NewFishBean {
     private IFishService fishService;
 
     private List<Fish> allFish;
+
+    private Fish selectedFish;
 
     @PostConstruct
     public void init() {
@@ -45,6 +50,18 @@ public class NewFishBean {
         } catch (Exception e) {
             LOGGER.error("Some error while wanted to save new fish", e);
         }
+    }
+
+    public void deleteFish(long fishId) {
+        Fish fish = fishService.findById(fishId);
+        fishService.delete(fish);
+        selectedFish = null;
+    }
+
+    public void updateFish(RowEditEvent editEvent) {
+        Fish fish = (Fish) editEvent.getObject();
+        fishService.update(fish);
+        LOGGER.info("Updated fish : " + fish);
     }
 
     public void closeDialog(ActionEvent event) {
@@ -74,5 +91,13 @@ public class NewFishBean {
 
     public void setAllFish(List<Fish> allFish) {
         this.allFish = allFish;
+    }
+
+    public Fish getSelectedFish() {
+        return selectedFish;
+    }
+
+    public void setSelectedFish(Fish selectedFish) {
+        this.selectedFish = selectedFish;
     }
 }

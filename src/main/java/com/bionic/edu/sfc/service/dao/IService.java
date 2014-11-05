@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.service.dao;
 
 import com.bionic.edu.sfc.dao.IDao;
+import com.bionic.edu.sfc.entity.Hideable;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * 2014.10
  */
 @Transactional(Transactional.TxType.REQUIRED)
-public interface IService<T> {
+public interface IService<T extends Hideable> {
 
     public IDao<T> getDao();
 

@@ -26,7 +26,8 @@ public class FishParcelDaoImpl extends ADao<FishParcel> implements IFishParcelDa
         return getSession()
                 .createQuery("FROM FishParcel " +
                                 "WHERE availableForCustomers=true " +
-                                "AND weightSold < weight").list();
+                                "AND weightSold < weight " +
+                                "AND visible=true").list();
     }
 
     @Override
@@ -34,14 +35,16 @@ public class FishParcelDaoImpl extends ADao<FishParcel> implements IFishParcelDa
     public List<FishParcel> getAllUnsaled() {
         return (List<FishParcel>)getSession()
                 .createQuery("FROM FishParcel " +
-                             "WHERE weightSold < weight").list();
+                             "WHERE weightSold < weight " +
+                             "AND visible=true").list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<FishParcel> getAllForFishSupply(FishShipSupply fishShipSupply) {
         return getSession().createQuery("FROM FishParcel " +
-                                        "WHERE fishShipSupply=:fishSupply")
+                                        "WHERE fishShipSupply=:fishSupply " +
+                                        "AND visible=true")
                 .setParameter("fishSupply", fishShipSupply)
                 .list();
     }

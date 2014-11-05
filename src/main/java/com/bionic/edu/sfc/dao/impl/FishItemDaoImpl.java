@@ -25,7 +25,8 @@ public class FishItemDaoImpl extends ADao<FishItem> implements IFishItemDao {
         return (List<FishItem>)getSession()
                 .createQuery("FROM FishItem " +
                              "WHERE forWriteOff=true " +
-                             "AND removedFromColdStore=false")
+                             "AND removedFromColdStore=false " +
+                             "AND visible=true ")
                 .list();
     }
 
@@ -35,7 +36,8 @@ public class FishItemDaoImpl extends ADao<FishItem> implements IFishItemDao {
         return (List<FishItem>)getSession()
                 .createQuery("FROM FishItem " +
                              "WHERE readyForShipment=true " +
-                             "AND removedFromColdStore=false")
+                             "AND removedFromColdStore=false " +
+                             "AND visible=true")
                 .list();
     }
 }

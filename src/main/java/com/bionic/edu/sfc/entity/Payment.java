@@ -8,11 +8,7 @@ import java.util.Date;
  * 2014.10
  */
 @Entity
-public class Payment {
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Payment extends Hideable {
 
     @ManyToOne
     private Bill bill;
@@ -30,30 +26,19 @@ public class Payment {
 
         Payment payment = (Payment) o;
 
-        return id.equals(payment.id);
+        return getId() == payment.getId();
     }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+
 
     @Override
     public String toString() {
         return "Payment{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", bill=" + bill +
                 ", creationDate=" + creationDate +
                 ", totalSum=" + totalSum +
                 '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Bill getBill() {

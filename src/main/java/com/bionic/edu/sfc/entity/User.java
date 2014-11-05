@@ -12,11 +12,7 @@ import java.util.Date;
 @Entity
 @Table (name = "sfc_user",indexes = {@Index(columnList = "login")})
 @Inheritance (strategy = InheritanceType.JOINED)
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class User extends Hideable {
 
     @Column(length = 100,
             nullable = false)
@@ -58,7 +54,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 ", userRole=" + userRole +
                 ", login='" + login + '\'' +
@@ -72,14 +68,6 @@ public class User {
     @Override
     public int hashCode() {
         return login.hashCode();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

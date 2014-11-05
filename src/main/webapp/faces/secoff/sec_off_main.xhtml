@@ -64,8 +64,12 @@
                     <p:column style="width:32px">
                         <p:rowEditor/>
                     </p:column>
+                    <p:column style="width:38px">
+                        <p:commandButton icon="ui-icon-close" actionListener="#{usersBean.deleteUser(user.id)}" update=":pageForm"/>
+                    </p:column>
                 </p:dataTable>
-
+            </h:form>
+            <h:form>
                 <p:panel header="Add new user" style="width: 30em; margin-top: 30px">
                     <h:panelGrid columns="2" cellpadding="5">
                         <p:outputLabel value="Login" for="login"/>
@@ -84,7 +88,7 @@
                         <p:outputLabel value="Description" for="desc"/>
                         <p:inputTextarea value="${usersBean.newUser.description}" id="desc"/>
                         <p:commandButton value="Add new user" actionListener="#{usersBean.createNewUser}"
-                                         update="pageForm"/>
+                                         update=":pageForm"/>
 
                     </h:panelGrid>
                 </p:panel>

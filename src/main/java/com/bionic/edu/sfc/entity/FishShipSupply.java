@@ -10,11 +10,7 @@ import java.util.Date;
  * 2014.09
  */
 @Entity
-public class FishShipSupply {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class FishShipSupply extends Hideable {
 
     @Column(length = 50,
             unique = true,
@@ -43,14 +39,6 @@ public class FishShipSupply {
     @Override
     public int hashCode() {
         return supplyCode.hashCode();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getSupplyCode() {

@@ -23,7 +23,8 @@ public class UserDaoImpl extends ADao<User> implements IUserDao {
     public User findByLogin(String login) {
         return (User) getSession()
                 .createQuery("FROM User WHERE login=:login " +
-                        "AND active = true")
+                        "AND active = true " +
+                        "AND visible=true")
                 .setParameter("login", login)
                 .uniqueResult();
     }
@@ -33,7 +34,8 @@ public class UserDaoImpl extends ADao<User> implements IUserDao {
     public List<User> getAllSystemUsers() {
         return (List<User>)getSession()
                 .createQuery("FROM User " +
-                        "WHERE userRole != 'ROLE_CUSTOMER' ")
+                        "WHERE userRole != 'ROLE_CUSTOMER' " +
+                        "AND visible=true")
                 .list();
     }
 
@@ -42,7 +44,8 @@ public class UserDaoImpl extends ADao<User> implements IUserDao {
     public List<User> getAll(String orderValueName) {
         return (List<User>)getSession().createQuery("FROM User" +
                 " WHERE active = true " +
-                "ORDER BY :order")
+                "AND visible=true " +
+                "ORDER BY :order ")
                 .setParameter("order", orderValueName)
                 .list();
     }

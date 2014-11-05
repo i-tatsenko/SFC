@@ -18,12 +18,26 @@
 <h:body>
     <h:form id="main" style="border-style: none">
         <p:dataTable id="manufTable" paginator="true" value="#{newManufBean.manufacturers}" var="manuf" rows="10"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} ">
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                     selection="#{newManufBean.selectedManufacturer}" selectionMode="single" editable="true" rowKey="#{manuf.name}">
+            <p:ajax event="rowEdit" listener="#{newManufBean.updateManuf}"/>
             <p:column headerText="Name">
-                <h:outputText value="#{manuf.name}"/>
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{manuf.name}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{manuf.name}"/> </f:facet>
+                </p:cellEditor>
             </p:column>
             <p:column headerText="Description">
-                <h:outputText value="#{manuf.description}"/>
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{manuf.description}"/></f:facet>
+                    <f:facet name="input"><p:inputTextarea value="#{manuf.description}"/> </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column style="width: 30px">
+                <p:rowEditor/>
+            </p:column>
+            <p:column style="width:40px">
+                <p:commandButton actionListener="#{newManufBean.deleteManuf(manuf.id)}" update=":main" icon="ui-icon-close"/>
             </p:column>
         </p:dataTable>
         <p:panel header="New Manufacturer">
@@ -38,7 +52,7 @@
     </h:form>
     <h:form style="border-style: none">
         <p:commandButton value="Close" style="left: 50%; margin-top: 50px;"
-                         actionListener="#{newManufBean.closeDialog}"/>
+                         actionListener="#{newManufBean.closeDialog}" update=":main"/>
     </h:form>
 </h:body>
 </html>

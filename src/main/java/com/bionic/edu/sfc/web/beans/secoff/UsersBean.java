@@ -3,6 +3,8 @@ package com.bionic.edu.sfc.web.beans.secoff;
 import com.bionic.edu.sfc.entity.User;
 import com.bionic.edu.sfc.entity.UserRole;
 import com.bionic.edu.sfc.service.dao.IUserService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.logging.log4j.LogManager;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import java.util.List;
 @Named
 @Scope("request")
 public class UsersBean {
+
+    private static final Log LOG = LogFactory.getLog(UsersBean.class);
 
     private List<User> users;
 
@@ -48,6 +52,13 @@ public class UsersBean {
 
     public UserRole[] getUserRoles() {
         return UserRole.values();
+    }
+
+    public void deleteUser(long id) {
+        User userToDelete = userService.findById(id);
+        LOG.info("Trying to delete " + userToDelete);
+        userService.delete(userToDelete);
+        selectedUser = null;
     }
 
     public void onRowEdit(RowEditEvent event) {

@@ -14,21 +14,17 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true"/>
-                <p:commandButton value="Add new fish" actionListener="#{newFishParcelBean.showNewFishForm}">
+                <p:commandButton value="Fish" actionListener="#{newFishParcelBean.showNewFishForm}">
                     <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":newParcelForm"/>
                 </p:commandButton>
-                <p:commandButton value="Add new manufacturer" actionListener="#{newFishParcelBean.showNewManufForm}"
+                <p:commandButton value="Manufacturer" actionListener="#{newFishParcelBean.showNewManufForm}"
                                  style="margin-left: 10px">
                     <p:ajax event="dialogReturn" listener="#{newFishParcelBean.onFishCreated}" update=":newParcelForm"/>
                 </p:commandButton>
             </h:form>
-#{newFishParcelBean.update()}
+            #{newFishParcelBean.update()}
             <h:form>
-            <h2>Fish Supply Code: <p:selectOneMenu value="#{newFishParcelBean.fishShipSupplyId}" valueChangeListener="#{newFishParcelBean.updateValue}">
-                <f:selectItems value="#{fishShipSupplyServiceImpl.getAll('id')}" var="fss" itemLabel="#{fss.supplyCode}"
-                               itemValue="#{fss.id}"
-                               />
-            </p:selectOneMenu></h2>
+                <h2>Fish Supply Code №#{newFishParcelBean.fishShipSupplyId}<h:outputText value=""/></h2>
             </h:form>
 
 
@@ -39,6 +35,27 @@
                     </p:column>
                     <p:column headerText="Fish">
                         <p:outputLabel value="#{fishParcel.fish.name}"/>
+                    </p:column>
+                    <p:column headerText="Weight">
+                        <p:outputLabel value="#{fishParcel.weight}"/>
+                    </p:column>
+                    <p:column headerText="Weight Sold">
+                        <p:outputLabel value="#{fishParcel.weightSold}"/>
+                    </p:column>
+                    <p:column headerText="Wholesale">
+                        <p:outputLabel value="#{fishParcel.wholeSale}"/>
+                    </p:column>
+                    <p:column headerText="Actual price">
+                        <p:outputLabel value="#{fishParcel.actualPrice}"/>
+                    </p:column>
+                    <p:column headerText="Is Available For Customers">
+                        <p:selectBooleanButton onLabel="Yes" offLabel="No" value="#{fishParcel.availableForCustomers}" disabled="true"/>
+                    </p:column>
+                    <p:column headerText="Cold Store Registration Date">
+                        <p:outputLabel value="#{fishParcel.coldStoreRegistrationDate}"/>
+                    </p:column>
+                    <p:column width="40px">
+                        <p:commandButton icon="ui-icon-close" action="#{newFishParcelBean.deleteFishParcel(fishParcel.id)}" update="@this" ajax="false"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -66,7 +83,7 @@
                         </p:inputText>
 
                         <p:commandButton value="Create" actionListener="#{newFishParcelBean.createNewFishParcel}"
-                                         ajax="false" update=":mainForm"/>
+                                         update=":mainForm"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>

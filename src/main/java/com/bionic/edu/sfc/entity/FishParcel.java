@@ -10,11 +10,7 @@ import java.util.Date;
  * 2014.10
  */
 @Entity
-public class FishParcel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class FishParcel extends Hideable {
 
     @ManyToOne
     private Manufacturer manufacturer;
@@ -46,7 +42,7 @@ public class FishParcel {
     @Override
     public String toString() {
         return "FishParcel{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", manufacturer=" + manufacturer +
                 ", fish=" + fish +
                 ", fishShipSupply=" + fishShipSupply +
@@ -80,14 +76,6 @@ public class FishParcel {
         result = 31 * result + fish.hashCode();
         result = 31 * result + fishShipSupply.hashCode();
         return result;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Manufacturer getManufacturer() {
