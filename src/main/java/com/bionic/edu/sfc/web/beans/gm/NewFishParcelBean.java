@@ -85,7 +85,11 @@ public class NewFishParcelBean {
         String fss = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fss");
         LOG.info("fss: " + fss);
         if (fss != null) {
-            fishShipSupplyId = Long.parseLong(fss);
+            try {
+                fishShipSupplyId = Long.parseLong(fss);
+            } catch (NumberFormatException e) {
+                invalidAccess();
+            }
         }
         fishShipSupply = fishShipSupplyService.findById(fishShipSupplyId);
         if (fishShipSupply == null) {
