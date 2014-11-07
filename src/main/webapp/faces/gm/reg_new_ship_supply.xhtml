@@ -38,7 +38,7 @@
                         <p:inputText value="#{newFishShipSupBean.newFishShipSupply.supplyCode}" required="true"/>
                         <p:calendar value="#{newFishShipSupBean.newFishShipSupply.creationDate}" pattern="dd.MM.yyyy" required="true"/>
                         <p:inputTextarea value="#{newFishShipSupBean.newFishShipSupply.description}"/>
-                        <p:commandButton value="Register" actionListener="#{newFishShipSupBean.createNewFishShipSupply}" update="mainForm"/>
+                        <p:commandButton value="Register" actionListener="#{newFishShipSupBean.createNewFishShipSupply}" ajax="false"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>

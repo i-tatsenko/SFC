@@ -5,6 +5,7 @@ import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IFishService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
+import com.bionic.edu.sfc.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
@@ -18,7 +19,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.TreeSet;
 
@@ -49,7 +49,7 @@ public class NewFishShipSupplyBean {
     @PostConstruct
     public void init() {
         newFishShipSupply.setCreationDate(new Date());
-        fishShipSupplies = new TreeSet<>(getFishShipSupplyComparator());
+        fishShipSupplies = new TreeSet<>(Util.getFishShipSupplyComparator());
         fishShipSupplies.addAll(fishShipSupplyService.getAll("name"));
     }
 
@@ -79,11 +79,6 @@ public class NewFishShipSupplyBean {
 
     public Collection<FishShipSupply> getFishShipSupply() {
         return fishShipSupplies;
-    }
-
-    private Comparator<FishShipSupply> getFishShipSupplyComparator() {
-        return (r1, r2) ->
-                (int)(r2.getCreationDate().getTime() - r1.getCreationDate().getTime());
     }
 
     public IFishService getFishService() {

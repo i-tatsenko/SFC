@@ -2,6 +2,7 @@ package com.bionic.edu.sfc.util;
 
 import com.bionic.edu.sfc.entity.Fish;
 import com.bionic.edu.sfc.entity.FishParcel;
+import com.bionic.edu.sfc.entity.FishShipSupply;
 import com.bionic.edu.sfc.entity.Manufacturer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -34,5 +35,15 @@ public abstract class Util {
 
     public static Comparator<FishParcel> getFishParcelComparator() {
         return (fp1, fp2) -> (int)(fp1.getId() - fp2.getId());
+    }
+
+    public static Comparator<FishShipSupply> getFishShipSupplyComparator() {
+        return (r1, r2) -> {
+            long timeDiff = r2.getCreationDate().getTime() - r1.getCreationDate().getTime();
+            if (timeDiff == 0) {
+                return r1.getSupplyCode().compareTo(r2.getSupplyCode());
+            }
+            return (int) timeDiff;
+        };
     }
 }
