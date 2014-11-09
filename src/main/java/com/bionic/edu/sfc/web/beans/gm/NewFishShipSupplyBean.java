@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.web.beans.gm;
 
 import com.bionic.edu.sfc.entity.FishShipSupply;
+import com.bionic.edu.sfc.entity.FishShipSupplyStatus;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IFishService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
@@ -65,6 +66,7 @@ public class NewFishShipSupplyBean {
 
     public void createNewFishShipSupply() {
         try {
+            newFishShipSupply.setStatus(FishShipSupplyStatus.READY_FOR_TRANSPORT);
             fishShipSupplyService.create(newFishShipSupply);
             newFishShipSupply = new FishShipSupply();
             newFishShipSupply.setCreationDate(new Date());

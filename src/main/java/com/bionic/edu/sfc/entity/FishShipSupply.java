@@ -24,6 +24,10 @@ public class FishShipSupply extends Hideable {
     @Type(type = "text")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FishShipSupplyStatus status;
+
     public FishShipSupply() { }
 
     @Override
@@ -63,5 +67,13 @@ public class FishShipSupply extends Hideable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public FishShipSupplyStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(FishShipSupplyStatus status) {
+        this.status = status;
     }
 }

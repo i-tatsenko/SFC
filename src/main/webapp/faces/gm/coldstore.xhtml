@@ -4,14 +4,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <f:view>
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            Coldstore
+            <p:panel header="Delivered to Cold Store">
+                <p:dataTable value="#{GMColdStoreBean.deliveredToCMSupplies}" var="supply" styleClass="dataTable">
+                    <p:column headerText="Supply code">
+                        <p:outputLabel value="#{supply.supplyCode}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </ui:define>
     </ui:composition>
 </f:view>

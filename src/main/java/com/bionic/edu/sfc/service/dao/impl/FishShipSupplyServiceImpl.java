@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Ivan
@@ -23,5 +24,10 @@ public class FishShipSupplyServiceImpl implements IFishShipSupplyService {
     @Override
     public final IDao<FishShipSupply> getDao() {
         return fishShipSupplyDao;
+    }
+
+    @Override
+    public List<FishShipSupply> getAllTransportedToCM() {
+        return fishShipSupplyDao.getAllTransportedToCM();
     }
 }

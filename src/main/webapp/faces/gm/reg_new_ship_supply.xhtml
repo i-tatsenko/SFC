@@ -15,15 +15,18 @@
             <h:form id="mainForm" style="border-style: none">
                 <p:growl id="growl" showDetail="true"/>
                 <p:dataTable value="#{newFishShipSupBean.fishShipSupply}" var="fssp" rowKey="#{fssp.id}" selectionMode="single"
-                        styleClass="dataTable" style="margin-top: 10px">
+                        styleClass="dataTable" style="margin-top: 10px" >
                     <p:ajax event="rowSelect" listener="#{newFishShipSupBean.onSuplpyChosen}"/>
                     <p:column headerText="Supply code">
                         <p:outputLabel value="#{fssp.supplyCode}"/>
                     </p:column>
-                    <p:column headerText="created">
+                    <p:column headerText="Creation date">
                         <p:outputLabel value="#{fssp.creationDate}">
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Status">
+                        <p:outputLabel value="#{fssp.status.label}"/>
                     </p:column>
                     <p:column headerText="Description">
                         <p:outputLabel value="#{fssp.description}"/>
