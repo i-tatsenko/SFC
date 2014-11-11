@@ -12,13 +12,38 @@
 <f:view>
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            <p:panel header="Delivered to Cold Store">
-                <p:dataTable value="#{GMColdStoreBean.deliveredToCMSupplies}" var="supply" styleClass="dataTable">
-                    <p:column headerText="Supply code">
-                        <p:outputLabel value="#{supply.supplyCode}"/>
-                    </p:column>
-                </p:dataTable>
+            <p:panel header="Waiting for approve" rendered="#{gmCStore.haveWaitingForApprove()}" style="width: 50%">
+                <h:form>
+                    <p:panel header="Supplies" style="width: 200px;position: absolute; left: 750px">
+                        <p:selectOneListbox value="#{gmCStore.selectedFSSId}" valueChangeListener="#{gmCStore.init()}">
+                            <f:selectItems value="#{gmCStore.deliveredToCMSupplies}" var="fss" itemValue="#{fss.id}"
+                                           itemLabel="#{fss.supplyCode}"/>
+                        </p:selectOneListbox>
+                    </p:panel>
+                    <p:panel header="Parcels" style="width: 700px; left: 100px">
+                        <p:dataTable value="#{gmCStore.readyForApproveParcels}" var="waitingParcel" sortBy="#{waitingParcel.fishShipSupply.id}">
+                            <p:column headerText="Manufacturer">
+                                <p:outputLabel value="#{waitingParcel.manufacturer.name}"/>
+                            </p:column>
+                            <p:column headerText="Fish">
+                                <p:outputLabel value="#{waitingParcel.fish.name}"/>
+                            </p:column>
+                            <p:column headerText="Weight">
+                                <p:outputLabel value="#{waitingParcel.weight}"/>
+                            </p:column>
+                            <p:summaryRow>
+                                <p:column colspan="2" style="text-align: right">
+                                    <p:outputLabel value="Total:"/>
+                                </p:column>
+                                <p:column style="text-align: left">
+                                    <p:outputLabel value="#{gmCStore.totalWeight}"/>
+                                </p:column>
+                            </p:summaryRow>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
             </p:panel>
+
         </ui:define>
     </ui:composition>
 </f:view>

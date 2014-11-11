@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Ivan
@@ -27,6 +28,9 @@ public class FishShipSupply extends Hideable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private FishShipSupplyStatus status;
+
+    @OneToMany (fetch = FetchType.EAGER)
+    private Set<FishParcel> fishParcels;
 
     public FishShipSupply() { }
 
@@ -75,5 +79,13 @@ public class FishShipSupply extends Hideable {
 
     public void setStatus(FishShipSupplyStatus status) {
         this.status = status;
+    }
+
+    public Set<FishParcel> getFishParcels() {
+        return fishParcels;
+    }
+
+    public void setFishParcels(Set<FishParcel> fishParcels) {
+        this.fishParcels = fishParcels;
     }
 }
