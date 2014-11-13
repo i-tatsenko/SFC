@@ -12,16 +12,25 @@
 <f:view>
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            <p:panel header="Waiting for approve" rendered="#{gmCStore.haveWaitingForApprove()}" style="width: 50%">
-                <h:form>
-                    <p:panel header="Supplies" style="width: 200px;position: absolute; left: 750px">
-                        <p:selectOneListbox value="#{gmCStore.selectedFSSId}" valueChangeListener="#{gmCStore.init()}">
+            <p:panel header="Waiting for approve" rendered="#{gmCStore.haveWaitingForApprove()}"
+                     style="width: 50%; min-height: 300px; min-width: 1020px">
+                <h:form id="supps">
+                    <p:panel header="Supplies" style="width: 250px;position: absolute; left: 750px">
+                        <p:selectOneListbox value="#{gmCStore.selectedFssId}">
                             <f:selectItems value="#{gmCStore.deliveredToCMSupplies}" var="fss" itemValue="#{fss.id}"
                                            itemLabel="#{fss.supplyCode}"/>
+                            <p:ajax listener="#{gmCStore.changeSupply}" event="change" update="w8Parcels"/>
                         </p:selectOneListbox>
+
+                        <h:panelGrid columns="2" cellpadding="5" style="margin-left: 0; padding-left: 0">
+                            <p:commandButton value="Approve" action="#{gmCStore.changeState(true)}" ajax="false"/>
+                            <p:commandButton value="Decline" action="#{gmCStore.changeState(false)}" ajax="false"/>
+                        </h:panelGrid>
+
                     </p:panel>
-                    <p:panel header="Parcels" style="width: 700px; left: 100px">
-                        <p:dataTable value="#{gmCStore.readyForApproveParcels}" var="waitingParcel" sortBy="#{waitingParcel.fishShipSupply.id}">
+                    <p:panel header="Parcels" style="width: 700px; left: 100px" id="w8ParcelsPanel">
+                        <p:dataTable id="w8Parcels" value="#{gmCStore.readyForApproveParcels}" var="waitingParcel"
+                                     sortBy="#{waitingParcel.fishShipSupply.id}">
                             <p:column headerText="Manufacturer">
                                 <p:outputLabel value="#{waitingParcel.manufacturer.name}"/>
                             </p:column>
@@ -44,6 +53,17 @@
                 </h:form>
             </p:panel>
 
+            <p:panel header="Coldstore">
+                <p:dataTable value="#{gmCStore.readyForSaleParcels}" var="parcel"
+                             sortBy="#{parcel.fishShipSupply.supplyCode}">
+                    <p:column headerText="Fish">
+                        <p:outputLabel value="#{parcel.fish.name}"/>
+                    </p:column>
+                    <p:column headerText="Supply">
+                        <p:outputLabel value="#{parcel.fishShipSupply.supplyCode}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </ui:define>
     </ui:composition>
 </f:view>

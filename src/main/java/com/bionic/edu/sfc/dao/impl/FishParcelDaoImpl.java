@@ -3,6 +3,7 @@ package com.bionic.edu.sfc.dao.impl;
 import com.bionic.edu.sfc.dao.IFishParcelDao;
 import com.bionic.edu.sfc.entity.FishParcel;
 import com.bionic.edu.sfc.entity.FishShipSupply;
+import com.bionic.edu.sfc.entity.FishShipSupplyStatus;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -34,9 +35,14 @@ public class FishParcelDaoImpl extends ADao<FishParcel> implements IFishParcelDa
     @SuppressWarnings("unchecked")
     public List<FishParcel> getAllUnsaled() {
         return (List<FishParcel>)getSession()
-                .createQuery("FROM FishParcel " +
-                             "WHERE weightSold < weight " +
-                             "AND visible=true").list();
+                .createQuery("SELECT FishParcel FROM FishParcel parcel " +
+                              "INNER JOIN parcel.fishShipSupply supply "   +
+                             "WHERE parcel.weightSold < parcel.weight " +
+                             "AND parcel.visible=true " +
+                             "AND supply.visible=true " +
+                             "AND supply.status=:status")
+                .setParameter("status", FishShipSupplyStatus.READY_FOR_SALE)
+                .list();
     }
 
     @Override
