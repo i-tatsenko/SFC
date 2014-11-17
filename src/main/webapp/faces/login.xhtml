@@ -37,10 +37,12 @@
                          value="Cancel"
                          actionListener="#{loginBean.doCancel}"/>
 
-        <p:commandButton ajax="false"
+        <p:commandButton id="login"
+                         ajax="false"
                          type="submit"
                          value="Login"
                          action="#{loginBean.doLogin}" />
+        <p:defaultCommand target="login"/>
     </h:panelGrid>
     </p:panel>
 </h:form>

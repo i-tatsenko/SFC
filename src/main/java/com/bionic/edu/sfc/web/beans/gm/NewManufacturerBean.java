@@ -3,22 +3,25 @@ package com.bionic.edu.sfc.web.beans.gm;
 import com.bionic.edu.sfc.entity.Manufacturer;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
 import com.bionic.edu.sfc.util.Util;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Created by docent on 28.10.14.
- */
 @Named("newManufBean")
 @Scope("request")
 public class NewManufacturerBean {
+
+    private static final Log LOG = LogFactory.getLog(NewManufacturerBean.class);
 
     private String name;
 
@@ -41,7 +44,13 @@ public class NewManufacturerBean {
         Manufacturer newManuf = new Manufacturer(name, description);
         name = null;
         description = null;
-        manufacturerService.create(newManuf);
+        try {
+            manufacturerService.create(newManuf);
+            manufacturers.add(newManuf);
+        } catch (Exception e) {
+            LOG.error("Can't create new manufacturer");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create new manufacturer", e.getMessage()));
+        }
     }
 
     public void updateManuf(RowEditEvent editEvent) {
@@ -51,6 +60,7 @@ public class NewManufacturerBean {
 
     public void deleteManuf(long id) {
         Manufacturer manuf = manufacturerService.findById(id);
+        manufacturers.remove(manuf);
         manufacturerService.delete(manuf);
     }
 

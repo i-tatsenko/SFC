@@ -11,4 +11,6 @@ import java.util.List;
 public interface IFishShipSupplyService extends IService<FishShipSupply> {
 
     public List<FishShipSupply> getAllTransportedToCM();
+
+    public List<FishShipSupply> getAllReadyForTransport();
 }

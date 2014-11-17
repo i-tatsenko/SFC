@@ -54,7 +54,7 @@ public class NewFishShipSupplyBean {
         fishShipSupplies.addAll(fishShipSupplyService.getAll("name"));
     }
 
-    public void onSuplpyChosen(SelectEvent event) {
+    public void onSupplyChosen(SelectEvent event) {
         FishShipSupply fishShipSupplyChosen = (FishShipSupply) event.getObject();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("reg_new_fish_parcel.xhtml?fss=" + fishShipSupplyChosen.getId());
@@ -77,7 +77,7 @@ public class NewFishShipSupplyBean {
             LOGGER.error("Can't create new Supply", e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create new Fish ship supply", e.getMessage()));
         }
-        init();
+        fishShipSupplies.add(newFishShipSupply);
     }
 
     public Collection<FishShipSupply> getFishShipSupply() {

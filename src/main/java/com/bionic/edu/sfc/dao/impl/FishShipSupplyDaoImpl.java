@@ -29,4 +29,16 @@ public class FishShipSupplyDaoImpl extends ADao<FishShipSupply> implements IFish
                 .setParameter("status", FishShipSupplyStatus.READY_FOR_COLD_STORE_REGISTRATION)
                 .list();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<FishShipSupply> getAllReadyForTransport() {
+        return (List<FishShipSupply>) getSession().createQuery(
+                                        "FROM FishShipSupply " +
+                                        "WHERE visible=true " +
+                                        "AND status=:status " +
+                                        "ORDER BY creationDate")
+                .setParameter("status", FishShipSupplyStatus.READY_FOR_TRANSPORT)
+                .list();
+    }
 }

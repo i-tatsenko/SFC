@@ -18,19 +18,21 @@
 
 .header {
     position: relative;
+    width: 90%;
+    left: 5%;
     top: 10px;
-    left: 10%;
-
 }
 
 .content {
     position: relative;
-    left: 10%;
+    width: 90%;
+    left: 5%;
     top: 80px;
 }
 .footer {
     position: relative;
-    left: 10%;
+    width: 90%;
+    left: 5%;
     top: 100px;
 }
 

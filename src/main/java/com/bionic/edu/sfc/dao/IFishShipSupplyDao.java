@@ -11,4 +11,6 @@ import java.util.List;
 public interface IFishShipSupplyDao extends IDao<FishShipSupply> {
 
     List<FishShipSupply> getAllTransportedToCM();
+
+    List<FishShipSupply> getAllReadyForTransport();
 }

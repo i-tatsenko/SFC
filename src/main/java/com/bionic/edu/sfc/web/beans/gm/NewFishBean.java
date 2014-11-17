@@ -4,14 +4,14 @@ import com.bionic.edu.sfc.entity.Fish;
 import com.bionic.edu.sfc.service.dao.IFishService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import java.util.List;
@@ -47,14 +47,17 @@ public class NewFishBean {
             name = null;
             description = null;
             fishService.create(newFish);
+            allFish.add(newFish);
         } catch (Exception e) {
-            LOGGER.error("Some error while wanted to save new fish", e);
+            LOGGER.error("Some error while saving new fish", e);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create new Fish", e.getMessage()));
         }
     }
 
     public void deleteFish(long fishId) {
         Fish fish = fishService.findById(fishId);
         fishService.delete(fish);
+        allFish.remove(fish);
         selectedFish = null;
     }
 

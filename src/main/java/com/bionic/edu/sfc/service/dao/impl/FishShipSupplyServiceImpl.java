@@ -30,4 +30,9 @@ public class FishShipSupplyServiceImpl implements IFishShipSupplyService {
     public List<FishShipSupply> getAllTransportedToCM() {
         return fishShipSupplyDao.getAllTransportedToCM();
     }
+
+    @Override
+    public List<FishShipSupply> getAllReadyForTransport() {
+        return fishShipSupplyDao.getAllReadyForTransport();
+    }
 }

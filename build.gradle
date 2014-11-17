@@ -48,6 +48,6 @@ dependencies {
     testCompile 'junit:junit:4.11'
 
 //    compile 'org.apache.derby:derby:10.10.1.1'
-//    compile 'mysql:mysql-connector-java:5.1.33'
-    compile 'org.mariadb.jdbc:mariadb-java-client:1.1.7'
+    compile 'mysql:mysql-connector-java:5.1.33'
+//    compile 'org.mariadb.jdbc:mariadb-java-client:1.1.7'
 }

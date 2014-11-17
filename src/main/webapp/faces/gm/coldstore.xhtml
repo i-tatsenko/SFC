@@ -30,7 +30,7 @@
                     </p:panel>
                     <p:panel header="Parcels" style="width: 700px; left: 100px" id="w8ParcelsPanel">
                         <p:dataTable id="w8Parcels" value="#{gmCStore.readyForApproveParcels}" var="waitingParcel"
-                                     sortBy="#{waitingParcel.fishShipSupply.id}">
+                                     sortBy="#{waitingParcel.fishShipSupply.id}" stickyHeader="true">
                             <p:column headerText="Manufacturer">
                                 <p:outputLabel value="#{waitingParcel.manufacturer.name}"/>
                             </p:column>
