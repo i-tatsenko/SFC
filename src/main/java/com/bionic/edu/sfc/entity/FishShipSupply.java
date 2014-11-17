@@ -29,7 +29,7 @@ public class FishShipSupply extends Hideable {
     @Column(nullable = false)
     private FishShipSupplyStatus status;
 
-    @OneToMany (fetch = FetchType.EAGER)
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "fishShipSupply")
     private Set<FishParcel> fishParcels;
 
     public FishShipSupply() { }

@@ -77,6 +77,7 @@ public class NewFishShipSupplyBean {
             LOGGER.error("Can't create new Supply", e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create new Fish ship supply", e.getMessage()));
         }
+        init();
     }
 
     public Collection<FishShipSupply> getFishShipSupply() {

@@ -63,19 +63,14 @@ public class FishParcel extends Hideable {
 
         FishParcel that = (FishParcel) o;
 
-        if (!fish.equals(that.fish)) return false;
-        if (!fishShipSupply.equals(that.fishShipSupply)) return false;
-        if (!manufacturer.equals(that.manufacturer)) return false;
-
-        return true;
+        return getId() == that.getId();
     }
 
     @Override
     public int hashCode() {
-        int result = manufacturer.hashCode();
-        result = 31 * result + fish.hashCode();
-        result = 31 * result + fishShipSupply.hashCode();
-        return result;
+        int i = 31 * (int) getId();
+        i += (int)getId() >> 16;
+        return i;
     }
 
     public Manufacturer getManufacturer() {

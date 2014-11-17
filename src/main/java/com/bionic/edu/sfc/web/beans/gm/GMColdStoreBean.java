@@ -8,6 +8,7 @@ import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
 import com.bionic.edu.sfc.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.event.CellEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
@@ -39,6 +40,9 @@ public class GMColdStoreBean {
     private Set<FishParcel> readyForSaleParcels = new TreeSet<>(getReadyForSaleComparator());
 
     private Set<FishShipSupply> deliveredToCMSupplies = new TreeSet<>(Util.getFishShipSupplyComparator());
+
+    private List<FishParcel> filteredParcels;
+
     private FishShipSupply supply;
 
     @PostConstruct
@@ -164,11 +168,28 @@ public class GMColdStoreBean {
         };
     }
 
+    public void onCellEdit(CellEditEvent event) {
+        Object newValue = event.getNewValue();
+        Object oldValue = event.getOldValue();
+        FishParcel fishParcel = getReadyForApproveParcels().get(event.getRowIndex());
+        if(newValue != null && !newValue.equals(oldValue)) {
+            LOG.info("Changed parcel: " + fishParcel);
+        }
+    }
+
     public List<FishParcel> getReadyForSaleParcels() {
         return new LinkedList(readyForSaleParcels);
     }
 
     public void setReadyForSaleParcels(Set<FishParcel> readyForSaleParcels) {
         this.readyForSaleParcels = readyForSaleParcels;
+    }
+
+    public List<FishParcel> getFilteredParcels() {
+        return filteredParcels;
+    }
+
+    public void setFilteredParcels(List<FishParcel> filteredParcels) {
+        this.filteredParcels = filteredParcels;
     }
 }
