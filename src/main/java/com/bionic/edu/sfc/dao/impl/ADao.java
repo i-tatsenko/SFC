@@ -56,7 +56,7 @@ public abstract class ADao<T extends Hideable> implements IDao<T>{
             field.set(object, value);
             field.setAccessible(false);
         } catch (NoSuchFieldException |IllegalAccessException  e) {
-            LOG.error("There is no name", e);
+//            LOG.error("There is no name", e);
         }
         getSession().update(object);
     }

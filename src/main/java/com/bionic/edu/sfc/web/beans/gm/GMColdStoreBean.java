@@ -192,4 +192,12 @@ public class GMColdStoreBean {
     public void setFilteredParcels(List<FishParcel> filteredParcels) {
         this.filteredParcels = filteredParcels;
     }
+
+    public FishShipSupply getSupply() {
+        return supply;
+    }
+
+    public void setSupply(FishShipSupply supply) {
+        this.supply = supply;
+    }
 }

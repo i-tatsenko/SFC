@@ -68,6 +68,7 @@ public class NewFishShipSupplyBean {
         try {
             newFishShipSupply.setStatus(FishShipSupplyStatus.READY_FOR_TRANSPORT);
             fishShipSupplyService.create(newFishShipSupply);
+            fishShipSupplies.add(newFishShipSupply);
             newFishShipSupply = new FishShipSupply();
             newFishShipSupply.setCreationDate(new Date());
         } catch (ConstraintViolationException cve) {
@@ -77,7 +78,6 @@ public class NewFishShipSupplyBean {
             LOGGER.error("Can't create new Supply", e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create new Fish ship supply", e.getMessage()));
         }
-        fishShipSupplies.add(newFishShipSupply);
     }
 
     public Collection<FishShipSupply> getFishShipSupply() {

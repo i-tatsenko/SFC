@@ -13,13 +13,13 @@
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
             <p:panel header="Waiting for approve" rendered="#{gmCStore.haveWaitingForApprove()}"
-                     style="width: 50%; min-height: 300px; min-width: 1020px">
+                     style="width:  50%; min-height: 300px; min-width: 1010px; margin-bottom: 20px">
                 <h:form id="supps">
                     <p:panel header="Supplies" style="width: 250px;position: absolute; left: 750px">
                         <p:selectOneListbox value="#{gmCStore.selectedFssId}">
                             <f:selectItems value="#{gmCStore.deliveredToCMSupplies}" var="fss" itemValue="#{fss.id}"
                                            itemLabel="#{fss.supplyCode}"/>
-                            <p:ajax listener="#{gmCStore.changeSupply}" event="change" update="w8Parcels"/>
+                            <p:ajax listener="#{gmCStore.changeSupply}" event="change" update="w8Parcels, desc"/>
                         </p:selectOneListbox>
 
                         <h:panelGrid columns="2" cellpadding="5" style="margin-left: 0; padding-left: 0">
@@ -28,9 +28,12 @@
                         </h:panelGrid>
 
                     </p:panel>
-                    <p:panel header="Parcels" style="width: 700px; left: 100px" id="w8ParcelsPanel">
+                    <p:panel header="Supply description" style="width: 700px; margin-bottom: 10px">
+                        <p:inputTextarea id="desc" value="#{gmCStore.supply.description}" style="width: 670px"/>
+                    </p:panel>
+                    <p:panel header="Parcels" style="width: 700px; left: 100px;" id="w8ParcelsPanel">
                         <p:dataTable id="w8Parcels" value="#{gmCStore.readyForApproveParcels}" var="waitingParcel"
-                                     sortBy="#{waitingParcel.fishShipSupply.id}" stickyHeader="true">
+                                     sortBy="#{waitingParcel.fishShipSupply.id}">
                             <p:column headerText="Manufacturer">
                                 <p:outputLabel value="#{waitingParcel.manufacturer.name}"/>
                             </p:column>
@@ -57,8 +60,8 @@
                     <p:dataTable value="#{gmCStore.readyForSaleParcels}" var="parcel"
                                  widgetVar="fParcel" emptyMessage="No Fish Parcels for this criteria"
                                  filteredValue="#{gmCStore.filteredParcels}"
-                                 editable="true" editMode="cell">
-                        <p:ajax event="cellEdit" listener="#{gmCStore.onCellEdit}" />
+                                 editable="true" editMode="cell" stickyHeader="true">
+                        <p:ajax event="cellEdit" listener="#{gmCStore.onCellEdit}"/>
 
                         <f:facet name="header">
                             <p:outputPanel>
@@ -112,10 +115,13 @@
                             </p:cellEditor>
                         </p:column>
 
-                        <p:column headerText="Available for customers" filterBy="#{parcel.availableForCustomers}" filterMatchMode="equals">
+                        <p:column headerText="Available for customers" filterBy="#{parcel.availableForCustomers}"
+                                  filterMatchMode="equals">
                             <p:cellEditor>
-                                <f:facet name="output"><p:outputLabel value="#{parcel.availableForCustomers}"/> </f:facet>
-                                <f:facet name="input"><p:selectBooleanButton value="#{parcel.availableForCustomers}" offLabel="No" onLabel="Yes"/> </f:facet>
+                                <f:facet name="output"><p:outputLabel value="#{parcel.availableForCustomers}"/>
+                                </f:facet>
+                                <f:facet name="input"><p:selectBooleanButton value="#{parcel.availableForCustomers}"
+                                                                             offLabel="No" onLabel="Yes"/> </f:facet>
                             </p:cellEditor>
                             <f:facet name="filter">
                                 <p:selectOneButton onchange="PF('fParcel').filter()" styleClass="smallButton">

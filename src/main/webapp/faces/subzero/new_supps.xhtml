@@ -12,28 +12,77 @@
 <h:body>
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            <p:panel header="Supplies" style="float: left; width: 200px">
-                <p:dataTable value="#{suppliesBean.supplies}" var="supply"
-                             selectionMode="single" selection="#{suppliesBean.selectedSupply}" rowKey="#{supply.supplyCode}">
-                    <p:ajax event="rowSelect" listener="#{suppliesBean.onRowSelect}" update=":parcels" />
-                </p:dataTable>
-            </p:panel>
+            <h1>New Supplies</h1>
+            <h:form id="mainForm">
+                <h:panelGrid columns="2" cellspacing="5">
+                    <p:panel header="Supplies" style="width: 400px; vertical-align: top">
+                        <p:dataTable value="#{suppliesBean.supplies}" var="supply"
+                                     selectionMode="single" selection="#{suppliesBean.selectedSupply}"
+                                     rowKey="#{supply.supplyCode}">
+                            <p:ajax event="rowSelect" listener="#{suppliesBean.onRowSelect}"
+                                    update=":mainForm:parcels, :mainForm:desc"/>
+                            <p:column headerText="Supply code">
+                                <h:outputText value="#{supply.supplyCode}"/>
+                            </p:column>
+                            <p:column headerText="Registered">
+                                <h:outputText value="#{supply.creationDate}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
 
-            <p:panel header="Fish Parcels" id="parcels">
-                <p:dataTable value="#{suppliesBean.parcelsForSupply}" var="parcel">
-                    <p:column headerText="Fish">
-                        <h:outputText value="#{parcel.fish.name}"/>
-                    </p:column>
+                    <p:panel header="Fish Parcels" id="parcels">
+                        <p:dataTable value="#{suppliesBean.parcelsForSupply}" var="parcel"
+                                     sortBy="#{parcel.fishShipSupply.supplyCode}" editable="true">
+                            <p:ajax event="rowEdit" listener="#{suppliesBean.onSupplyEdit}" />
+                            <p:column headerText="Fish">
+                                <h:outputText value="#{parcel.fish.name}"/>
+                            </p:column>
 
-                    <p:column headerText="Manufacturer">
-                        <h:outputText value="#{parcel.manufacturer.name}"/>
-                    </p:column>
+                            <p:column headerText="Manufacturer">
+                                <h:outputText value="#{parcel.manufacturer.name}"/>
+                            </p:column>
 
-                    <p:column headerText="Weight">
-                        <h:outputText value="#{parcel.weight}"/>
-                    </p:column>
-                </p:dataTable>
-            </p:panel>
+                            <p:column headerText="Weight">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{parcel.weight}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{parcel.weight}">
+                                            <f:validateDoubleRange minimum="0.1"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column style="width:28px">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column style="width: 40px">
+                                <p:commandButton icon="ui-icon-close" action="#{suppliesBean.deleteParcel(parcel.id)}" update=":mainForm:parcels"/>
+                            </p:column>
+
+                            <p:summaryRow>
+                                <p:column colspan="2" style="text-align: right">
+                                    <h:outputText value="Total: "/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{suppliesBean.totalWeight}"/>
+                                </p:column>
+                            </p:summaryRow>
+
+                        </p:dataTable>
+                    </p:panel>
+                    <h:outputText/>
+                    <p:panel header="Supply description">
+                        <p:inputTextarea id="desc" label="Supply Description"
+                                         value="#{suppliesBean.selectedSupply.description}" style="width: 100%"/>
+                    </p:panel>
+                    <h:outputText/>
+                    <p:commandButton value="Parcels are delivered" action="#{suppliesBean.deliverParcels}" type="submit" ajax="false"
+                            rendered="#{suppliesBean.deliverParcelsButtonEnabled}"/>
+                </h:panelGrid>
+
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

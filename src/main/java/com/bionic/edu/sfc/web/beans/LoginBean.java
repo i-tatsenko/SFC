@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.web.beans;
 
 import com.bionic.edu.sfc.service.BLService;
+import com.bionic.edu.sfc.service.dao.IUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class LoginBean {
     private static final Logger LOGGER = LogManager.getLogger(LoginBean.class);
 
     @Autowired
+    private IUserService userService;
+
+    @Autowired
     private BLService blService;
 
     private String previousUrl;
@@ -40,7 +44,8 @@ public class LoginBean {
         if (!isAuthenticated()) {
             return "";
         }
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String loginName = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        return userService.findUserByLogin(loginName).getName();
     }
 
     public boolean isAuthenticated() {
