@@ -16,4 +16,6 @@ public interface IFishParcelService extends IService<FishParcel> {
     public List<FishParcel> getAllUnsaled();
 
     public List<FishParcel> getAllForFishSupply(FishShipSupply fishShipSupply);
+
+    public List<FishParcel> getAllForSupplyCode(String suppluCode);
 }

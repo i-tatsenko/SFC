@@ -13,4 +13,6 @@ public interface IFishShipSupplyDao extends IDao<FishShipSupply> {
     List<FishShipSupply> getAllTransportedToCM();
 
     List<FishShipSupply> getAllReadyForTransport();
+
+    List<FishShipSupply> getAllToRefund();
 }

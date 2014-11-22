@@ -35,7 +35,7 @@
                     <p:panel header="Fish Parcels" id="parcels">
                         <p:dataTable value="#{suppliesBean.parcelsForSupply}" var="parcel"
                                      sortBy="#{parcel.fishShipSupply.supplyCode}" editable="true">
-                            <p:ajax event="rowEdit" listener="#{suppliesBean.onSupplyEdit}" />
+                            <p:ajax event="rowEdit" listener="#{suppliesBean.onSupplyEdit}"/>
                             <p:column headerText="Fish">
                                 <h:outputText value="#{parcel.fish.name}"/>
                             </p:column>
@@ -55,10 +55,11 @@
                                 </p:cellEditor>
                             </p:column>
                             <p:column style="width:28px">
-                                <p:rowEditor />
+                                <p:rowEditor/>
                             </p:column>
                             <p:column style="width: 40px">
-                                <p:commandButton icon="ui-icon-close" action="#{suppliesBean.deleteParcel(parcel.id)}" update=":mainForm:parcels"/>
+                                <p:commandButton icon="ui-icon-close" action="#{suppliesBean.deleteParcel(parcel.id)}"
+                                                 update=":mainForm:parcels"/>
                             </p:column>
 
                             <p:summaryRow>
@@ -71,6 +72,7 @@
                             </p:summaryRow>
 
                         </p:dataTable>
+                        <p:commandButton style="width: 100%; top:10px" value="Add new parcel" type="button" onclick="PF('newparcelW').show();"/>
                     </p:panel>
                     <h:outputText/>
                     <p:panel header="Supply description">
@@ -78,10 +80,29 @@
                                          value="#{suppliesBean.selectedSupply.description}" style="width: 100%"/>
                     </p:panel>
                     <h:outputText/>
-                    <p:commandButton value="Parcels are delivered" action="#{suppliesBean.deliverParcels}" type="submit" ajax="false"
-                            rendered="#{suppliesBean.deliverParcelsButtonEnabled}"/>
+                    <p:commandButton value="Parcels are delivered" action="#{suppliesBean.deliverParcels}" type="submit"
+                                     ajax="false"
+                                     rendered="#{suppliesBean.deliverParcelsButtonEnabled()}"/>
                 </h:panelGrid>
-
+                <p:dialog id="NPW" modal="true" widgetVar="newparcelW" closable="true" header="Add new parcel"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade">
+                    <h:panelGrid columns="2" cellspacing="5">
+                        <h:outputText value="Fish "/>
+                        <p:selectOneMenu value="#{suppliesBean.newParcelFishId}">
+                            <f:selectItems value="#{suppliesBean.fishService.getAll('name')}" var="fish"
+                                           itemLabel="#{fish.name}" itemValue="#{fish.id}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Manufacturer"/>
+                        <p:selectOneMenu value="#{suppliesBean.newParcelManufacturerId}">
+                            <f:selectItems value="#{suppliesBean.manufacturerService.getAll('name')}" var="manuf"
+                                           itemLabel="#{manuf.name}" itemValue="#{manuf.id}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Weight"/>
+                        <p:inputText value="#{suppliesBean.newParcelWeight}"/>
+                        <p:commandButton value="Add" actionListener="#{suppliesBean.newParcel}"
+                                         oncomplete="PF('newparcelW').hide()" update=":mainForm:parcels"/>
+                    </h:panelGrid>
+                </p:dialog>
             </h:form>
         </ui:define>
     </ui:composition>

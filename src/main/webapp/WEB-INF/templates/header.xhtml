@@ -23,9 +23,7 @@
                                 rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
                     <p:menuitem value="Supplies" outcome="/faces/subzero/new_supps.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_COLD_STORE_MANAGER')}"/>
-                    <p:menuitem value="Writeoffs" outcome="/faces/subzero/writeoff.xhtml"
-                                rendered="#{loginBean.hasAccess('ROLE_COLD_STORE_MANAGER')}"/>
-                    <p:menuitem value="Shipments" outcome="/faces/subzero/shipment.xhtml"
+                    <p:menuitem value="Supplies movements" outcome="/faces/subzero/supplies_movement.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_COLD_STORE_MANAGER')}"/>
                 </p:tabMenu>
             </h:form>

@@ -1,10 +1,11 @@
 package com.bionic.edu.sfc.web.beans.subzero;
 
-import com.bionic.edu.sfc.entity.FishParcel;
-import com.bionic.edu.sfc.entity.FishShipSupply;
-import com.bionic.edu.sfc.entity.FishShipSupplyStatus;
+import com.bionic.edu.sfc.entity.*;
+import com.bionic.edu.sfc.entity.builder.FishParcelBuilder;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
+import com.bionic.edu.sfc.service.dao.IFishService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
+import com.bionic.edu.sfc.service.dao.IManufacturerService;
 import com.bionic.edu.sfc.service.dao.impl.FishParcelServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,6 +32,18 @@ public class SuppliesBean {
 
     @Autowired
     private IFishParcelService fishParcelService;
+
+    @Autowired
+    private IFishService fishService;
+
+    @Autowired
+    private IManufacturerService manufacturerService;
+
+    private long newParcelFishId;
+
+    private long newParcelManufacturerId;
+
+    private double newParcelWeight;
 
     private List<FishShipSupply> supplies;
 
@@ -71,6 +84,7 @@ public class SuppliesBean {
         parcelsForSupply.forEach(fishParcelService::update);
         selectedSupply.setStatus(FishShipSupplyStatus.READY_FOR_COLD_STORE_REGISTRATION);
         fishShipSupplyService.update(selectedSupply);
+        selectedSupply = null;
         init();
     }
 
@@ -88,6 +102,28 @@ public class SuppliesBean {
 
     public List<FishShipSupply> getSupplies() {
         return supplies;
+    }
+
+    public void newParcel() {
+        LOG.info("New parcel");
+        Fish fish = fishService.findById(newParcelFishId);
+        Manufacturer manuf = manufacturerService.findById(newParcelManufacturerId);
+        try {
+            FishParcel newFishParcel = FishParcelBuilder.aFishParcel()
+                    .withFish(fish)
+                    .withFishShipSupply(selectedSupply)
+                    .withManufacturer(manuf)
+                    .withWeight(newParcelWeight)
+                    .build();
+            fishParcelService.create(newFishParcel);
+            newParcelFishId = 0;
+            newParcelManufacturerId = 0;
+            newParcelWeight = 0;
+            parcelsForSupply.add(newFishParcel);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't create new fish parcel", e.getMessage()));
+            LOG.error("Can't create new fish parcel", e);
+        }
     }
 
     public double getTotalWeight() {
@@ -115,5 +151,37 @@ public class SuppliesBean {
 
     public void setParcelsForSupply(List<FishParcel> parcelsForSupply) {
         this.parcelsForSupply = parcelsForSupply;
+    }
+
+    public double getNewParcelWeight() {
+        return newParcelWeight;
+    }
+
+    public void setNewParcelWeight(double newParcelWeight) {
+        this.newParcelWeight = newParcelWeight;
+    }
+
+    public long getNewParcelManufacturerId() {
+        return newParcelManufacturerId;
+    }
+
+    public void setNewParcelManufacturerId(long newParcelManufacturerId) {
+        this.newParcelManufacturerId = newParcelManufacturerId;
+    }
+
+    public long getNewParcelFishId() {
+        return newParcelFishId;
+    }
+
+    public void setNewParcelFishId(long newParcelFishId) {
+        this.newParcelFishId = newParcelFishId;
+    }
+
+    public IFishService getFishService() {
+        return fishService;
+    }
+
+    public IManufacturerService getManufacturerService() {
+        return manufacturerService;
     }
 }

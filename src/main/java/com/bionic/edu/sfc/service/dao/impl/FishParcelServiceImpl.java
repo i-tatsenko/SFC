@@ -42,4 +42,9 @@ public class FishParcelServiceImpl implements IFishParcelService {
         return fishParcelDao.getAllForFishSupply(fishShipSupply);
     }
 
+    @Override
+    public List<FishParcel> getAllForSupplyCode(String supplyCode) {
+        return fishParcelDao.getAllForSupplyCode(supplyCode);
+    }
+
 }

@@ -24,8 +24,8 @@ public class FishShipSupplyDaoImpl extends ADao<FishShipSupply> implements IFish
     @SuppressWarnings("unchecked")
     public List<FishShipSupply> getAllTransportedToCM() {
         return getSession().createQuery("FROM FishShipSupply " +
-                                 "WHERE visible=true " +
-                                 "AND status=:status")
+                "WHERE visible=true " +
+                "AND status=:status")
                 .setParameter("status", FishShipSupplyStatus.READY_FOR_COLD_STORE_REGISTRATION)
                 .list();
     }
@@ -34,11 +34,21 @@ public class FishShipSupplyDaoImpl extends ADao<FishShipSupply> implements IFish
     @SuppressWarnings("unchecked")
     public List<FishShipSupply> getAllReadyForTransport() {
         return (List<FishShipSupply>) getSession().createQuery(
-                                        "FROM FishShipSupply " +
-                                        "WHERE visible=true " +
-                                        "AND status=:status " +
-                                        "ORDER BY creationDate")
+                "FROM FishShipSupply " +
+                        "WHERE visible=true " +
+                        "AND status=:status " +
+                        "ORDER BY creationDate")
                 .setParameter("status", FishShipSupplyStatus.READY_FOR_TRANSPORT)
                 .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<FishShipSupply> getAllToRefund() {
+        return getSession().createQuery(
+                        "FROM FishShipSupply " +
+                        "WHERE visible=true " +
+                        "AND status=:status"
+        ).setParameter("status", FishShipSupplyStatus.REFUNDED).list();
     }
 }

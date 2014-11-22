@@ -59,5 +59,17 @@ public class FishParcelDaoImpl extends ADao<FishParcel> implements IFishParcelDa
                 .list();
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<FishParcel> getAllForSupplyCode(String supplyCode) {
+        return getSession().createQuery(
+                "SELECT parcel " +
+                "FROM FishParcel parcel " +
+                "INNER JOIN FishShipSupply supply " +
+                "WHERE supply.supplyCode=:code"
+        ).setParameter("code", supplyCode)
+                .list();
+    }
+
 
 }

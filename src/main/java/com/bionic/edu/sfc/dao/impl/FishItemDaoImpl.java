@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.dao.impl;
 
 import com.bionic.edu.sfc.dao.IFishItemDao;
+import com.bionic.edu.sfc.entity.Bill;
 import com.bionic.edu.sfc.entity.FishItem;
 import org.springframework.stereotype.Repository;
 
@@ -32,12 +33,20 @@ public class FishItemDaoImpl extends ADao<FishItem> implements IFishItemDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FishItem> getAllReadyForShipment() {
-        return (List<FishItem>)getSession()
-                .createQuery("FROM FishItem " +
-                             "WHERE readyForShipment=true " +
-                             "AND removedFromColdStore=false " +
-                             "AND visible=true")
-                .list();
+    public List<FishItem> getAllForBill(Bill bill) {
+        return getSession().createQuery(
+                "FROM FishItem " +
+                "WHERE bill=:bill "
+        ).list();
     }
+
+    @Override
+    public FishItem getForUuid(String uuid) {
+        return (FishItem) getSession().createQuery(
+                "FROM FishItem " +
+                "WHERE uuid=:uuid"
+        ).setParameter("uuid", uuid).uniqueResult();
+    }
+
+
 }

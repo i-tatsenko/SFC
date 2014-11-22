@@ -15,4 +15,6 @@ public interface IFishParcelDao extends IDao<FishParcel> {
     public List<FishParcel> getAllUnsaled();
 
     public List<FishParcel> getAllForFishSupply(FishShipSupply fishShipSupply);
+
+    public List<FishParcel> getAllForSupplyCode(String supplyCode);
 }

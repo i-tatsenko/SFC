@@ -1,5 +1,6 @@
 package com.bionic.edu.sfc.service.dao;
 
+import com.bionic.edu.sfc.entity.Bill;
 import com.bionic.edu.sfc.entity.FishItem;
 
 import java.util.List;
@@ -12,5 +13,9 @@ public interface IFishItemService extends IService<FishItem> {
 
     public List<FishItem> getReadyForWriteOff();
 
-    public List<FishItem> getAllReadyForShipment();
+    public List<FishItem> getAllForBill(Bill bill);
+
+    public FishItem getForUuid(String uuid);
+
+    public void writeOff(FishItem fishItem);
 }

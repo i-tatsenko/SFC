@@ -28,8 +28,6 @@ public class FishItem extends Hideable {
 
     private boolean forWriteOff;
 
-    private boolean readyForShipment;
-
     private Date creationDate;
 
     private Date removedFromColdStoreDate;
@@ -149,11 +147,4 @@ public class FishItem extends Hideable {
         this.weight = weight;
     }
 
-    public boolean isReadyForShipment() {
-        return readyForShipment;
-    }
-
-    public void setReadyForShipment(boolean readyForShipment) {
-        this.readyForShipment = readyForShipment;
-    }
 }
