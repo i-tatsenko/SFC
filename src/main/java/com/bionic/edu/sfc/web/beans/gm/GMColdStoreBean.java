@@ -3,16 +3,19 @@ package com.bionic.edu.sfc.web.beans.gm;
 import com.bionic.edu.sfc.entity.FishParcel;
 import com.bionic.edu.sfc.entity.FishShipSupply;
 import com.bionic.edu.sfc.entity.FishShipSupplyStatus;
+import com.bionic.edu.sfc.exception.NoEnoughFishException;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
 import com.bionic.edu.sfc.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.*;
 
@@ -44,6 +47,8 @@ public class GMColdStoreBean {
     private List<FishParcel> filteredParcels;
 
     private FishShipSupply supply;
+
+    private double writeOffWeight;
 
     @PostConstruct
     public void init() {
@@ -168,17 +173,25 @@ public class GMColdStoreBean {
         };
     }
 
-    public void onCellEdit(CellEditEvent event) {
-        Object newValue = event.getNewValue();
-        Object oldValue = event.getOldValue();
-        FishParcel fishParcel = getReadyForApproveParcels().get(event.getRowIndex());
-        if(newValue != null && !newValue.equals(oldValue)) {
-            LOG.info("Changed parcel: " + fishParcel);
+    public void onRowEdit(RowEditEvent event) {
+        FishParcel parcel = (FishParcel) event.getObject();
+        fishParcelService.update(parcel);
+    }
+
+    public void writeOff(long parcelId) {
+        FishParcel parcel = fishParcelService.findById(parcelId);
+        try {
+            fishParcelService.writeOff(parcel, writeOffWeight);
+        } catch (NoEnoughFishException nefe) {
+            LOG.error("No enough fish");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("There is no enough fish to write-off"));
+        } catch (Exception e) {
+            LOG.error("Can't writeOff parcel", e);
         }
     }
 
     public List<FishParcel> getReadyForSaleParcels() {
-        return new LinkedList(readyForSaleParcels);
+        return new LinkedList<>(readyForSaleParcels);
     }
 
     public void setReadyForSaleParcels(Set<FishParcel> readyForSaleParcels) {
@@ -199,5 +212,13 @@ public class GMColdStoreBean {
 
     public void setSupply(FishShipSupply supply) {
         this.supply = supply;
+    }
+
+    public double getWriteOffWeight() {
+        return writeOffWeight;
+    }
+
+    public void setWriteOffWeight(long writeOffWeight) {
+        this.writeOffWeight = writeOffWeight;
     }
 }

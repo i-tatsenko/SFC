@@ -27,7 +27,8 @@ public class FishItemDaoImpl extends ADao<FishItem> implements IFishItemDao {
                 .createQuery("FROM FishItem " +
                              "WHERE forWriteOff=true " +
                              "AND removedFromColdStore=false " +
-                             "AND visible=true ")
+                             "AND visible=true " +
+                             "AND removedFromColdStore=false")
                 .list();
     }
 

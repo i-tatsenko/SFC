@@ -7,8 +7,10 @@ import com.bionic.edu.sfc.entity.FishItem;
 import com.bionic.edu.sfc.service.dao.IFishItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +20,7 @@ import java.util.UUID;
  * 2014.10
  */
 @Service
-@Transactional(Transactional.TxType.REQUIRED)
+@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
 public class FishItemServiceImpl implements IFishItemService {
 
     @Autowired
@@ -51,7 +53,7 @@ public class FishItemServiceImpl implements IFishItemService {
     }
 
     @Override
-    public void writeOff(FishItem fishItem) {
+    public void removeFromColdStore(FishItem fishItem) {
         fishItem.setRemovedFromColdStore(true);
         fishItem.setRemovedFromColdStoreDate(new Date());
         fishItemDao.update(fishItem);

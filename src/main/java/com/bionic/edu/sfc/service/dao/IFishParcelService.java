@@ -11,11 +11,14 @@ import java.util.List;
  */
 public interface IFishParcelService extends IService<FishParcel> {
 
-    public List<FishParcel> getAllAvailableForCustomers();
+    List<FishParcel> getAllAvailableForCustomers();
 
-    public List<FishParcel> getAllUnsaled();
+    List<FishParcel> getAllUnsaled();
 
-    public List<FishParcel> getAllForFishSupply(FishShipSupply fishShipSupply);
+    List<FishParcel> getAllForFishSupply(FishShipSupply fishShipSupply);
 
-    public List<FishParcel> getAllForSupplyCode(String suppluCode);
+    List<FishParcel> getAllForSupplyCode(String suppluCode);
+
+    void writeOff(FishParcel parcel, double weight);
+
 }

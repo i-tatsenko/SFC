@@ -32,8 +32,7 @@ public class FishItem extends Hideable {
 
     private Date removedFromColdStoreDate;
 
-    @Column(nullable = false)
-    private Double weight;
+    private double weight;
 
     public FishItem(){ }
 
@@ -139,11 +138,11 @@ public class FishItem extends Hideable {
         this.removedFromColdStoreDate = shipmentDate;
     }
 
-    public Double getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

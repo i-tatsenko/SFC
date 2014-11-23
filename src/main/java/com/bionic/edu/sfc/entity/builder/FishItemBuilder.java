@@ -5,7 +5,7 @@ import com.bionic.edu.sfc.entity.Customer;
 import com.bionic.edu.sfc.entity.FishItem;
 import com.bionic.edu.sfc.entity.FishParcel;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Ivan

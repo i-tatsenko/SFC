@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.service.dao;
 
 import com.bionic.edu.sfc.entity.Customer;
+import com.bionic.edu.sfc.entity.FishParcel;
 import com.bionic.edu.sfc.entity.Payment;
 
 import java.util.List;
@@ -11,5 +12,5 @@ import java.util.List;
  */
 public interface IPaymentService extends IService<Payment> {
 
-    public List<Payment> getAllForCustomer(Customer customer);
+    List<Payment> getAllForCustomer(Customer customer);
 }

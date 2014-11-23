@@ -14,8 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,7 +28,7 @@ import java.util.List;
  * 2014.09
  */
 @Service
-@Transactional(Transactional.TxType.REQUIRED)
+@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
     public static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);

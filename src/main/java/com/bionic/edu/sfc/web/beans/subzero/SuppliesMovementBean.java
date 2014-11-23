@@ -2,8 +2,8 @@ package com.bionic.edu.sfc.web.beans.subzero;
 
 import com.bionic.edu.sfc.entity.Bill;
 import com.bionic.edu.sfc.entity.FishItem;
-import com.bionic.edu.sfc.entity.FishParcel;
 import com.bionic.edu.sfc.entity.FishShipSupply;
+import com.bionic.edu.sfc.service.dao.IBillService;
 import com.bionic.edu.sfc.service.dao.IFishItemService;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
@@ -31,17 +31,16 @@ public class SuppliesMovementBean {
     @Autowired
     private IFishParcelService fishParcelService;
 
+    @Autowired
+    private IBillService billService;
+
     private Set<FishShipSupply> toRefundSupplies = new TreeSet<>(Util.getFishShipSupplyComparator());
 
-    private List<FishParcel> toRefundParcels;
+    private Set<FishItem> writeOffItems = new TreeSet<>(Util.getFishItemComparator());
 
-    private Set<FishItem> writeOffItems = new TreeSet<>();
+    private Set<FishItem> shipmentItems = new TreeSet<>(Util.getFishItemComparator());
 
-    private Set<FishItem> shipmentItems = new TreeSet<>();
-
-    private Bill selectedBill;
-
-    private FishShipSupply selectedSupply;
+    private Set<Bill> shipmentBills = new TreeSet<>((b1, b2) -> (int) (b1.getId() - b2.getId()));
 
     @PostConstruct
     public void init() {
@@ -49,23 +48,20 @@ public class SuppliesMovementBean {
         writeOffItems.addAll(fishItemService.getReadyForWriteOff());
     }
 
-    public List<FishItem> getAllForBill() {
-        if (selectedBill != null) {
-            return fishItemService.getAllForBill(selectedBill);
-        }
-        return Collections.emptyList();
-    }
-
     public void writeOff(String uuid) {
-
+        FishItem fishItem = fishItemService.getForUuid(uuid);
+        fishItemService.removeFromColdStore(fishItem);
     }
 
-    public void fillRefundParcels(String supplyCode) {
-        toRefundParcels = new LinkedList<>(toRefundSupplies.stream().filter(sup -> sup.getSupplyCode().equals(supplyCode)).findAny().get().getFishParcels());
+    public void refundParcel(long fssId) {
+        FishShipSupply supply = fishShipSupplyService.findById(fssId);
+        fishShipSupplyService.refund(supply);
+        toRefundSupplies.remove(supply);
     }
 
-    public List<FishParcel> getAllToRefund() {
-        return toRefundParcels;
+    public void ship(long billId) {
+        Bill bill = billService.findById(billId);
+        billService.ship(bill);
     }
 
     public Set<FishShipSupply> getToRefundSupplies() {
@@ -80,32 +76,8 @@ public class SuppliesMovementBean {
         return shipmentItems;
     }
 
-    public FishShipSupply getSelectedSupply() {
-        return selectedSupply;
-    }
-
-    public void setSelectedSupply(FishShipSupply selectedSupply) {
-        this.selectedSupply = selectedSupply;
-    }
-
-    public Bill getSelectedBill() {
-        return selectedBill;
-    }
-
-    public void setSelectedBill(Bill selectedBill) {
-        this.selectedBill = selectedBill;
-    }
-
     public void setToRefundSupplies(Set<FishShipSupply> toRefundSupplies) {
         this.toRefundSupplies = toRefundSupplies;
-    }
-
-    public List<FishParcel> getToRefundParcels() {
-        return toRefundParcels;
-    }
-
-    public void setToRefundParcels(List<FishParcel> toRefundParcels) {
-        this.toRefundParcels = toRefundParcels;
     }
 
     public void setWriteOffItems(Set<FishItem> writeOffItems) {
@@ -114,5 +86,13 @@ public class SuppliesMovementBean {
 
     public void setShipmentItems(Set<FishItem> shipmentItems) {
         this.shipmentItems = shipmentItems;
+    }
+
+    public Set<Bill> getShipmentBills() {
+        return shipmentBills;
+    }
+
+    public void setShipmentBills(Set<Bill> shipmentBills) {
+        this.shipmentBills = shipmentBills;
     }
 }

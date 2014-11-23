@@ -1,9 +1,6 @@
 package com.bionic.edu.sfc.util;
 
-import com.bionic.edu.sfc.entity.Fish;
-import com.bionic.edu.sfc.entity.FishParcel;
-import com.bionic.edu.sfc.entity.FishShipSupply;
-import com.bionic.edu.sfc.entity.Manufacturer;
+import com.bionic.edu.sfc.entity.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Comparator;
@@ -44,6 +41,25 @@ public abstract class Util {
                 return r1.getSupplyCode().compareTo(r2.getSupplyCode());
             }
             return (int) timeDiff;
+        };
+    }
+
+    public static Comparator<FishItem> getFishItemComparator() {
+        return (f1, f2) -> {
+            int result;
+            result = f1.getFishParcel().getFishShipSupply().getSupplyCode().compareTo(f2.getFishParcel().getFishShipSupply().getSupplyCode());
+            if (result != 0) {
+                return result;
+            }
+            result = f1.getFishParcel().getFish().getName().compareTo(f2.getFishParcel().getFish().getName());
+            if (result != 0) {
+                return result;
+            }
+            result = f1.getFishParcel().getManufacturer().getName().compareTo(f2.getFishParcel().getManufacturer().getName());
+            if (result != 0) {
+                return result;
+            }
+            return (int) (f1.getWeight() - f2.getWeight());
         };
     }
 }

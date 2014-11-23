@@ -10,9 +10,11 @@ import java.util.List;
  */
 public interface IFishShipSupplyService extends IService<FishShipSupply> {
 
-    public List<FishShipSupply> getAllTransportedToCM();
+    List<FishShipSupply> getAllTransportedToCM();
 
-    public List<FishShipSupply> getAllReadyForTransport();
+    List<FishShipSupply> getAllReadyForTransport();
 
-    public List<FishShipSupply> getAllToRefund();
+    List<FishShipSupply> getAllToRefund();
+
+    void refund(FishShipSupply fishShipSupply);
 }

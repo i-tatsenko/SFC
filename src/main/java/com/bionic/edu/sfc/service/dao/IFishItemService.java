@@ -17,5 +17,5 @@ public interface IFishItemService extends IService<FishItem> {
 
     public FishItem getForUuid(String uuid);
 
-    public void writeOff(FishItem fishItem);
+    public void removeFromColdStore(FishItem fishItem);
 }

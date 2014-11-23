@@ -15,6 +15,7 @@
             <p:panel header="Waiting for approve" rendered="#{gmCStore.haveWaitingForApprove()}"
                      style="width:  50%; min-height: 300px; min-width: 1010px; margin-bottom: 20px">
                 <h:form id="supps">
+                    <p:growl id="message" showDetail="true" />
                     <p:panel header="Supplies" style="width: 250px;position: absolute; left: 750px">
                         <p:selectOneListbox value="#{gmCStore.selectedFssId}">
                             <f:selectItems value="#{gmCStore.deliveredToCMSupplies}" var="fss" itemValue="#{fss.id}"
@@ -55,13 +56,13 @@
                     </p:panel>
                 </h:form>
             </p:panel>
-            <h:form>
-                <p:panel header="Coldstore" style="width: 80%">
+            <h:form id="cold">
+                <p:panel id="coldstore" header="Coldstore" style="width: 80%">
                     <p:dataTable value="#{gmCStore.readyForSaleParcels}" var="parcel"
                                  widgetVar="fParcel" emptyMessage="No Fish Parcels for this criteria"
                                  filteredValue="#{gmCStore.filteredParcels}"
-                                 editable="true" editMode="cell" stickyHeader="true">
-                        <p:ajax event="cellEdit" listener="#{gmCStore.onCellEdit}"/>
+                                 editable="true" >
+                        <p:ajax event="rowEdit" listener="#{gmCStore.onRowEdit}"/>
 
                         <f:facet name="header">
                             <p:outputPanel>
@@ -116,7 +117,7 @@
                         </p:column>
 
                         <p:column headerText="Available for customers" filterBy="#{parcel.availableForCustomers}"
-                                  filterMatchMode="equals">
+                                  filterMatchMode="equals" style="text-align: center">
                             <p:cellEditor>
                                 <f:facet name="output"><p:outputLabel value="#{parcel.availableForCustomers}"/>
                                 </f:facet>
@@ -124,16 +125,28 @@
                                                                              offLabel="No" onLabel="Yes"/> </f:facet>
                             </p:cellEditor>
                             <f:facet name="filter">
-                                <p:selectOneButton onchange="PF('fParcel').filter()" styleClass="smallButton">
+                                <p:selectOneRadio onchange="PF('fParcel').filter()" styleClass="smallButton" layout="grid" columns="1">
                                     <f:converter converterId="javax.faces.Boolean"/>
                                     <f:selectItem itemLabel="All" itemValue=""/>
                                     <f:selectItem itemLabel="Yes" itemValue="true"/>
                                     <f:selectItem itemLabel="No" itemValue="false"/>
-                                </p:selectOneButton>
+                                </p:selectOneRadio>
                             </f:facet>
+                        </p:column>
+                        <p:column style="width: 40px; text-align: center">
+                            <p:rowEditor/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="WriteOff" actionListener="#{gmCStore.writeOff(parcel.id)}" update=":supps:message, :cold:coldstore">
+                                <p:confirm header="Weight" message="Enter weight for writeoff" />
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:inputText value="#{gmCStore.writeOffWeight}"/>
+                    <p:commandButton value="Ok" type="button"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

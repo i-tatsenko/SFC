@@ -7,4 +7,6 @@ import com.bionic.edu.sfc.entity.Bill;
  * 2014.10
  */
 public interface IBillService extends IService<Bill> {
+
+    void ship(Bill bill);
 }

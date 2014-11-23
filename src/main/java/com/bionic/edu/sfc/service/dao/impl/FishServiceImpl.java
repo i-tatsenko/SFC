@@ -6,15 +6,17 @@ import com.bionic.edu.sfc.entity.Fish;
 import com.bionic.edu.sfc.service.dao.IFishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 /**
  * Ivan
  * 2014.10
  */
 @Service
-@Transactional(Transactional.TxType.REQUIRED)
+@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
 public class FishServiceImpl implements IFishService {
 
     @Autowired
