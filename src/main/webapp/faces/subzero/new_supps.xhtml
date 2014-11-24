@@ -20,7 +20,7 @@
                                      selectionMode="single" selection="#{suppliesBean.selectedSupply}"
                                      rowKey="#{supply.supplyCode}">
                             <p:ajax event="rowSelect" listener="#{suppliesBean.onRowSelect}"
-                                    update=":mainForm:parcels, :mainForm:desc"/>
+                                    update=":mainForm:parcels, :mainForm:desc, :mainForm:deliverBtn"/>
                             <p:column headerText="Supply code">
                                 <h:outputText value="#{supply.supplyCode}"/>
                             </p:column>
@@ -80,7 +80,7 @@
                                          value="#{suppliesBean.selectedSupply.description}" style="width: 100%"/>
                     </p:panel>
                     <h:outputText/>
-                    <p:commandButton value="Parcels are delivered" action="#{suppliesBean.deliverParcels}" type="submit"
+                    <p:commandButton id="deliverBtn" value="Parcels are delivered" action="#{suppliesBean.deliverParcels}" type="submit"
                                      ajax="false"
                                      rendered="#{suppliesBean.deliverParcelsButtonEnabled()}"/>
                 </h:panelGrid>

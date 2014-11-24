@@ -15,7 +15,7 @@
             <p:panel header="Waiting for approve" rendered="#{gmCStore.haveWaitingForApprove()}"
                      style="width:  50%; min-height: 300px; min-width: 1010px; margin-bottom: 20px">
                 <h:form id="supps">
-                    <p:growl id="message" showDetail="true" />
+                    <p:growl id="message" showDetail="true"/>
                     <p:panel header="Supplies" style="width: 250px;position: absolute; left: 750px">
                         <p:selectOneListbox value="#{gmCStore.selectedFssId}">
                             <f:selectItems value="#{gmCStore.deliveredToCMSupplies}" var="fss" itemValue="#{fss.id}"
@@ -57,11 +57,12 @@
                 </h:form>
             </p:panel>
             <h:form id="cold">
+                <p:growl id="growl" sticky="true"/>
                 <p:panel id="coldstore" header="Coldstore" style="width: 80%">
-                    <p:dataTable value="#{gmCStore.readyForSaleParcels}" var="parcel"
+                    <p:dataTable value="#{gmCStore.readyForSaleParcels}" var="parcel" id="coldTable"
                                  widgetVar="fParcel" emptyMessage="No Fish Parcels for this criteria"
                                  filteredValue="#{gmCStore.filteredParcels}"
-                                 editable="true" >
+                                 editable="true">
                         <p:ajax event="rowEdit" listener="#{gmCStore.onRowEdit}"/>
 
                         <f:facet name="header">
@@ -125,7 +126,8 @@
                                                                              offLabel="No" onLabel="Yes"/> </f:facet>
                             </p:cellEditor>
                             <f:facet name="filter">
-                                <p:selectOneRadio onchange="PF('fParcel').filter()" styleClass="smallButton" layout="grid" columns="1">
+                                <p:selectOneRadio onchange="PF('fParcel').filter()" styleClass="smallButton"
+                                                  layout="grid" columns="1">
                                     <f:converter converterId="javax.faces.Boolean"/>
                                     <f:selectItem itemLabel="All" itemValue=""/>
                                     <f:selectItem itemLabel="Yes" itemValue="true"/>
@@ -137,16 +139,19 @@
                             <p:rowEditor/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="WriteOff" actionListener="#{gmCStore.writeOff(parcel.id)}" update=":supps:message, :cold:coldstore">
-                                <p:confirm header="Weight" message="Enter weight for writeoff" />
+                            <p:commandButton value="WriteOff" oncomplete="PF('writeDia').show()" actionListener="#{gmCStore.writeOffPrepare(parcel.id)}" update=":cold:writeDiaId">
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:dialog showEffect="fade" hideEffect="fade" widgetVar="writeDia" header="WriteOff" id="writeDiaId"
+                          resizable="false">
+                    <h2><h:outputText value="WriteOff weight"/></h2>
+                    <h:inputHidden value="#{gmCStore.writeOffParcelId}"/>
                     <p:inputText value="#{gmCStore.writeOffWeight}"/>
-                    <p:commandButton value="Ok" type="button"/>
-                </p:confirmDialog>
+                    <p:commandButton value="Ok" actionListener="#{gmCStore.writeOff}"
+                                     update=":supps:message, :cold:coldstore:coldTable, :cold:growl" onclick="PF('writeDia').hide()"/>
+                </p:dialog>
             </h:form>
         </ui:define>
     </ui:composition>

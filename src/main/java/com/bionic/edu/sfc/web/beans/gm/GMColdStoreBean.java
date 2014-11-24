@@ -50,6 +50,8 @@ public class GMColdStoreBean {
 
     private double writeOffWeight;
 
+    private long writeOffParcelId;
+
     @PostConstruct
     public void init() {
         LOG.info("init");
@@ -178,9 +180,14 @@ public class GMColdStoreBean {
         fishParcelService.update(parcel);
     }
 
-    public void writeOff(long parcelId) {
-        FishParcel parcel = fishParcelService.findById(parcelId);
+    public void writeOffPrepare(long writeOffParcelId) {
+        this.writeOffParcelId = writeOffParcelId;
+    }
+
+    public void writeOff() {
+        FishParcel parcel = fishParcelService.findById(writeOffParcelId);
         try {
+            LOG.info("Generating write off for parcel: " + parcel);
             fishParcelService.writeOff(parcel, writeOffWeight);
         } catch (NoEnoughFishException nefe) {
             LOG.error("No enough fish");
@@ -218,7 +225,15 @@ public class GMColdStoreBean {
         return writeOffWeight;
     }
 
-    public void setWriteOffWeight(long writeOffWeight) {
+    public void setWriteOffWeight(double writeOffWeight) {
         this.writeOffWeight = writeOffWeight;
+    }
+
+    public long getWriteOffParcelId() {
+        return writeOffParcelId;
+    }
+
+    public void setWriteOffParcelId(long writeOffParcelId) {
+        this.writeOffParcelId = writeOffParcelId;
     }
 }

@@ -19,10 +19,21 @@
                             <h:outputText value="#{supply.supplyCode}"/>
                         </p:column>
                         <p:column width="50" style="text-align: center">
-                            <p:commandButton icon="ui-icon-search" update=":form:refParcels" type="button"
-                                             onclick="PF('refDet').show()">
-                                <f:setPropertyActionListener value="#{supply}" target="#{supMoveBean.selectedSupply}"/>
+                            <p:commandButton icon="ui-icon-search" update=":form:refParcels" type="button" id="refunBtn">
                             </p:commandButton>
+                            <p:overlayPanel for="refunBtn" dynamic="true">
+                                <p:dataTable value="#{supply.fishParcels}" var="parcel" style="width: 500px">
+                                    <p:column headerText="Fish">
+                                        <h:outputText value="#{parcel.fish.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Manufacturer">
+                                        <h:outputText value="#{parcel.manufacturer.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Weight" style="width: 70px">
+                                        <h:outputText value="#{parcel.weight}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:overlayPanel>
                         </p:column>
                         <p:column width="50" style="text-align: center">
                             <p:commandButton icon="ui-icon-check" update=":form:refPanel"
@@ -30,8 +41,8 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-                <p:panel header="WriteOff" style="width: 600px">
-                    <p:dataTable value="#{supMoveBean.writeOffItems}" var="item">
+                <p:panel header="WriteOff" style="width: 600px" >
+                    <p:dataTable value="#{supMoveBean.writeOffItems}" var="item" id="writeOffTable">
                         <p:column headerText="Fish">
                             <h:outputText value="#{item.fishParcel.fish.name}"/>
                         </p:column>
@@ -42,7 +53,7 @@
                             <h:outputText value="#{item.weight}"/>
                         </p:column>
                         <p:column style="width: 50px; text-align: center">
-                            <p:commandButton icon="ui-icon-check" update="@this"
+                            <p:commandButton icon="ui-icon-check" update=":form:writeOffTable"
                                              actionListener="#{supMoveBean.writeOff(item.uuid)}"/>
                         </p:column>
                     </p:dataTable>

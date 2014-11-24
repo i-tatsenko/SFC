@@ -45,21 +45,6 @@ public abstract class Util {
     }
 
     public static Comparator<FishItem> getFishItemComparator() {
-        return (f1, f2) -> {
-            int result;
-            result = f1.getFishParcel().getFishShipSupply().getSupplyCode().compareTo(f2.getFishParcel().getFishShipSupply().getSupplyCode());
-            if (result != 0) {
-                return result;
-            }
-            result = f1.getFishParcel().getFish().getName().compareTo(f2.getFishParcel().getFish().getName());
-            if (result != 0) {
-                return result;
-            }
-            result = f1.getFishParcel().getManufacturer().getName().compareTo(f2.getFishParcel().getManufacturer().getName());
-            if (result != 0) {
-                return result;
-            }
-            return (int) (f1.getWeight() - f2.getWeight());
-        };
+        return (f1, f2) -> (int) (f1.getId() - f2.getId());
     }
 }
