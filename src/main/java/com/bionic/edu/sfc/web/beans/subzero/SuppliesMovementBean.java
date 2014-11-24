@@ -51,6 +51,7 @@ public class SuppliesMovementBean {
     public void writeOff(String uuid) {
         FishItem fishItem = fishItemService.getForUuid(uuid);
         fishItemService.removeFromColdStore(fishItem);
+        writeOffItems.remove(fishItem);
     }
 
     public void refundParcel(long fssId) {
