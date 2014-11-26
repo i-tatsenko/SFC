@@ -10,9 +10,29 @@
 <h:body>
     <ui:composition template="../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
-            <p:link value="Main" outcome="public/main"/><p/>
-            <p:link value="security officer" outcome="secoff/sec_off_main"/><p/>
-            <p:link value="General manager" outcome="gm/reg_new_ship_supply"/><p/>
+            <h1>On Sale</h1>
+            <p:dataTable value="#{onSaleBean.onSaleParcels}" var="parcel" style="width: 700px">
+                <p:column style="width: 100px">
+                    <p:graphicImage name="#{onSaleBean.getFishLogo(parcel.fish.id)}" library="images"
+                            width="100px" height="100px"/>
+                </p:column>
+                <p:column headerText="Fish details">
+                    <h:panelGrid columns="2" cellspacing="5">
+                        <h:outputText style="font-weight: bold" value="Fish: "/>
+                        <h:outputText value="#{parcel.fish.name}"/>
+
+                        <h:outputText style="font-weight: bold" value="Manufacturer: "/>
+                        <h:outputText value="#{parcel.manufacturer.name}"/>
+
+                        <h:outputText style="font-weight: bold" value="Tonns available: "/>
+                        <h:outputText value="#{parcel.weight - parcel.weightSold}"/>
+
+                        <h:outputText style="font-weight: bold" value="Price, $: "/>
+                        <h:outputText value="#{parcel.actualPrice}"/>
+                    </h:panelGrid>
+                </p:column>
+
+            </p:dataTable>
         </ui:define>
     </ui:composition>
 </h:body>

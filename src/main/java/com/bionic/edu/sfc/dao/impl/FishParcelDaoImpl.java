@@ -30,7 +30,8 @@ public class FishParcelDaoImpl extends ADao<FishParcel> implements IFishParcelDa
                 .createQuery("FROM FishParcel " +
                                 "WHERE availableForCustomers=true " +
                                 "AND weightSold < weight " +
-                                "AND visible=true").list();
+                                "AND visible=true")
+                .list();
     }
 
     @Override

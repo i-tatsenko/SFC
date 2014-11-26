@@ -60,6 +60,7 @@
                 </p:dataTable>
             </h:form>
             <h:form id="newParcelForm">
+                <p:growl id="growl2" sticky="true" showDetail="true"/>
                 <p:panel header="New fish parcel" style="width: 30%; margin-top: 30px">
                     <h:inputHidden value="#{newFishParcelBean.fishShipSupplyId}"/>
                     <h:panelGrid columns="2" cellpadding="5">
@@ -75,15 +76,15 @@
                         </p:selectOneMenu>
                         <p:outputLabel value="Weight" for="weight"/>
                         <p:inputText value="#{newFishParcelBean.nfpWeight}" id="weight">
-                            <f:validateDoubleRange minimum="0.1" validatorMessage="Must be positive integer"/>
+                            <f:validateDoubleRange minimum="0.1" validatorMessage="Weight must be positive integer"/>
                         </p:inputText>
                         <p:outputLabel value="Wholesale" for="wholeSale"/>
-                        <p:inputText value="#{newFishParcelBean.nfpWholeSale}" id="wholeSale" validatorMessage="Must be positive integer">
+                        <p:inputText value="#{newFishParcelBean.nfpWholeSale}" id="wholeSale" validatorMessage="WholeSale must be positive integer">
                             <f:validateDoubleRange minimum="0.1"/>
                         </p:inputText>
 
                         <p:commandButton value="Create" actionListener="#{newFishParcelBean.createNewFishParcel}"
-                                         update=":mainForm"/>
+                                         update=":mainForm, :newParcelForm:growl2"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>

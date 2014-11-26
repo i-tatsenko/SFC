@@ -13,67 +13,70 @@
     <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
             <h:form id="form">
-                <p:panel id="refPanel" header="Refund" style="width: 400px">
-                    <p:dataTable value="#{supMoveBean.toRefundSupplies}" var="supply" style="width: 350px">
-                        <p:column headerText="Supply code">
-                            <h:outputText value="#{supply.supplyCode}"/>
-                        </p:column>
-                        <p:column width="50" style="text-align: center">
-                            <p:commandButton icon="ui-icon-search" update=":form:refParcels" type="button" id="refunBtn">
-                            </p:commandButton>
-                            <p:overlayPanel for="refunBtn" dynamic="true">
-                                <p:dataTable value="#{supply.fishParcels}" var="parcel" style="width: 500px">
-                                    <p:column headerText="Fish">
-                                        <h:outputText value="#{parcel.fish.name}"/>
-                                    </p:column>
-                                    <p:column headerText="Manufacturer">
-                                        <h:outputText value="#{parcel.manufacturer.name}"/>
-                                    </p:column>
-                                    <p:column headerText="Weight" style="width: 70px">
-                                        <h:outputText value="#{parcel.weight}"/>
-                                    </p:column>
-                                </p:dataTable>
-                            </p:overlayPanel>
-                        </p:column>
-                        <p:column width="50" style="text-align: center">
-                            <p:commandButton icon="ui-icon-check" update=":form:refPanel"
-                                             actionListener="#{supMoveBean.refundParcel(supply.id)}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-                <p:panel header="WriteOff" style="width: 600px" >
-                    <p:dataTable value="#{supMoveBean.writeOffItems}" var="item" id="writeOffTable">
-                        <p:column headerText="Fish">
-                            <h:outputText value="#{item.fishParcel.fish.name}"/>
-                        </p:column>
-                        <p:column headerText="Manufacturer">
-                            <h:outputText value="#{item.fishParcel.manufacturer.name}"/>
-                        </p:column>
-                        <p:column headerText="Weight">
-                            <h:outputText value="#{item.weight}"/>
-                        </p:column>
-                        <p:column style="width: 50px; text-align: center">
-                            <p:commandButton icon="ui-icon-check" update=":form:writeOffTable"
-                                             actionListener="#{supMoveBean.writeOff(item.uuid)}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
+                <h:panelGrid columns="3" cellspacing="5" styleClass="columnTop">
+                    <p:panel id="refPanel" header="Refund" style="width: 400px">
+                        <p:dataTable value="#{supMoveBean.toRefundSupplies}" var="supply" style="width: 350px">
+                            <p:column headerText="Supply code">
+                                <h:outputText value="#{supply.supplyCode}"/>
+                            </p:column>
+                            <p:column width="50" style="text-align: center">
+                                <p:commandButton icon="ui-icon-search" update=":form:refParcels" type="button"
+                                                 id="refunBtn">
+                                </p:commandButton>
+                                <p:overlayPanel for="refunBtn" dynamic="true">
+                                    <p:dataTable value="#{supply.fishParcels}" var="parcel" style="width: 500px">
+                                        <p:column headerText="Fish">
+                                            <h:outputText value="#{parcel.fish.name}"/>
+                                        </p:column>
+                                        <p:column headerText="Manufacturer">
+                                            <h:outputText value="#{parcel.manufacturer.name}"/>
+                                        </p:column>
+                                        <p:column headerText="Weight" style="width: 70px">
+                                            <h:outputText value="#{parcel.weight}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:overlayPanel>
+                            </p:column>
+                            <p:column width="50" style="text-align: center">
+                                <p:commandButton icon="ui-icon-check" update=":form:refPanel"
+                                                 actionListener="#{supMoveBean.refundParcel(supply.id)}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:panel header="WriteOff" style="width: 600px">
+                        <p:dataTable value="#{supMoveBean.writeOffItems}" var="item" id="writeOffTable">
+                            <p:column headerText="Fish">
+                                <h:outputText value="#{item.fishParcel.fish.name}"/>
+                            </p:column>
+                            <p:column headerText="Manufacturer">
+                                <h:outputText value="#{item.fishParcel.manufacturer.name}"/>
+                            </p:column>
+                            <p:column headerText="Weight">
+                                <h:outputText value="#{item.weight}"/>
+                            </p:column>
+                            <p:column style="width: 50px; text-align: center">
+                                <p:commandButton icon="ui-icon-check" update=":form:writeOffTable"
+                                                 actionListener="#{supMoveBean.writeOff(item.uuid)}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
 
-                <p:panel header="Shipment" style="width: 450px">
-                    <p:dataTable value="#{supMoveBean.shipmentBills}" var="bill">
-                        <p:column headerText="Id" style="width: 20px">
-                            <h:outputText value="#{bill.id}"/>
-                        </p:column>
-                        <p:column headerText="Customer">
-                            <h:outputText value="#{bill.customer.name}"/>
-                        </p:column>
-                        <p:column style="width: 50px; text-align: center">
-                            <p:commandButton icon="ui-icon-check" update="@this" actionListener="#{supMoveBean.ship(bill.id)}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
+                    <p:panel header="Shipment" style="width: 450px">
+                        <p:dataTable value="#{supMoveBean.shipmentBills}" var="bill">
+                            <p:column headerText="Id" style="width: 20px">
+                                <h:outputText value="#{bill.id}"/>
+                            </p:column>
+                            <p:column headerText="Customer">
+                                <h:outputText value="#{bill.customer.name}"/>
+                            </p:column>
+                            <p:column style="width: 50px; text-align: center">
+                                <p:commandButton icon="ui-icon-check" update="@this"
+                                                 actionListener="#{supMoveBean.ship(bill.id)}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
 
-
+                </h:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

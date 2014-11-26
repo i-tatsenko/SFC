@@ -126,7 +126,7 @@
                                                                              offLabel="No" onLabel="Yes"/> </f:facet>
                             </p:cellEditor>
                             <f:facet name="filter">
-                                <p:selectOneRadio onchange="PF('fParcel').filter()" styleClass="smallButton"
+                                <p:selectOneRadio onchange="PF('fParcel').filter()"
                                                   layout="grid" columns="1">
                                     <f:converter converterId="javax.faces.Boolean"/>
                                     <f:selectItem itemLabel="All" itemValue=""/>
@@ -139,8 +139,17 @@
                             <p:rowEditor/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="WriteOff" oncomplete="PF('writeDia').show()" actionListener="#{gmCStore.writeOffPrepare(parcel.id)}" update=":cold:writeDiaId">
-                            </p:commandButton>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:commandButton value="WriteOff" oncomplete="PF('writeDia').show()"
+                                                     actionListener="#{gmCStore.writeOffPrepare(parcel.id)}"
+                                                     update=":cold:writeDiaId">
+                                    </p:commandButton>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:button value="WriteOff" disabled="true"/>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
@@ -150,7 +159,8 @@
                     <h:inputHidden value="#{gmCStore.writeOffParcelId}"/>
                     <p:inputText value="#{gmCStore.writeOffWeight}"/>
                     <p:commandButton value="Ok" actionListener="#{gmCStore.writeOff}"
-                                     update=":supps:message, :cold:coldTable, :cold:growl" onclick="PF('writeDia').hide()"/>
+                                     update=":supps:message, :cold:coldTable, :cold:growl"
+                                     onclick="PF('writeDia').hide()"/>
                 </p:dialog>
             </h:form>
         </ui:define>

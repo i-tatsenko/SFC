@@ -11,6 +11,7 @@
     <security:http auto-config="true">
         <security:intercept-url pattern="/faces/secoff/*" access="ROLE_SECURITY_OFFICER"/>
         <security:intercept-url pattern="/faces/gm/*" access="ROLE_GENERAL_MANAGER"/>
+        <security:intercept-url pattern="/faces/subzero/*" access="ROLE_COLD_STORE_MANAGER"/>
         <security:form-login
         login-page="/faces/login.xhtml"
         default-target-url="/faces/index.xhtml"

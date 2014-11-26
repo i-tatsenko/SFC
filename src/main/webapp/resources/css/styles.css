@@ -41,6 +41,10 @@
     left: 20px
 }
 
+.columnTop td{
+    vertical-align: top;
+}
+
 .rowREADY_FOR_TRANSPORT {
     background: #BD995B;
 }

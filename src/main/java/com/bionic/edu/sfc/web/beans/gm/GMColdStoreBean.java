@@ -189,6 +189,8 @@ public class GMColdStoreBean {
         try {
             LOG.info("Generating write off for parcel: " + parcel);
             fishParcelService.writeOff(parcel, writeOffWeight);
+            readyForSaleParcels.remove(parcel);
+            readyForSaleParcels.add(parcel);
         } catch (NoEnoughFishException nefe) {
             LOG.error("No enough fish");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("There is no enough fish to write-off"));
