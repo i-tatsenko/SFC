@@ -45,7 +45,7 @@ public class RegistrationBean {
         } catch (Exception e) {
             return "/faces/register.xhtml?error=" + e.getMessage();
         }
-        return "/faces/index.html";
+        return "/faces/login.html";
     }
 
     public void doCancel(ActionEvent event) throws IOException {

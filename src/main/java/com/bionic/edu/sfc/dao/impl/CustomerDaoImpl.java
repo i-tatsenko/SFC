@@ -17,4 +17,13 @@ public class CustomerDaoImpl extends ADao<Customer> implements ICustomerDao {
     public CustomerDaoImpl() {
         super(Customer.class);
     }
+
+    @Override
+    public Customer findByLogin(String login) {
+        return (Customer) getSession().createQuery("" +
+                "FROM Customer " +
+                "WHERE login=:login " +
+                "AND visible=true")
+                .setParameter("login", login).uniqueResult();
+    }
 }

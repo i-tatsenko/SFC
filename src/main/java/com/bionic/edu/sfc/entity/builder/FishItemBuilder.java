@@ -6,6 +6,7 @@ import com.bionic.edu.sfc.entity.FishItem;
 import com.bionic.edu.sfc.entity.FishParcel;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Ivan
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 public class FishItemBuilder {
     private long id;
-    private String uuid;
+    private String uuid = UUID.randomUUID().toString();
     private FishParcel fishParcel;
     private double price;
     private Customer customer;

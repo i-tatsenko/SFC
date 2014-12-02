@@ -45,4 +45,9 @@ public class CustomerServiceImpl implements ICustomerService {
         customerDao.create(customer);
 
     }
+
+    @Override
+    public Customer findByLogin(String login) {
+        return customerDao.findByLogin(login);
+    }
 }

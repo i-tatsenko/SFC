@@ -8,4 +8,6 @@ import com.bionic.edu.sfc.entity.Customer;
  * 2014.09
  */
 public interface ICustomerDao extends IDao<Customer> {
+
+    Customer findByLogin(String login);
 }

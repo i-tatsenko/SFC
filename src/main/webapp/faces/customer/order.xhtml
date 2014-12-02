@@ -8,8 +8,34 @@
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
-    <ui:composition template="../WEB-INF/templates/BasicTemplate.xhtml">
+    <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
+            <h:form>
+                <p:dataTable value="#{orderBean.orderItems}" var="item" style="width: 800px">
+                    <p:column style="width: 100px">
+                        <p:graphicImage name="#{onSaleBean.getFishLogo(item.fishParcel.fish.id)}" library="images"
+                                        width="100px"/>
+                    </p:column>
+                    <p:column headerText="Fish">
+                        <h:outputText value="#{item.fishParcel.fish.name}"/>
+                    </p:column>
+                    <p:column headerText="Manufacturer">
+                        <h:outputText value="#{item.fishParcel.manufacturer.name}"/>
+                    </p:column>
+                    <p:column headerText="Weight">
+                        <h:outputText value="#{item.weight}"/>
+                    </p:column>
+                    <p:column headerText="Price">
+                        <h:outputText value="#{item.price}"/>
+                    </p:column>
+                    <p:column headerText="Total">
+                        <h:outputText value="#{item.weight * item.price}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Remove"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

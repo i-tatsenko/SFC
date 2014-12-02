@@ -75,4 +75,10 @@ public class FishParcelServiceImpl implements IFishParcelService {
         fishItemService.create(fishItem);
     }
 
+    @Override
+    public boolean haveEnoughWeight(long fishParcelId, double weight) {
+        FishParcel fishParcel = fishParcelDao.findById(fishParcelId);
+        return fishParcel.getWeight() > weight;
+    }
+
 }

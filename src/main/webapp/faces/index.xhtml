@@ -3,36 +3,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
     <h:outputStylesheet library="css" name="styles.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
 </h:head>
 <h:body>
     <ui:composition template="../WEB-INF/templates/BasicTemplate.xhtml">
         <ui:define name="content">
             <h1>On Sale</h1>
-            <p:dataTable value="#{onSaleBean.onSaleParcels}" var="parcel" style="width: 700px">
-                <p:column style="width: 100px">
-                    <p:graphicImage name="#{onSaleBean.getFishLogo(parcel.fish.id)}" library="images"
-                            width="100px" height="100px"/>
-                </p:column>
-                <p:column headerText="Fish details">
-                    <h:panelGrid columns="2" cellspacing="5">
-                        <h:outputText style="font-weight: bold" value="Fish: "/>
+            <h:form id="mainForm" style="text-align: center; width: 100%">
+                <p:growl id="message" sticky="true"/>
+                <p:dataTable value="#{onSaleBean.onSaleParcels}" var="parcel"
+                             style="width: 1000px;" rowStyleClass="mainTableRow">
+                    <p:column style="width: 100px">
+                        <p:graphicImage name="#{onSaleBean.getFishLogo(parcel.fish.id)}" library="images"
+                                        width="100px"/>
+                    </p:column>
+
+                    <p:column headerText="Fish: ">
                         <h:outputText value="#{parcel.fish.name}"/>
+                    </p:column>
 
-                        <h:outputText style="font-weight: bold" value="Manufacturer: "/>
+                    <p:column headerText="Manufacturer: ">
                         <h:outputText value="#{parcel.manufacturer.name}"/>
+                    </p:column>
 
-                        <h:outputText style="font-weight: bold" value="Tonns available: "/>
+                    <p:column headerText="Tonns available: ">
                         <h:outputText value="#{parcel.weight - parcel.weightSold}"/>
+                    </p:column>
 
-                        <h:outputText style="font-weight: bold" value="Price, $: "/>
+                    <p:column headerText="Price, $: ">
                         <h:outputText value="#{parcel.actualPrice}"/>
-                    </h:panelGrid>
-                </p:column>
-
-            </p:dataTable>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{orderBean.buyButtonText()}" oncomplete="PF('buyDia').show()"
+                                         actionListener="#{orderBean.prepareAddItemToOrder(parcel.id)}"
+                                disabled="#{!loginBean.authenticated}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dialog showEffect="fade" hideEffect="fade" widgetVar="buyDia" header="Add to order"
+                          resizable="false">
+                    <h2><h:outputText value="Edit weight"/></h2>
+                    <p:inputText value="#{orderBean.selectedWeight}"/>
+                    <p:commandButton value="Buy!" actionListener="#{orderBean.addToOrder()}"
+                                     update=":mainForm:message"
+                                     onclick="PF('buyDia').hide()"/>
+                </p:dialog>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

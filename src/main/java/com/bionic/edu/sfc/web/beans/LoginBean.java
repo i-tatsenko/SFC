@@ -38,8 +38,6 @@ public class LoginBean {
     @Autowired
     private BLService blService;
 
-    private String previousUrl;
-
     public String getUsername() {
         if (!isAuthenticated()) {
             return "";
@@ -95,17 +93,10 @@ public class LoginBean {
     }
 
     public void doCancel(ActionEvent actionEvent) throws IOException {
-        if (previousUrl != null) {
-            LOGGER.info("Redirecting to " + previousUrl);
-            FacesContext.getCurrentInstance().getExternalContext().redirect(previousUrl);
-            return;
-        }
-
         FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
     }
 
     public String goToLogin() {
-        previousUrl = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURL().toString();
         return "/faces/login";
     }
 
@@ -120,13 +111,5 @@ public class LoginBean {
             }
         }
         return false;
-    }
-
-    public String getPreviousUrl() {
-        return previousUrl;
-    }
-
-    public void setPreviousUrl(String previousUrl) {
-        this.previousUrl = previousUrl;
     }
 }

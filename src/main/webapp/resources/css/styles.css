@@ -45,6 +45,10 @@
     vertical-align: top;
 }
 
+.noBorderTable {
+    border-style: none !important;
+}
+
 .rowREADY_FOR_TRANSPORT {
     background: #BD995B;
 }
