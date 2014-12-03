@@ -3,13 +3,17 @@ package com.bionic.edu.sfc.service.dao.impl;
 import com.bionic.edu.sfc.dao.IDao;
 import com.bionic.edu.sfc.dao.IUserDao;
 import com.bionic.edu.sfc.entity.User;
+import com.bionic.edu.sfc.entity.UserRole;
 import com.bionic.edu.sfc.service.dao.IUserService;
 import com.bionic.edu.sfc.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -69,6 +73,33 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Override
     public List<User> getAllSystemUsers() {
         return userDao.getAllSystemUsers();
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String loginName = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        return findUserByLogin(loginName);
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+
+    @Override
+    public UserRole getCurrentUserRole() {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        if (authorities == null || authorities.size() == 0) {
+            return null;
+        }
+        for (GrantedAuthority authority : authorities) {
+            UserRole userRole = UserRole.safeValueOf(authority.getAuthority());
+            if (userRole != null) {
+                return userRole;
+            }
+        }
+        return null;
     }
 
     @Override

@@ -21,6 +21,6 @@ public interface IFishParcelService extends IService<FishParcel> {
 
     void writeOff(FishParcel parcel, double weight);
 
-    boolean haveEnoughWeight(long fishParcelId, double weight);
+    boolean hasEnoughWeight(long fishParcelId, double weight);
 
 }

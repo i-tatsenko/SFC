@@ -3,8 +3,10 @@ package com.bionic.edu.sfc.service.dao.impl;
 import com.bionic.edu.sfc.dao.ICustomerDao;
 import com.bionic.edu.sfc.dao.IDao;
 import com.bionic.edu.sfc.entity.Customer;
+import com.bionic.edu.sfc.entity.User;
 import com.bionic.edu.sfc.entity.UserRole;
 import com.bionic.edu.sfc.service.dao.ICustomerService;
+import com.bionic.edu.sfc.service.dao.IUserService;
 import com.bionic.edu.sfc.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     private ICustomerDao customerDao;
+
+    @Autowired
+    private IUserService userService;
 
     @Override
     public final IDao<Customer> getDao() {
@@ -49,5 +54,14 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public Customer findByLogin(String login) {
         return customerDao.findByLogin(login);
+    }
+
+    @Override
+    public Customer getCurrentCustomer() {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser != null && currentUser.getUserRole() == UserRole.ROLE_CUSTOMER) {
+            return (Customer) currentUser;
+        }
+        return null;
     }
 }

@@ -34,7 +34,7 @@
             <h:form style="position: absolute; right: 0; top: 5px">
                 <h:panelGrid columns="3" rendered="#{loginBean.authenticated}" style="margin: 10px">
                     <p:outputLabel value="Username: "/>
-                    <h:outputText style="right: 0; text-decoration: underline" value="#{loginBean.username}"/>
+                    <h:outputText style="right: 0; text-decoration: underline" value="#{loginBean.userName}"/>
                     <p:commandLink value="Logout" ajax="false" action="#{loginBean.doLogout}"/>
                 </h:panelGrid>
 

@@ -11,4 +11,6 @@ public interface ICustomerService extends IService<Customer> {
     void create(Customer customer, String password);
 
     Customer findByLogin(String login);
+
+    Customer getCurrentCustomer();
 }

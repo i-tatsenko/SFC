@@ -59,7 +59,7 @@ public class FishParcelServiceImpl implements IFishParcelService {
 
     @Override
     public void writeOff(FishParcel parcel, double weight) {
-        if (parcel.getWeight() < parcel.getWeightSold() + weight) {
+        if (!hasEnoughweight(parcel, weight)) {
             throw new NoEnoughFishException("There is no enough fish to generate write off");
         }
         parcel.setWeightSold(parcel.getWeightSold() + weight);
@@ -76,9 +76,13 @@ public class FishParcelServiceImpl implements IFishParcelService {
     }
 
     @Override
-    public boolean haveEnoughWeight(long fishParcelId, double weight) {
+    public boolean hasEnoughWeight(long fishParcelId, double weight) {
         FishParcel fishParcel = fishParcelDao.findById(fishParcelId);
-        return fishParcel.getWeight() > weight;
+        return hasEnoughweight(fishParcel, weight);
+    }
+
+    private boolean hasEnoughweight(FishParcel fishParcel, double weight) {
+        return fishParcel.getWeight() - fishParcel.getWeightSold() >= weight;
     }
 
 }

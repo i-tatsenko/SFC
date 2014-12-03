@@ -1,15 +1,13 @@
 package com.bionic.edu.sfc.web.beans;
 
-import com.bionic.edu.sfc.service.BLService;
+import com.bionic.edu.sfc.entity.UserRole;
+import com.bionic.edu.sfc.service.ITradeService;
+import com.bionic.edu.sfc.service.TradeServiceImpl;
 import com.bionic.edu.sfc.service.dao.IUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -21,7 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * Created by docent on 21.10.14.
@@ -36,19 +33,17 @@ public class LoginBean {
     private IUserService userService;
 
     @Autowired
-    private BLService blService;
+    private ITradeService tradeService;
 
-    public String getUsername() {
+    public String getUserName() {
         if (!isAuthenticated()) {
             return "";
         }
-        String loginName = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        return userService.findUserByLogin(loginName).getName();
+        return userService.getCurrentUser().getName();
     }
 
     public boolean isAuthenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+        return userService.isAuthenticated();
     }
 
     public void showErrorIfAny() {
@@ -101,15 +96,7 @@ public class LoginBean {
     }
 
     public boolean hasAccess(String userRole) {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities == null) {
-            return false;
-        }
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals(userRole)) {
-                return true;
-            }
-        }
-        return false;
+        UserRole currentUserRole = userService.getCurrentUserRole();
+        return currentUserRole != null && currentUserRole.toString().equals(userRole);
     }
 }

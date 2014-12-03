@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.service.dao;
 
 import com.bionic.edu.sfc.entity.User;
+import com.bionic.edu.sfc.entity.UserRole;
 
 import java.util.List;
 
@@ -17,4 +18,10 @@ public interface IUserService extends IService<User> {
     public User authenticate(String login, String password);
 
     public List<User> getAllSystemUsers();
+
+    public User getCurrentUser();
+
+    public boolean isAuthenticated();
+
+    public UserRole getCurrentUserRole();
 }
