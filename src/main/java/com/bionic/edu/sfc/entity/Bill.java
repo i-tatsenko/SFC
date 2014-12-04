@@ -2,7 +2,7 @@ package com.bionic.edu.sfc.entity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Ivan
@@ -15,7 +15,10 @@ public class Bill extends Hideable {
     private Customer customer;
 
     @OneToMany (mappedBy = "bill")
-    private Set<FishItem> fishItems;
+    private List<FishItem> fishItems;
+
+    @OneToMany (mappedBy = "bill")
+    private List<Payment> payments;
 
     @Column(nullable = false)
     private Date creationDate;
@@ -68,11 +71,11 @@ public class Bill extends Hideable {
         this.customer = customer;
     }
 
-    public Set<FishItem> getFishItems() {
+    public List<FishItem> getFishItems() {
         return fishItems;
     }
 
-    public void setFishItems(Set<FishItem> fishItems) {
+    public void setFishItems(List<FishItem> fishItems) {
         this.fishItems = fishItems;
     }
 
@@ -114,5 +117,13 @@ public class Bill extends Hideable {
 
     public void setShipmentAllowed(boolean isShipmentAllowed) {
         this.isShipmentAllowed = isShipmentAllowed;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }

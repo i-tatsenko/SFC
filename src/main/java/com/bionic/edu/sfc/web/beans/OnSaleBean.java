@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by docent on 26.11.14.
@@ -25,11 +25,11 @@ public class OnSaleBean {
     @Autowired
     private IFishService fishService;
 
-    private Set<FishParcel> onSaleParcels = new TreeSet<>((fp1, fp2) -> fp1.getFish().getName().compareTo(fp2.getFish().getName()));
+    private List<FishParcel> onSaleParcels = new LinkedList<>();
 
     @PostConstruct
     public void init() {
-        onSaleParcels.addAll(fishParcelService.getAllAvailableForCustomers());
+        onSaleParcels = fishParcelService.getAllAvailableForCustomers();
     }
 
     public String getFishLogo(long fishId) {
@@ -37,11 +37,11 @@ public class OnSaleBean {
         return fish.getLogo() == null ? "def_fish.png" : fish.getLogo();
     }
 
-    public Set<FishParcel> getOnSaleParcels() {
+    public List<FishParcel> getOnSaleParcels() {
         return onSaleParcels;
     }
 
-    public void setOnSaleParcels(Set<FishParcel> onSaleParcels) {
+    public void setOnSaleParcels(List<FishParcel> onSaleParcels) {
         this.onSaleParcels = onSaleParcels;
     }
 }

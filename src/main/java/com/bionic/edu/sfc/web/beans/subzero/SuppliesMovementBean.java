@@ -42,10 +42,13 @@ public class SuppliesMovementBean {
 
     private Set<Bill> shipmentBills = new TreeSet<>((b1, b2) -> (int) (b1.getId() - b2.getId()));
 
+    private long selectedBillId;
+
     @PostConstruct
     public void init() {
         toRefundSupplies.addAll(fishShipSupplyService.getAllToRefund());
         writeOffItems.addAll(fishItemService.getReadyForWriteOff());
+        shipmentBills.addAll(billService.getAllReadyForShipment());
     }
 
     public void writeOff(String uuid) {
@@ -63,6 +66,18 @@ public class SuppliesMovementBean {
     public void ship(long billId) {
         Bill bill = billService.findById(billId);
         billService.ship(bill);
+    }
+
+    public void prepareShowBillDetails(long selectedBillId) {
+        this.selectedBillId = selectedBillId;
+    }
+
+    public List<FishItem> getItemsForSelectedBill() {
+        Bill bill = billService.findById(selectedBillId);
+        if (bill == null) {
+            return Collections.emptyList();
+        }
+        return bill.getFishItems();
     }
 
     public Set<FishShipSupply> getToRefundSupplies() {
@@ -95,5 +110,15 @@ public class SuppliesMovementBean {
 
     public void setShipmentBills(Set<Bill> shipmentBills) {
         this.shipmentBills = shipmentBills;
+    }
+
+
+
+    public long getSelectedBillId() {
+        return selectedBillId;
+    }
+
+    public void setSelectedBillId(long selectedBillId) {
+        this.selectedBillId = selectedBillId;
     }
 }

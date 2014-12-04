@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+</h:head>
+<h:body>
+    <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
+        <ui:define name="content">
+            <h1>Bills</h1>
+            <h:form id="mainForm" style="text-align: center; width: 100%">
+                <p:growl id="message" sticky="true" showDetail="true"/>
+                <p:dataTable id="openBills" value="#{accBean.allOpenBills}" var="bill"
+                        >
+                    <f:facet name="header">
+                        <h:outputText value="Open Bills"/>
+                    </f:facet>
+                    <p:column headerText="Bill Id">
+                        <h:outputText value="#{bill.id}"/>
+                    </p:column>
+                    <p:column headerText="Total sum">
+                        <h:outputText value="$ #{bill.totalSum}"/>
+                    </p:column>
+                    <p:column headerText="Paid">
+                        <h:outputText value="$ #{bill.alreadyPaid}"/>
+                    </p:column>
+                    <p:column headerText="Customer">
+                        <h:outputText value="#{bill.customer.name}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="New payment" icon="ui-icon-plusthick" actionListener="#{accBean.prepareNewPayment(bill.id)}"
+                                oncomplete="PF('payDia').show()" update=":mainForm:payDiaId"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{accBean.shipmentBtnText(bill)}" icon="ui-icon-circle-check"
+                                         disabled="#{!accBean.canAllowShipment(bill) || bill.shipmentAllowed}"
+                                action="#{accBean.shipmentAllowed(bill.id)}" ajax="false" type="submit"/>
+                    </p:column>
+                </p:dataTable>
+
+
+
+                <p:dialog showEffect="fade" hideEffect="fade" widgetVar="payDia" id="payDiaId"
+                          header="New Payment" resizable="false">
+                    <h2><h:outputText value="Edit payment details"/></h2>
+                    <h:inputHidden value="#{accBean.billIdForNewPayment}"/>
+                    <p:outputLabel for="sum" value="Sum: "/>
+                    <p:inputText value="#{accBean.sumForNewPayment}" id="sum"/>
+                    <p:commandButton value="Register" actionListener="#{accBean.registerPayment}" oncomplete="PF('payDia').hide()"
+                            update=":mainForm:message, :mainForm:payments, :mainForm:openBills"/>
+
+                </p:dialog>
+
+                <p:dataTable value="#{accBean.allPayments}" var="payment" id="payments"
+                        style="margin-top: 20px">
+                    <f:facet name="header">
+                        <h:outputText value="Payments"/>
+                    </f:facet>
+                    <p:column headerText="Customer">
+                        <h:outputText value="#{payment.bill.customer.name}"/>
+                    </p:column>
+                    <p:column headerText="Sum">
+                        <h:outputText value="#{payment.totalSum}"/>
+                    </p:column>
+                    <p:column headerText="Date">
+                        <h:outputText value="#{payment.creationDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                                </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

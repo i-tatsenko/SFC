@@ -1,6 +1,7 @@
 package com.bionic.edu.sfc.service;
 
 import com.bionic.edu.sfc.entity.FishItem;
+import com.bionic.edu.sfc.entity.Payment;
 import com.bionic.edu.sfc.exception.NotActualPriceException;
 import com.bionic.edu.sfc.exception.NotActualWeightException;
 
@@ -12,4 +13,6 @@ import java.util.Collection;
 public interface ITradeService {
 
     void registerNewBill(Collection<FishItem> fishItems) throws NotActualPriceException, NotActualWeightException;
+
+    public Payment registerNewPayment(long billId, double sum);
 }

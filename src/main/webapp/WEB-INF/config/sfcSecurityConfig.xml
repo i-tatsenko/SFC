@@ -13,6 +13,7 @@
         <security:intercept-url pattern="/faces/gm/*" access="ROLE_GENERAL_MANAGER"/>
         <security:intercept-url pattern="/faces/subzero/*" access="ROLE_COLD_STORE_MANAGER"/>
         <security:intercept-url pattern="/faces/customer/*" access="ROLE_CUSTOMER"/>
+        <security:intercept-url pattern="/faces/acc/*" access="ROLE_ACCOUNTANT"/>
         <security:form-login
         login-page="/faces/login.xhtml"
         default-target-url="/faces/index.xhtml"

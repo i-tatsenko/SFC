@@ -64,4 +64,6 @@ public class Payment extends Hideable {
     public void setTotalSum(Double totalSum) {
         this.totalSum = totalSum;
     }
+
+
 }

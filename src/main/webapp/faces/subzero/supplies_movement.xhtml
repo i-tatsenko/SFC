@@ -61,7 +61,7 @@
                         </p:dataTable>
                     </p:panel>
 
-                    <p:panel header="Shipment" style="width: 450px">
+                    <p:panel header="Shipment" style="width: 550px">
                         <p:dataTable value="#{supMoveBean.shipmentBills}" var="bill">
                             <p:column headerText="Id" style="width: 20px">
                                 <h:outputText value="#{bill.id}"/>
@@ -69,11 +69,39 @@
                             <p:column headerText="Customer">
                                 <h:outputText value="#{bill.customer.name}"/>
                             </p:column>
+                            <p:column headerText="Bill Id">
+                                <h:outputText value="#{bill.id}"/>
+                            </p:column>
+                            <p:column style="width: 50px; text-align: center">
+                                <p:commandButton icon="ui-icon-search"
+                                                 actionListener="#{supMoveBean.prepareShowBillDetails(bill.id)}"
+                                                 update=":form:billDetId, :form:fishItems"
+                                                 oncomplete="PF('billDetWig').show()"/>
+                            </p:column>
                             <p:column style="width: 50px; text-align: center">
                                 <p:commandButton icon="ui-icon-check" update="@this"
                                                  actionListener="#{supMoveBean.ship(bill.id)}"/>
                             </p:column>
                         </p:dataTable>
+                        <p:dialog widgetVar="billDetWig" id="billDetId" showEffect="fade" hideEffect="fade"
+                                  resizable="false" draggable="false" style="max-width: 70%"
+                                  header="Fish Items for Bill # #{supMoveBean.selectedBillId}">
+                            <h:inputHidden value="#{supMoveBean.selectedBillId}"/>
+                            <p:dataTable id="fishItems" value="#{supMoveBean.itemsForSelectedBill}" var="item">
+                                <p:column headerText="Fish Ship Supply Id">
+                                    <h:outputText value="#{item.fishParcel.fishShipSupply.id}"/>
+                                </p:column>
+                                <p:column headerText="Fish">
+                                    <h:outputText value="#{item.fishParcel.fish.name}"/>
+                                </p:column>
+                                <p:column headerText="Manufacturer">
+                                    <h:outputText value="#{item.fishParcel.manufacturer.name}"/>
+                                </p:column>
+                                <p:column headerText="Weight">
+                                    <h:outputText value="#{item.weight}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:dialog>
                     </p:panel>
 
                 </h:panelGrid>

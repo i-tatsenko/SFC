@@ -2,6 +2,8 @@ package com.bionic.edu.sfc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * Ivan
@@ -13,6 +15,9 @@ public class Customer extends User {
     @Column(precision = 3,
             scale = 2)
     private float prepaymentRate;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Bill> bills;
 
     public Customer() { }
 
@@ -30,5 +35,13 @@ public class Customer extends User {
                 super.toString() +
                 " prepaymentRate=" + prepaymentRate +
                 '}';
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
     }
 }

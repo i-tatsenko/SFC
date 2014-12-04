@@ -5,10 +5,7 @@ import com.bionic.edu.sfc.entity.builder.BillBuilder;
 import com.bionic.edu.sfc.entity.builder.UserBuilder;
 import com.bionic.edu.sfc.exception.NotActualPriceException;
 import com.bionic.edu.sfc.exception.NotActualWeightException;
-import com.bionic.edu.sfc.service.dao.IBillService;
-import com.bionic.edu.sfc.service.dao.IFishItemService;
-import com.bionic.edu.sfc.service.dao.IFishParcelService;
-import com.bionic.edu.sfc.service.dao.IUserService;
+import com.bionic.edu.sfc.service.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
@@ -43,6 +41,12 @@ public class TradeServiceImpl implements ITradeService {
 
     @Autowired
     private IDeliveryService deliveryService;
+
+    @Autowired
+    private ICustomerService customerService;
+
+    @Autowired
+    private IPaymentService paymentService;
 
     @PostConstruct
     public void init() {
@@ -86,6 +90,27 @@ public class TradeServiceImpl implements ITradeService {
             fishParcel.setWeightSold(fishParcel.getWeightSold() + weight);
             fishParcelService.update(fishParcel);
         });
+    }
+
+    @Override
+    public Payment registerNewPayment(long billId, double sum) {
+        Bill bill = billService.findById(billId);
+        if (bill == null) {
+            throw new IllegalArgumentException("No bill with id " + billId);
+        }
+        Payment payment = new Payment();
+        payment.setBill(bill);
+        payment.setCreationDate(new Date());
+        payment.setTotalSum(sum);
+
+        paymentService.create(payment);
+
+        bill.setAlreadyPaid(bill.getAlreadyPaid() + sum);
+        if (bill.getAlreadyPaid() >= bill.getTotalSum()) {
+            bill.setCloseDate(new Date());
+        }
+        billService.update(bill);
+        return payment;
     }
 
     private Collection<FishItem> getFishItemsWithoutActualPrice(Collection<FishItem> fishItems) {
