@@ -76,7 +76,7 @@ public class TradeServiceImpl implements ITradeService {
             throw new NotActualWeightException(fishItems);
         }
         Customer customer = fishItems.stream().findAny().get().getCustomer();
-        double sum = fishItems.stream().mapToDouble(FishItem::getPrice).sum();
+        double sum = fishItems.stream().mapToDouble(fi -> fi.getPrice() * fi.getWeight()).sum();
         double deliveryCost = deliveryService.getDeliveryCost(fishItems.stream().mapToDouble(FishItem::getWeight).sum());
         Bill bill = BillBuilder.aBill(customer,
                 sum + deliveryCost).build();

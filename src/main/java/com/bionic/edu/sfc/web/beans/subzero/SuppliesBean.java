@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -85,6 +86,7 @@ public class SuppliesBean {
         selectedSupply.setStatus(FishShipSupplyStatus.READY_FOR_COLD_STORE_REGISTRATION);
         fishShipSupplyService.update(selectedSupply);
         selectedSupply = null;
+        parcelsForSupply = Collections.emptyList();
         init();
     }
 

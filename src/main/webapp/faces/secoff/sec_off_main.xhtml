@@ -88,7 +88,7 @@
                         <p:outputLabel value="Description" for="desc"/>
                         <p:inputTextarea value="${usersBean.newUser.description}" id="desc"/>
                         <p:commandButton value="Add new user" actionListener="#{usersBean.createNewUser}"
-                                         update=":pageForm"/>
+                                         update=":pageForm:usersTable"/>
 
                     </h:panelGrid>
                 </p:panel>

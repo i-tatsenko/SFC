@@ -58,6 +58,7 @@ public class UsersBean {
         User userToDelete = userService.findById(id);
         LOG.info("Trying to delete " + userToDelete);
         userService.delete(userToDelete);
+        users.remove(userToDelete);
         selectedUser = null;
     }
 
