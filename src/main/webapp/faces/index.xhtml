@@ -15,7 +15,7 @@
             <h:form id="mainForm" style="text-align: center; width: 100%">
                 <p:growl id="message" sticky="true" showDetail="true"/>
                 <p:dataTable value="#{onSaleBean.onSaleParcels}" var="parcel"
-                             style="width: 1000px;" rowStyleClass="mainTableRow">
+                             style="width: 1100px;" rowStyleClass="mainTableRow">
                     <p:column style="width: 100px">
                         <p:graphicImage name="#{onSaleBean.getFishLogo(parcel.fish.id)}" library="images"
                                         width="100px"/>
@@ -29,6 +29,10 @@
                         <h:outputText value="#{parcel.manufacturer.name}"/>
                     </p:column>
 
+                    <p:column headerText="Description">
+                        <h:outputText value="#{parcel.fish.description}"/>
+                            </p:column>
+
                     <p:column headerText="Tonns available: ">
                         <h:outputText value="#{parcel.weight - parcel.weightSold}"/>
                     </p:column>
@@ -36,10 +40,10 @@
                     <p:column headerText="Price, $: ">
                         <h:outputText value="#{parcel.actualPrice}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="width: 200px">
                         <p:commandButton value="#{orderBean.buyButtonText()}" oncomplete="PF('buyDia').show()"
                                          actionListener="#{orderBean.prepareAddItemToOrder(parcel.id)}"
-                                disabled="#{!loginBean.authenticated}"/>
+                                disabled="#{!orderBean.buyButtonEnabled()}"/>
                     </p:column>
                 </p:dataTable>
                 <p:dialog showEffect="fade" hideEffect="fade" widgetVar="buyDia" header="Add to order"

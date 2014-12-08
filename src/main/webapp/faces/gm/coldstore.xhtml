@@ -139,17 +139,10 @@
                             <p:rowEditor/>
                         </p:column>
                         <p:column>
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <p:commandButton value="WriteOff" oncomplete="PF('writeDia').show()"
-                                                     actionListener="#{gmCStore.writeOffPrepare(parcel.id)}"
-                                                     update=":cold:writeDiaId">
-                                    </p:commandButton>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <p:button value="WriteOff" disabled="true"/>
-                                </f:facet>
-                            </p:cellEditor>
+                            <p:commandButton value="WriteOff" oncomplete="PF('writeDia').show()"
+                                             actionListener="#{gmCStore.writeOffPrepare(parcel.id)}"
+                                             update=":cold:writeDiaId" >
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

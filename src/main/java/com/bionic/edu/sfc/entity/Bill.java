@@ -53,8 +53,6 @@ public class Bill extends Hideable {
     public String toString() {
         return "Bill{" +
                 "id=" + getId() +
-                ", customer=" + customer +
-                ", fishItems=" + fishItems +
                 ", creationDate=" + creationDate +
                 ", closeDate=" + closeDate +
                 ", totalSum=" + totalSum +

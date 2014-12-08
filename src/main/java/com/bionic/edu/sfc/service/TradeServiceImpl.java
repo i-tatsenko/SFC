@@ -5,6 +5,7 @@ import com.bionic.edu.sfc.entity.builder.BillBuilder;
 import com.bionic.edu.sfc.entity.builder.UserBuilder;
 import com.bionic.edu.sfc.exception.NotActualPriceException;
 import com.bionic.edu.sfc.exception.NotActualWeightException;
+import com.bionic.edu.sfc.exception.NotAvailableForCustomersException;
 import com.bionic.edu.sfc.service.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,13 +67,18 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public void registerNewBill(Collection<FishItem> fishItems) throws NotActualPriceException, NotActualWeightException {
-        Collection<FishItem> notActual = getFishItemsWithoutActualPrice(fishItems);
-        if (notActual != null && notActual.size() > 0) {
-            throw new NotActualPriceException(notActual);
+    public void registerNewBill(Collection<FishItem> fishItems) throws NotActualPriceException, NotActualWeightException, NotAvailableForCustomersException {
+        Collection<FishItem> notActualItems = getNotAvailableForCustomerItems(fishItems);
+        if (notActualItems != null && notActualItems.size() > 0) {
+            throw new NotAvailableForCustomersException(notActualItems);
         }
-        notActual = getFishItemsWithoutActualWeight(fishItems);
-        if (notActual != null && notActual.size() > 0) {
+
+        notActualItems = getFishItemsWithoutActualPrice(fishItems);
+        if (notActualItems != null && notActualItems.size() > 0) {
+            throw new NotActualPriceException(notActualItems);
+        }
+        notActualItems = getFishItemsWithoutActualWeight(fishItems);
+        if (notActualItems != null && notActualItems.size() > 0) {
             throw new NotActualWeightException(fishItems);
         }
         Customer customer = fishItems.stream().findAny().get().getCustomer();
@@ -90,6 +96,17 @@ public class TradeServiceImpl implements ITradeService {
             fishParcel.setWeightSold(fishParcel.getWeightSold() + weight);
             fishParcelService.update(fishParcel);
         });
+    }
+
+    private Collection<FishItem> getNotAvailableForCustomerItems(Collection<FishItem> fishItems) {
+        Collection<FishItem> result = new LinkedList<>();
+        for (FishItem fishItem : fishItems) {
+            FishParcel actualParcel = fishParcelService.findById(fishItem.getFishParcel().getId());
+            if (!actualParcel.isAvailableForCustomers()) {
+                result.add(fishItem);
+            }
+        }
+        return result;
     }
 
     @Override

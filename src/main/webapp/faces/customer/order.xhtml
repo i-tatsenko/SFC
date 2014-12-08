@@ -12,7 +12,7 @@
         <ui:define name="content">
             <h2>Order</h2>
             <h:form id="mainForm">
-                <p:growl id="message" showDetail="true" sticky="true"/>
+                <p:growl id="message" showDetail="true" sticky="true" />
                 <p:dataTable value="#{orderBean.orderItems}" var="item" style="text-align: center"
                         sortBy="#{item.customer.name}" id="orders">
                     <p:column style="width: 100px">

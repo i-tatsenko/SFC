@@ -6,15 +6,20 @@ import com.bionic.edu.sfc.entity.FishParcel;
 import com.bionic.edu.sfc.entity.builder.FishItemBuilder;
 import com.bionic.edu.sfc.exception.NotActualPriceException;
 import com.bionic.edu.sfc.exception.NotActualWeightException;
+import com.bionic.edu.sfc.exception.NotAvailableForCustomersException;
 import com.bionic.edu.sfc.service.IDeliveryService;
 import com.bionic.edu.sfc.service.ITradeService;
 import com.bionic.edu.sfc.service.dao.ICustomerService;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
+import com.bionic.edu.sfc.service.dao.IUserService;
 import com.bionic.edu.sfc.web.JSFUtil;
-import com.bionic.edu.sfc.web.beans.LoginBean;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,11 +32,10 @@ import java.util.Optional;
 @Scope("session")
 public class OrderBean {
 
-    @Autowired
-    private IFishParcelService fishParcelService;
+    private static final Log LOG = LogFactory.getLog(OrderBean.class);
 
     @Autowired
-    private LoginBean loginBean;
+    private IFishParcelService fishParcelService;
 
     @Autowired
     private IDeliveryService deliveryService;
@@ -41,6 +45,9 @@ public class OrderBean {
 
     @Autowired
     private ITradeService tradeService;
+
+    @Autowired
+    private IUserService userService;
 
     private List<FishItem> orderItems = new LinkedList<>();
 
@@ -101,10 +108,14 @@ public class OrderBean {
     }
 
     public String buyButtonText() {
-        if (loginBean.isAuthenticated()) {
+        if (customerService.getCurrentCustomer() != null) {
             return "Buy!";
         }
-        return "Login to buy items";
+        return "Login as Customer to buy items";
+    }
+
+    public boolean buyButtonEnabled() {
+        return customerService.getCurrentCustomer() != null;
     }
 
     public void removeItem(String itemUuid) {
@@ -118,12 +129,38 @@ public class OrderBean {
     public void buyItems() {
         try {
             tradeService.registerNewBill(orderItems);
+            orderItems.clear();
         } catch (NotActualPriceException e) {
-            e.printStackTrace();
+            LOG.info("Not actual price");
+            for (FishItem fishItem : e.getFishItems()) {
+                FishParcel actualParcel = fishParcelService.findById(fishItem.getFishParcel().getId());
+                String fishName = actualParcel.getFish().getName();
+                double oldPrice = fishItem.getPrice();
+                double actualPrice = actualParcel.getActualPrice();
+                showMessage("Price for " + fishName + " was changed.",
+                        "Old: " + oldPrice + "\nNew: " + actualPrice);
+                fishItem.setFishParcel(actualParcel);
+                fishItem.setPrice(actualPrice);
+            }
         } catch (NotActualWeightException e) {
-            e.printStackTrace();
+            for (FishItem fishItem : e.getFishItems()) {
+                FishParcel actualParcel = fishParcelService.findById(fishItem.getFishParcel().getId());
+                double availableWeight = actualParcel.getWeight() - actualParcel.getWeightSold();
+                String fishName = fishItem.getFishParcel().getFish().getName();
+                if (availableWeight <= 0) {
+                    showMessage("There is no " + fishName + " on coldstore.", "It was removed from order");
+                    orderItems.remove(fishItem);
+                    return;
+                }
+                showMessage("There is not enough weight of " + fishName + " on coldstore.", "Weight was changed to max available");
+                fishItem.setWeight(availableWeight);
+            }
+        } catch (NotAvailableForCustomersException e) {
+            for (FishItem fishItem : e.getFishItems()) {
+                showMessage(fishItem.getFishParcel().getFish().getName() + " is no longer available for customers.", "It was removed from order");
+                orderItems.remove(fishItem);
+            }
         }
-        orderItems.clear();
     }
 
     public double getDeliveryCost() {
@@ -152,5 +189,13 @@ public class OrderBean {
 
     public void setSelectedWeight(double selectedWeight) {
         this.selectedWeight = selectedWeight;
+    }
+
+    public void showMessage(String text) {
+        showMessage(text, null);
+    }
+
+    public void showMessage(String text, String details) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(text, details));
     }
 }

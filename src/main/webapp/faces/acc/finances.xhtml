@@ -50,7 +50,7 @@
                     <h:inputHidden value="#{accBean.billIdForNewPayment}"/>
                     <p:outputLabel for="sum" value="Sum: "/>
                     <p:inputText value="#{accBean.sumForNewPayment}" id="sum"/>
-                    <p:commandButton value="Register" actionListener="#{accBean.registerPayment}" oncomplete="PF('payDia').hide()"
+                    <p:commandButton ajax="false" type="submit" value="Register" action="#{accBean.registerPayment}" oncomplete="PF('payDia').hide()"
                             update=":mainForm:message, :mainForm:payments, :mainForm:openBills"/>
 
                 </p:dialog>

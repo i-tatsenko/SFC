@@ -62,15 +62,12 @@
                     </p:panel>
 
                     <p:panel header="Shipment" style="width: 550px">
-                        <p:dataTable value="#{supMoveBean.shipmentBills}" var="bill">
-                            <p:column headerText="Id" style="width: 20px">
+                        <p:dataTable value="#{supMoveBean.shipmentBills}" var="bill" id="shipBills">
+                            <p:column headerText="Bill Id">
                                 <h:outputText value="#{bill.id}"/>
                             </p:column>
                             <p:column headerText="Customer">
                                 <h:outputText value="#{bill.customer.name}"/>
-                            </p:column>
-                            <p:column headerText="Bill Id">
-                                <h:outputText value="#{bill.id}"/>
                             </p:column>
                             <p:column style="width: 50px; text-align: center">
                                 <p:commandButton icon="ui-icon-search"
@@ -79,7 +76,7 @@
                                                  oncomplete="PF('billDetWig').show()"/>
                             </p:column>
                             <p:column style="width: 50px; text-align: center">
-                                <p:commandButton icon="ui-icon-check" update="@this"
+                                <p:commandButton icon="ui-icon-check" update=":form:shipBills"
                                                  actionListener="#{supMoveBean.ship(bill.id)}"/>
                             </p:column>
                         </p:dataTable>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<f:view>
+    <ui:composition template="../../WEB-INF/templates/BasicTemplate.xhtml">
+        <ui:define name="content">
+            <h:form id="customers">
+                <p:panel header="Customers" style="width: 750px">
+
+                    <p:growl id="message" showDetail="true" life="3000"/>
+                    <p:dataTable id="custs" value="#{customersBean.customers}" var="cust" editable="true"
+                                 style="width: 700px; text-align: center"
+                                 selectionMode="single" rowKey="#{cust.id}">
+                        <p:ajax event="rowEdit" listener="#{customersBean.updateCustomer}"/>
+                        <p:ajax event="rowSelect" listener="#{customersBean.onRowSelect}" update=":customers:payments"/>
+                        <p:column headerText="Name">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{cust.name}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{cust.name}" required="true"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Description">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{cust.description}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{cust.description}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Prepayment rate">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{cust.prepaymentRate}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{cust.prepaymentRate}">
+                                        <f:validateDoubleRange minimum="0" maximum="1"/>
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width: 50px">
+                            <p:rowEditor/>
+                        </p:column>
+                    </p:dataTable>
+
+
+                </p:panel>
+
+                <p:dataTable id="payments" value="#{customersBean.customerPayments}" var="pay"
+                             style="margin-top: 30px; width: 750px" paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <f:facet name="header">
+                        <h:outputText value="Payments"/>
+                    </f:facet>
+                    <p:column headerText="Bill id">
+                        <h:outputText value="#{pay.bill.id}"/>
+                    </p:column>
+                    <p:column headerText="Bill total sum">
+                        <h:outputText value="$ #{pay.bill.totalSum}"/>
+                    </p:column>
+                    <p:column headerText="Sum">
+                        <h:outputText value="$ #{pay.totalSum}"/>
+                    </p:column>
+                    <p:column headerText="Date">
+                        <h:outputText value="#{pay.creationDate}">
+                            <f:convertDateTime pattern="dd.MM.YYYY"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>
+</html>

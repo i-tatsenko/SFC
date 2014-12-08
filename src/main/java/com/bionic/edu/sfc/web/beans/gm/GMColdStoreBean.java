@@ -181,6 +181,7 @@ public class GMColdStoreBean {
     }
 
     public void writeOffPrepare(long writeOffParcelId) {
+        LOG.info("Preparing parcel for writeoff. Parcel id: " + writeOffParcelId);
         this.writeOffParcelId = writeOffParcelId;
     }
 
