@@ -84,6 +84,9 @@
                                      ajax="false"
                                      rendered="#{suppliesBean.deliverParcelsButtonEnabled()}"/>
                 </h:panelGrid>
+
+            </h:form>
+            <h:form>
                 <p:dialog id="NPW" modal="true" widgetVar="newparcelW" closable="true" header="Add new parcel"
                           draggable="false" resizable="false" showEffect="fade" hideEffect="fade">
                     <h:panelGrid columns="2" cellspacing="5">
@@ -98,7 +101,9 @@
                                            itemLabel="#{manuf.name}" itemValue="#{manuf.id}"/>
                         </p:selectOneMenu>
                         <h:outputText value="Weight"/>
-                        <p:inputText value="#{suppliesBean.newParcelWeight}"/>
+                        <p:inputText value="#{suppliesBean.newParcelWeight}" required="true">
+                            <f:validateDoubleRange minimum="0.1"/>
+                        </p:inputText>
                         <p:commandButton value="Add" actionListener="#{suppliesBean.newParcel}"
                                          oncomplete="PF('newparcelW').hide()" update=":mainForm:parcels"/>
                     </h:panelGrid>

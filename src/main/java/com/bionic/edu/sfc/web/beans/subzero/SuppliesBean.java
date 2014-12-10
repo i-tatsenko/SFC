@@ -80,6 +80,7 @@ public class SuppliesBean {
 
     public void deliverParcels() {
         if (selectedSupply == null) {
+            LOG.info("Selected supply is null");
             return;
         }
         parcelsForSupply.forEach(fishParcelService::update);

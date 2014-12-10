@@ -31,7 +31,7 @@
 
                     <p:column headerText="Description">
                         <h:outputText value="#{parcel.fish.description}"/>
-                            </p:column>
+                    </p:column>
 
                     <p:column headerText="Tonns available: ">
                         <h:outputText value="#{parcel.weight - parcel.weightSold}"/>
@@ -43,13 +43,15 @@
                     <p:column style="width: 200px">
                         <p:commandButton value="#{orderBean.buyButtonText()}" oncomplete="PF('buyDia').show()"
                                          actionListener="#{orderBean.prepareAddItemToOrder(parcel.id)}"
-                                disabled="#{!orderBean.buyButtonEnabled()}"/>
+                                         disabled="#{!orderBean.buyButtonEnabled()}"/>
                     </p:column>
                 </p:dataTable>
                 <p:dialog showEffect="fade" hideEffect="fade" widgetVar="buyDia" header="Add to order"
                           resizable="false">
                     <h2><h:outputText value="Edit weight"/></h2>
-                    <p:inputText value="#{orderBean.selectedWeight}"/>
+                    <p:inputText value="#{orderBean.selectedWeight}" required="true">
+                        <f:validateDoubleRange minimum="0.1"/>
+                    </p:inputText>
                     <p:commandButton value="Buy!" actionListener="#{orderBean.addToOrder()}"
                                      update=":mainForm:message"
                                      onclick="PF('buyDia').hide()"/>
