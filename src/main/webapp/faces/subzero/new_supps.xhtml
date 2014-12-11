@@ -72,7 +72,8 @@
                             </p:summaryRow>
 
                         </p:dataTable>
-                        <p:commandButton style="width: 100%; top:10px" value="Add new parcel" type="button" onclick="PF('newparcelW').show();"/>
+                        <p:commandButton style="width: 100%; top:10px" value="Add new parcel" type="button"
+                                         onclick="PF('newparcelW').show();"/>
                     </p:panel>
                     <h:outputText/>
                     <p:panel header="Supply description">
@@ -80,7 +81,8 @@
                                          value="#{suppliesBean.selectedSupply.description}" style="width: 100%"/>
                     </p:panel>
                     <h:outputText/>
-                    <p:commandButton id="deliverBtn" value="Parcels are delivered" action="#{suppliesBean.deliverParcels}" type="submit"
+                    <p:commandButton id="deliverBtn" value="Parcels are delivered"
+                                     action="#{suppliesBean.deliverParcels}" type="submit"
                                      ajax="false"
                                      rendered="#{suppliesBean.deliverParcelsButtonEnabled()}"/>
                 </h:panelGrid>

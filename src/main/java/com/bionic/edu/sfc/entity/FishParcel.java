@@ -3,6 +3,8 @@ package com.bionic.edu.sfc.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -13,26 +15,33 @@ import java.util.Date;
 public class FishParcel extends Hideable {
 
     @ManyToOne
+    @NotNull
     private Manufacturer manufacturer;
 
     @ManyToOne
+    @NotNull
     private Fish fish;
 
     @ManyToOne
+    @NotNull
     private FishShipSupply fishShipSupply;
 
     @Type(type = "text")
     private String description;
 
     @Column(nullable = false)
+    @Min(0)
     private double weight;
 
     private Date coldStoreRegistrationDate;
 
+    @Min(0)
     private double weightSold;
 
+    @Min(0)
     private double wholeSale;
 
+    @Min(0)
     private double actualPrice;
 
     private boolean availableForCustomers;

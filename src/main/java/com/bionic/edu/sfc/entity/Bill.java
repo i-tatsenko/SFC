@@ -1,6 +1,8 @@
 package com.bionic.edu.sfc.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -12,25 +14,33 @@ import java.util.List;
 public class Bill extends Hideable {
 
     @ManyToOne
+    @NotNull
     private Customer customer;
 
     @OneToMany (mappedBy = "bill")
+    @NotNull
     private List<FishItem> fishItems;
 
     @OneToMany (mappedBy = "bill")
     private List<Payment> payments;
 
     @Column(nullable = false)
+    @NotNull
     private Date creationDate;
 
     private Date closeDate;
 
     @Column(nullable = false)
+    @Min(0)
     private Double totalSum;
 
+    @Min(0)
     private double alreadyPaid;
 
     private boolean isShipmentAllowed;
+
+    @Min(0)
+    private double deliveryCost;
 
     public Bill() { }
 
@@ -123,5 +133,13 @@ public class Bill extends Hideable {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public double getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(double deliveryCost) {
+        this.deliveryCost = deliveryCost;
     }
 }

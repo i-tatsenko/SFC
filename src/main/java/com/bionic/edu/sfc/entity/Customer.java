@@ -3,6 +3,8 @@ package com.bionic.edu.sfc.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -14,6 +16,8 @@ public class Customer extends User {
 
     @Column(precision = 3,
             scale = 2)
+    @Min(0)
+    @Max(1)
     private float prepaymentRate;
 
     @OneToMany(mappedBy = "customer")

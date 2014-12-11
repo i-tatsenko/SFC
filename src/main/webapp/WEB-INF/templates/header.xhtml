@@ -15,7 +15,7 @@
         <h:panelGrid
                 style="background: #99B2B7;width: 100%; height: 100px; border-top-left-radius : 10px; border-top-right-radius : 10px">
             <h:form>
-                <p:tabMenu style="position: absolute; left: 0; width: 800px; margin-left: 25%" activeIndex="-1">
+                <p:tabMenu style="position: absolute; left: 0; width: 900px; margin-left: 25%" activeIndex="-1">
                     <p:menuitem value="On Sale" outcome="/faces/index.xhtml"/>
                     <p:menuitem value="Order" outcome="/faces/customer/order.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_CUSTOMER')}"/>
@@ -28,6 +28,8 @@
                     <p:menuitem value="Coldstore" outcome="/faces/gm/coldstore.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
                     <p:menuitem value="Customers" outcome="/faces/gm/customers.xhtml"
+                                rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
+                    <p:menuitem value="Report" outcome="/faces/gm/report.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_GENERAL_MANAGER')}"/>
                     <p:menuitem value="Supplies" outcome="/faces/subzero/new_supps.xhtml"
                                 rendered="#{loginBean.hasAccess('ROLE_COLD_STORE_MANAGER')}"/>

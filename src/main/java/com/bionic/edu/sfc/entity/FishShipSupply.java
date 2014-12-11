@@ -3,6 +3,7 @@ package com.bionic.edu.sfc.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,9 +17,11 @@ public class FishShipSupply extends Hideable {
     @Column(length = 50,
             unique = true,
             nullable = false)
+    @NotNull
     private String supplyCode;
 
     @Column(nullable = false)
+    @NotNull
     private Date creationDate;
 
     @Column
@@ -27,6 +30,7 @@ public class FishShipSupply extends Hideable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotNull
     private FishShipSupplyStatus status;
 
     @OneToMany (fetch = FetchType.EAGER, mappedBy = "fishShipSupply")

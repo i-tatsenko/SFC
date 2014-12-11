@@ -1,6 +1,8 @@
 package com.bionic.edu.sfc.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -11,12 +13,15 @@ import java.util.Date;
 public class Payment extends Hideable {
 
     @ManyToOne
+    @NotNull
     private Bill bill;
 
     @Column(nullable = false)
+    @NotNull
     private Date creationDate;
 
     @Column(nullable = false)
+    @Min(0)
     private Double totalSum;
 
     @Override

@@ -6,7 +6,6 @@ import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IFishService;
 import com.bionic.edu.sfc.service.dao.IFishShipSupplyService;
 import com.bionic.edu.sfc.service.dao.IManufacturerService;
-import com.bionic.edu.sfc.service.dao.impl.FishParcelServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.event.RowEditEvent;
@@ -19,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,6 +83,7 @@ public class SuppliesBean {
             LOG.info("Selected supply is null");
             return;
         }
+        parcelsForSupply.forEach(fp -> fp.setColdStoreRegistrationDate(new Date()));
         parcelsForSupply.forEach(fishParcelService::update);
         selectedSupply.setStatus(FishShipSupplyStatus.READY_FOR_COLD_STORE_REGISTRATION);
         fishShipSupplyService.update(selectedSupply);

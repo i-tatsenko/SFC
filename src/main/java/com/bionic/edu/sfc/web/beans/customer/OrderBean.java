@@ -12,7 +12,7 @@ import com.bionic.edu.sfc.service.ITradeService;
 import com.bionic.edu.sfc.service.dao.ICustomerService;
 import com.bionic.edu.sfc.service.dao.IFishParcelService;
 import com.bionic.edu.sfc.service.dao.IUserService;
-import com.bionic.edu.sfc.web.JSFUtil;
+import com.bionic.edu.sfc.util.JSFUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

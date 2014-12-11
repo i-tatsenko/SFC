@@ -1,6 +1,8 @@
 package com.bionic.edu.sfc.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -11,11 +13,14 @@ import java.util.Date;
 public class FishItem extends Hideable {
 
     @Column(nullable = false)
+    @NotNull
     private String uuid;
 
     @ManyToOne
+    @NotNull
     private FishParcel fishParcel;
 
+    @Min(0)
     private double price;
 
     @ManyToOne
@@ -32,6 +37,7 @@ public class FishItem extends Hideable {
 
     private Date removedFromColdStoreDate;
 
+    @Min(0)
     private double weight;
 
     public FishItem(){ }

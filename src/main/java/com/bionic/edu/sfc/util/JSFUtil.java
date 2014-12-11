@@ -1,4 +1,4 @@
-package com.bionic.edu.sfc.web;
+package com.bionic.edu.sfc.util;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

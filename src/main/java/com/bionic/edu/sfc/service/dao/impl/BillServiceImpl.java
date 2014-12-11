@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -52,5 +53,10 @@ public class BillServiceImpl implements IBillService {
     @Override
     public boolean canAllowShipment(Bill bill) {
         return bill.getTotalSum() * bill.getCustomer().getPrepaymentRate() <= bill.getPayments().stream().mapToDouble(Payment::getTotalSum).sum();
+    }
+
+    @Override
+    public List<Bill> getAllOpenOrClosedAtPeriod(Date startDate, Date endDate) {
+        return billDao.getAllOpenOrClosedAtPeriod(startDate, endDate);
     }
 }

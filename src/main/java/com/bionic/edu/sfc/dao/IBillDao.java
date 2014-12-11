@@ -2,6 +2,7 @@ package com.bionic.edu.sfc.dao;
 
 import com.bionic.edu.sfc.entity.Bill;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,4 +14,6 @@ public interface IBillDao extends IDao<Bill> {
     List<Bill> getAllOpenBills();
 
     List<Bill> getAllReadyForShipment();
+
+    List<Bill> getAllOpenOrClosedAtPeriod(Date startDate, Date endDate);
 }

@@ -3,6 +3,8 @@ package com.bionic.edu.sfc.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -16,19 +18,24 @@ public class User extends Hideable {
 
     @Column(length = 100,
             nullable = false)
+    @NotNull
+    @Size(min = 2)
     private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotNull
     private UserRole userRole;
 
     @Column(length = 20,
             nullable = false,
             unique = true)
+    @NotNull
     private String login;
 
     @Column(length = 200,
             nullable = false)
+    @NotNull
     private String passwordHash;
 
     @Type(type = "text")

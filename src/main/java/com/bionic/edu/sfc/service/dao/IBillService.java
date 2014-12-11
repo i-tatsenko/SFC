@@ -2,6 +2,7 @@ package com.bionic.edu.sfc.service.dao;
 
 import com.bionic.edu.sfc.entity.Bill;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,4 +18,6 @@ public interface IBillService extends IService<Bill> {
     List<Bill> getAllReadyForShipment();
 
     boolean canAllowShipment(Bill bill);
+
+    List<Bill> getAllOpenOrClosedAtPeriod(Date startDate, Date endDate);
 }

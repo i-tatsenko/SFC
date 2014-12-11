@@ -16,6 +16,7 @@ public class BillBuilder {
     private Double totalSum;
     private double alreadyPaid;
     private Customer customer;
+    private double deliveryCost;
 
     private BillBuilder(Customer customer, double totalSum) {
         this.customer = customer;
@@ -48,6 +49,11 @@ public class BillBuilder {
 
     public BillBuilder withCustomer(Customer customer) {
         this.customer = customer;
+        return this;
+    }
+
+    public BillBuilder withDeliveryCost(double deliveryCost) {
+        this.deliveryCost = deliveryCost;
         return this;
     }
 

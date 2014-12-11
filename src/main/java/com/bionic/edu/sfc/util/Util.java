@@ -3,7 +3,11 @@ package com.bionic.edu.sfc.util;
 import com.bionic.edu.sfc.entity.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Comparator;
+import java.util.Date;
 
 /**
  * Ivan
@@ -13,6 +17,15 @@ public abstract class Util {
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     private Util() { }
+
+    public static LocalDate dateToLocalDate(Date date) {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static Date localDateToDate(LocalDate localDate) {
+        Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);
+    }
 
     public static String getPasswordHash(String password) {
         return PASSWORD_ENCODER.encode(password);

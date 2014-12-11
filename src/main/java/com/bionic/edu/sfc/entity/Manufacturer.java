@@ -3,6 +3,7 @@ package com.bionic.edu.sfc.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Ivan
@@ -15,6 +16,7 @@ public class Manufacturer extends Hideable {
     @Column(length = 100,
             unique = true,
             nullable = false)
+    @NotNull
     private String name;
 
     @Column(length = 100)

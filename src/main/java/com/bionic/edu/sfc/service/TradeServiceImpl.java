@@ -1,5 +1,6 @@
 package com.bionic.edu.sfc.service;
 
+import com.bionic.edu.sfc.dto.IncomeDTO;
 import com.bionic.edu.sfc.entity.*;
 import com.bionic.edu.sfc.entity.builder.BillBuilder;
 import com.bionic.edu.sfc.entity.builder.UserBuilder;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +50,9 @@ public class TradeServiceImpl implements ITradeService {
 
     @Autowired
     private IPaymentService paymentService;
+
+    @Autowired
+    private IStorageService storageService;
 
     @PostConstruct
     public void init() {
@@ -85,9 +90,11 @@ public class TradeServiceImpl implements ITradeService {
         double sum = fishItems.stream().mapToDouble(fi -> fi.getPrice() * fi.getWeight()).sum();
         double deliveryCost = deliveryService.getDeliveryCost(fishItems.stream().mapToDouble(FishItem::getWeight).sum());
         Bill bill = BillBuilder.aBill(customer,
-                sum + deliveryCost).build();
+                sum + deliveryCost)
+                .withDeliveryCost(deliveryCost).build();
 
         billService.create(bill);
+        fishItems.forEach(fi -> fi.setCreationDate(new Date()));
         fishItems.forEach(fi -> fi.setBill(bill));
         fishItems.forEach(fishItemService::create);
         fishItems.forEach(fi -> {
@@ -128,6 +135,53 @@ public class TradeServiceImpl implements ITradeService {
         }
         billService.update(bill);
         return payment;
+    }
+
+    @Override
+    public List<IncomeDTO> getIncomeTotal() {
+        return getIncome(billService.getAll("id"));
+    }
+
+    @Override
+    public List<IncomeDTO> getIncomeForPeriod(Date startDate, Date endDate) {
+        if (startDate.after(endDate)) {
+            throw new IllegalArgumentException(startDate + " is not after " + endDate);
+        }
+        List<Bill> bills = billService.getAllOpenOrClosedAtPeriod(startDate, endDate);
+        return getIncome(bills);
+    }
+
+    private List<IncomeDTO> getIncome(Collection<Bill> bills) {
+        List<IncomeDTO> dtos = new LinkedList<>();
+        for (Bill bill : bills) {
+            IncomeDTO incomeDTO = new IncomeDTO(
+                    bill.getId(),
+                    bill.getCreationDate(),
+                    bill.getCloseDate(),
+                    bill.getTotalSum() - bill.getDeliveryCost(),
+                    bill.getAlreadyPaid(),
+                    getStorageCost(bill)
+            );
+            dtos.add(incomeDTO);
+        }
+        return dtos;
+    }
+
+    private double getStorageCost(Bill bill) {
+        double storageCost = 0;
+        for (FishItem fishItem : bill.getFishItems()) {
+            double sc;
+            if (fishItem.isRemovedFromColdStore()) {
+                sc = storageService.getStorageCost(fishItem.getFishParcel().getColdStoreRegistrationDate(),
+                        fishItem.getRemovedFromColdStoreDate(),
+                        fishItem.getWeight());
+            } else {
+                sc = storageService.getStorageCost(fishItem.getFishParcel().getColdStoreRegistrationDate(),
+                        fishItem.getWeight());
+            }
+            storageCost += sc;
+        }
+        return storageCost;
     }
 
     private Collection<FishItem> getFishItemsWithoutActualPrice(Collection<FishItem> fishItems) {
