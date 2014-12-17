@@ -41,6 +41,8 @@ dependencies {
     compile 'org.springframework:spring-core:' + springVersion
     compile 'org.springframework:spring-test:' + springVersion
     compile 'org.springframework:spring-web:' + springVersion
+    compile 'org.springframework:spring-webmvc:' + springVersion
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
 
     compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
     compile 'org.springframework.security:spring-security-web:' + springSecurityVersion

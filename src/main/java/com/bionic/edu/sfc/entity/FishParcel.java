@@ -1,5 +1,7 @@
 package com.bionic.edu.sfc.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -24,6 +26,7 @@ public class FishParcel extends Hideable {
 
     @ManyToOne
     @NotNull
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private FishShipSupply fishShipSupply;
 
     @Type(type = "text")
