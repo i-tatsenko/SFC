@@ -17,10 +17,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -92,6 +89,7 @@ public class TradeServiceImpl implements ITradeService {
         Bill bill = BillBuilder.aBill(customer,
                 sum + deliveryCost)
                 .withDeliveryCost(deliveryCost).build();
+        bill.setFishItems(new ArrayList<>(fishItems));
 
         billService.create(bill);
         fishItems.forEach(fi -> fi.setCreationDate(new Date()));

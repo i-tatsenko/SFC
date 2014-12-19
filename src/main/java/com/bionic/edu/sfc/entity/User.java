@@ -19,7 +19,7 @@ public class User extends Hideable {
     @Column(length = 100,
             nullable = false)
     @NotNull
-    @Size(min = 2)
+    @Size(min = 2, max = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -27,7 +27,7 @@ public class User extends Hideable {
     @NotNull
     private UserRole userRole;
 
-    @Column(length = 20,
+    @Column(length = 50,
             nullable = false,
             unique = true)
     @NotNull
@@ -42,6 +42,7 @@ public class User extends Hideable {
     @Column
     private String description;
 
+    @Column(nullable = false)
     private Date creationDate;
 
     private boolean active;

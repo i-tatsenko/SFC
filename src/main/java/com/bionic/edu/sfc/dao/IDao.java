@@ -16,6 +16,8 @@ public interface IDao<T extends Hideable> {
 
     public void delete(T object);
 
+    public void deleteWithUniqueFields(T object, String... uniquePropertyNames);
+
     public T findById(long id);
 
     public List<T> getAll(String orderValueName);

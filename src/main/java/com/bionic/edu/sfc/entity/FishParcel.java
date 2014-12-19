@@ -16,15 +16,15 @@ import java.util.Date;
 @Entity
 public class FishParcel extends Hideable {
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Manufacturer manufacturer;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Fish fish;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private FishShipSupply fishShipSupply;

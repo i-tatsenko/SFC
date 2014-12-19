@@ -57,7 +57,7 @@ public class UsersBean {
     public void deleteUser(long id) {
         User userToDelete = userService.findById(id);
         LOG.info("Trying to delete " + userToDelete);
-        userService.delete(userToDelete);
+        userService.deleteWithUniqueFields(userToDelete, "name", "login");
         users.remove(userToDelete);
         selectedUser = null;
     }
@@ -79,7 +79,7 @@ public class UsersBean {
             passForNewUser = null;
             users = userService.getAllSystemUsers();
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("can't add user because of " + e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Can't add new user.",  "Reason: " + e.getMessage()));
         }
     }
 

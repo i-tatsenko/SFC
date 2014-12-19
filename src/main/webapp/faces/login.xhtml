@@ -10,7 +10,7 @@
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 
-<body>
+<h:body>
 <h:form prependId="false" rendered="#{!loginBean.authenticated}" styleClass="centerPanel" style="border-style: none">
     <p:outputLabel rendered="#{loginBean.loginError}" value="Bad credentials" style="color: darkred"/>
     <p:growl id="growl" showDetail="true" sticky="true"/>
@@ -31,7 +31,7 @@
         <p:inputSwitch
                 id="_spring_security_remember_me"/>-->
 
-
+        <p:outputLabel/>
         <p:commandButton ajax="false"
                          immediate="true"
                          value="Cancel"
@@ -50,5 +50,5 @@
 <h:form>
     <p:commandButton ajax="false" action="#{loginBean.doLogout}" value="Logout" rendered="#{loginBean.authenticated}" styleClass="centerPanel"/>
 </h:form>
-</body>
+</h:body>
 </html>

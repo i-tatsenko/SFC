@@ -1,9 +1,5 @@
 .body {
-    background-color: #D5DED9;
-}
-
-.tbody {
-    background-color: #D5DED9;
+    background-color: #FFEDD6;
 }
 
 .centerPanel {
@@ -34,7 +30,7 @@
     width: 90%;
     left: 5%;
     top: 100px;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .dataTable {

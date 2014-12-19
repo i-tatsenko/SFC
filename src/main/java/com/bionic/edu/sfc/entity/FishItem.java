@@ -16,7 +16,7 @@ public class FishItem extends Hideable {
     @NotNull
     private String uuid;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private FishParcel fishParcel;
 

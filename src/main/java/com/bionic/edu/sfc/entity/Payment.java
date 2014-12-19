@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 public class Payment extends Hideable {
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Bill bill;
 

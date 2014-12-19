@@ -14,6 +14,7 @@
         <ui:define name="content">
             <h1>Users</h1>
             <h:form id="pageForm">
+                <p:growl id="message" showDetail="true" sticky="true"/>
                 <p:dataTable id="usersTable" var="user" value="#{usersBean.users}" selectionMode="single"
                              editable="true"
                              selection="#{usersBean.selectedUser}"
@@ -69,7 +70,7 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-            <h:form>
+            <h:form id="newUserForm">
                 <p:panel header="Add new user" style="width: 30em; margin-top: 30px">
                     <h:panelGrid columns="2" cellpadding="5">
                         <p:outputLabel value="Login" for="login"/>
@@ -88,7 +89,7 @@
                         <p:outputLabel value="Description" for="desc"/>
                         <p:inputTextarea value="${usersBean.newUser.description}" id="desc"/>
                         <p:commandButton value="Add new user" actionListener="#{usersBean.createNewUser}"
-                                         update=":pageForm:usersTable"/>
+                                         update=":pageForm:usersTable, :pageForm:message, :newUserForm"/>
 
                     </h:panelGrid>
                 </p:panel>

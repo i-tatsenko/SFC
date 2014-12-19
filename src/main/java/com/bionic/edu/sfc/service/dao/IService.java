@@ -27,6 +27,10 @@ public interface IService<T extends Hideable> {
         getDao().delete(object);
     }
 
+    default public void deleteWithUniqueFields(T object, String... uniquePropertyNames) {
+        getDao().deleteWithUniqueFields(object, uniquePropertyNames);
+    }
+
     default public T findById(long id) {
         return getDao().findById(id);
     }

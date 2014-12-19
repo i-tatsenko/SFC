@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Bill extends Hideable {
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Customer customer;
 
